@@ -1,0 +1,25 @@
+# Requiere Python 3.12 o superior
+
+# Datos
+pandas==3.0.6
+numpy==2.5.3
+pyarrow==25.0.1
+
+# Estadística y modelos
+scipy==1.18.1
+statsmodels==0.15.0
+scikit-learn==1.9.1
+
+# Gráficas
+matplotlib==3.11.2
+seaborn==0.13.2
+
+# Mapas
+geopandas==1.2.0
+shapely==2.1.2
+pyogrio==0.13.0
+pyproj==3.8.0
+
+# Notebooks
+jupyterlab==4.6.4
+ipykernel==7.4.0
