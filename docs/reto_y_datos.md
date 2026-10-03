@@ -2,13 +2,6 @@
 
 Este documento explica qué nos pide el reto, cómo vamos a resolverlo y, sobre todo, **qué contienen los datos** con los que vamos a trabajar. La idea es que todo el equipo entienda lo mismo antes de meternos al modelo.
 
-**Fase actual:** entender los datos del CCPC.
-
-## Fechas clave
-
-- **Registro del equipo:** hasta el 15 de octubre de 2026.
-- **Entrega del proyecto:** hasta las 23:59 del 31 de octubre de 2026, en una carpeta `.zip` enviada por correo a los contactos del INE.
-
 ---
 
 ## 1. De qué trata el reto
@@ -27,9 +20,9 @@ Flujo: **Datos → Modelo → Escenarios → Semáforo → Mapas → Recomendaci
 
 | Pieza | Qué es |
 |---|---|
-| **Datos** | Una tabla donde cada fila es una zona en una elección, con su participación histórica y variables sociodemográficas del CCPC |
+| **Datos** | Una tabla donde cada fila es una zona en una elección, con su participación histórica y lo poco que el CCPC dice de su gente: edad, sexo y si la sección es urbana, rural o mixta |
 | **Modelo** | Calcula el riesgo de abstención de cada zona. De aquí salen todos los números |
-| **Escenarios** | Dos corridas del mismo modelo. La primera sigue las tendencias históricas (sin intervención adicional). La segunda cambia una variable según un supuesto de intervención. Antes de simular hay que definir a quién va dirigida la intervención, dónde se aplica y qué efecto se espera |
+| **Escenarios** | Dos corridas del mismo modelo. La primera sigue las tendencias históricas (sin intervención adicional). La segunda aplica un supuesto de intervención: una acción hipotética del INE y el efecto que suponemos que tendría. Antes de simular hay que definir a quién va dirigida, dónde se aplica y qué efecto se espera |
 | **Semáforo** | Clasifica cada zona por nivel de riesgo. Los cortes se fijan una vez con el escenario sin intervención y se usan iguales en el escenario con intervención, para que los colores sean comparables |
 | **Mapas** | Muestran los resultados de cada escenario |
 | **Recomendaciones** | Qué zonas priorizar y qué acción tomar, a partir de los mapas |
@@ -58,11 +51,11 @@ Solo los mapas 1 y 2 los exige la convocatoria. Los mapas 3 y 4 se agregan si el
 
 Si falta cualquier entregable mínimo, el equipo queda descalificado.
 
-## 5. Requisitos técnicos que se desprenden de los entregables
+## 5. Lo que necesitamos para cumplir los entregables
 
-1. **Necesitamos los mapas de las zonas.** Los formatos SHP, GeoJSON y GPKG necesitan polígonos. Los archivos del CCPC traen solo tablas (no coordenadas), así que habrá que conseguirlos de la cartografía electoral del INE o del Marco Geoestadístico de INEGI, con fecha compatible con el CCPC (mayo de 2023). *Por verificar.*
-2. **Las zonas deben tener el mismo identificador en datos y mapa.** La clave de estado y sección del CCPC tiene que coincidir con la del mapa y mantenerse igual en las seis elecciones. *Por verificar.*
-3. **La base que entreguemos debe ser la que usamos.** Si usamos datos de otras fuentes, también deben poder entregarse (revisar licencia). La base va agregada por zona, sin grupos muy pequeños de personas.
+1. **El contorno de cada sección.** Para hacer los mapas necesitamos el contorno (polígono) de cada sección, y el CCPC no lo trae: solo trae tablas. Hay que conseguirlo de la cartografía del INE (o de INEGI, si el INE lo acepta), en su versión de 2023, que es la que corresponde a los datos. **No podemos usar datos externos**, pero la cartografía probablemente sí. *Por confirmar con el INE.*
+2. **Que las secciones de los datos y del mapa se puedan unir.** Cada sección se identifica con estado + número de sección. Como el INE divide y redibuja secciones con el tiempo, hay que revisar con cuidado cuáles se pueden seguir de una elección a otra (Fase 2 del plan).
+3. **La base que entreguemos debe ser la que usamos.** Va agregada por zona, sin grupos muy pequeños de personas. Si usamos la cartografía, hay que revisar que se pueda entregar.
 4. **Diccionario de datos desde el inicio.** El reporte exige explicar las variables, así que cada una se documenta al agregarla: nombre, definición, fuente, año y qué le hicimos.
 
 ---
@@ -83,7 +76,7 @@ Se descarga un `.zip` por cada elección:
 - [2012](https://ine.mx/wp-content/uploads/2022/04/DatosAbiertos_DECEyEC_ConteosCensales2012.zip)
 - [2009](https://ine.mx/wp-content/uploads/2022/04/DatosAbiertos_DECEyEC_ConteosCensales2009.zip)
 
-Dentro de cada `.zip` hay **un CSV por estado** (en 2024 son 32 archivos). Para consultar o comparar cifras existe también el tablero interactivo en la misma página, y su manual: https://ine.mx/wp-content/uploads/2025/06/Manual-Conteos-Censales-2009-2024.pdf
+Dentro de cada `.zip` hay **un archivo por estado** (32 en cada año) y un diccionario de datos. Para consultar o comparar cifras existe también el tablero interactivo en la misma página, y su manual: https://ine.mx/wp-content/uploads/2025/06/Manual-Conteos-Censales-2009-2024.pdf
 
 Hay otros archivos en esa página (voto anticipado 2024, prisión preventiva 2024 y Poder Judicial 2025), pero quedan fuera de nuestro análisis principal.
 
@@ -97,12 +90,12 @@ Ejemplo real (Aguascalientes 2021, sección 1, hombres de 18 años):
 
 ### ¿Qué significa cada columna?
 
-Los archivos tienen 16 columnas:
+Los archivos tienen 16 columnas, las mismas en los seis años:
 
 | Columna | Qué es |
 |---|---|
 | `AELEC` | Año de la elección |
-| `FELECCION` | Fecha de la elección (mes/día/año) |
+| `FELECCION` | Fecha de la elección |
 | `EDOCVE` / `EDONOM` | Número y nombre del estado |
 | `MPIOCVE` / `MPIONOM` | Número y nombre del municipio |
 | `SECCION` | Sección electoral: la zona más pequeña en la que el INE divide el país. El número se repite entre estados, así que una sección se identifica con **estado + sección** |
@@ -116,13 +109,13 @@ Los archivos tienen 16 columnas:
 | `NV` | **No votaron** |
 | `NS` | **No especificado**: no se sabe si votaron (ver más abajo) |
 
-> **Sobre `SEXO`:** confirmamos que `0` es hombre y `1` es mujer comparando el archivo de Aguascalientes 2021 contra el tablero del INE (los números coinciden exactamente). En 2024 esperamos lo mismo y el código `2` es nuevo, pero **falta confirmarlo contra el tablero**.
+> **Sobre `SEXO`:** confirmamos que `0` es hombre y `1` es mujer comparando el archivo de Aguascalientes 2021 contra el tablero del INE. El diccionario de 2024 identifica `2` como no binario; el tablero y la suma de los 32 archivos de ese año coinciden en **105 personas** con ese código.
 
 ### La regla que siempre se cumple
 
 **`LN = SV + NV + NS`**
 
-En Aguascalientes 2024 se cumple en todas las filas. En 2021 cuadra en los totales (falta revisarlo fila por fila).
+Es decir, cada persona de la lista cae en una de tres cajas: votó, no votó o no se sabe. Una revisión rápida, hecha solo para corroborar, encontró que se cumple en todas las filas. La Fase 1 lo vuelve a verificar.
 
 ### ¿Cómo se calculan la participación y la abstención?
 
@@ -133,13 +126,17 @@ Así lo define el INE y así lo vamos a hacer nosotros:
 
 Fíjense que **`NS` se deja fuera** del cálculo.
 
+**Nunca se promedian porcentajes de secciones.** Si una sección de 100 personas tiene 80% de participación y otra de 1,000 tiene 40%, el promedio simple da 60%, pero la participación real es 480 / 1,100 = 43.6%. Primero se suman las personas y después se calcula el porcentaje.
+
 ### ¿Qué es `NS` (no especificado)?
 
 **No es voto nulo.** Es gente de la lista de la que **no se sabe si votó o no**, por ejemplo porque el cuadernillo (el cuaderno de la lista nominal donde se marca quién votó) no tenía marcas, no se pudo capturar o faltaba una página. Es un dato faltante.
 
 - Estos datos **no dicen por quién votó la gente ni si el voto fue nulo**. Solo dicen si fue a votar o no.
 - **Decisión propuesta: excluir `NS`**, igual que el INE. Más adelante probamos cuánto cambian los resultados si lo contamos como "no votó".
-- Cuidado: el porcentaje de `NS` cambia mucho entre estados. En hombres, 2021, va de 1.4% en Colima a 12.7% en Chihuahua. Por eso la participación no es igual de confiable en todos lados.
+- Cuidado: el porcentaje de `NS` cambia mucho entre estados. En 2021 va de 1.4% en Colima a 12.7% en Chihuahua. Por eso la participación no es igual de confiable en todos lados.
+- **Hay secciones donde no se sabe de nadie si votó.** Ahí la participación es desconocida (no es cero). En 2024 son unas 2,100 secciones.
+- **2012 casi no tiene `NS`** (0.2%) y su lista nominal es menor que la de 2009. Un [manual del INE](https://www.ine.mx/wp-content/uploads/2019/12/DECEyEC-manualConteosCensales.pdf) explica que en 2012 se excluyeron los cuadernillos no disponibles, a diferencia de las otras elecciones. En la Fase 2 se evalúa cómo afecta esto a las comparaciones entre años.
 
 ### Ejemplo: Aguascalientes completo
 
@@ -153,75 +150,84 @@ Sumando todas las filas del estado:
 | No especificado | 28,538 | 29,865 |
 | **Participación** | **49.5%** | **58.7%** |
 
-Estas cifras salen de sumar los archivos. Para hombres en 2021 ya las contrastamos con el tablero y coinciden.
+Estas cifras salen de sumar los archivos. Las contrastamos con el tablero del INE para ambos sexos juntos en 2021 y 2024, y coinciden.
 
 Se ve la diferencia entre una elección intermedia y una presidencial: la gente participa bastante más cuando hay presidenciales.
 
-### Niveles de análisis (estado, municipio, distrito, sección)
+### Panorama nacional
 
-Como cada fila trae estado, municipio, distrito federal, distrito local y sección, podemos sumar a cualquier nivel con un `groupby`. La sección es la unidad más pequeña y todo lo demás son sumas de secciones.
+Sumando los 32 estados (revisión rápida, hecha solo para corroborar; las cifras se confirman en la Fase 1):
 
-```python
-def agrega(df, claves):
-    t = df.groupby(claves, as_index=False, dropna=False)[['LN', 'SV', 'NV', 'NS']].sum()
-    t['participacion'] = t.SV / (t.SV + t.NV)
-    t['abstencion'] = t.NV / (t.SV + t.NV)
-    return t
+| Elección | Tipo | Secciones | Lista nominal | Participación |
+|---|---|---|---|---|
+| 2009 | Intermedia | 64,934 | 77,481,831 | 44.1% |
+| 2012 | Presidencial | 65,599 | 76,490,962 | 62.1% |
+| 2015 | Intermedia | 68,362 | 83,563,462 | 47.1% |
+| 2018 | Presidencial | 68,408 | 89,123,997 | 62.4% |
+| 2021 | Intermedia | 68,812 | 93,532,133 | 51.8% |
+| 2024 | Presidencial | 70,751 | 98,330,348 | 59.7% |
 
-estado    = agrega(df, ['EDOCVE'])
-municipio = agrega(df, ['EDOCVE', 'MPIOCVE'])
-dist_fed  = agrega(df, ['EDOCVE', 'DEF'])
-seccion   = agrega(df, ['EDOCVE', 'SECCION'])
-```
+Lo que salta a la vista:
 
-Dos cuidados:
+- Las presidenciales se parecen entre sí (alrededor de 60%), pero las **intermedias cambian mucho de una a otra** (de 44% a 52%). Adivinar el porcentaje exacto de 2027 va a ser difícil. Ordenar las secciones de más a menos riesgo debería ser más fácil (se comprueba en el EDA).
+- **El número de secciones crece:** de 64,934 en 2009 a 70,751 en 2024.
 
-- **Nunca promedies porcentajes de secciones.** Si una sección de 100 personas tiene 80% de participación y otra de 1,000 tiene 40%, el promedio simple da 60%, pero la participación real es 480 / 1,100 = 43.6%. Primero se suman `SV` y `NV`, y después se calcula el porcentaje.
-- **`DEL` tiene vacíos.** Por eso se usa `dropna=False` al agrupar. Si no, pandas descarta esas filas sin avisar y los totales no cuadran.
+### Lo que cambia con el tiempo
 
-Además, los niveles no están anidados entre sí (un municipio no necesariamente cae en un solo distrito), así que siempre se suma desde la sección.
+- **Las secciones cambian.** El INE divide y redibuja secciones cuando crecen mucho (reseccionamiento). Por eso hay secciones nuevas que no tienen historial: en 2024 son 2,775. Antes de usar el historial de una sección hay que confirmar que sigue siendo la misma zona (Fase 2 del plan).
+- **Los distritos cambiaron en 2023** (redistritación). El distrito de una sección en 2024 puede ser distinto al que tenía en 2021. Para el reporte usaremos los distritos de 2023.
+
+### Niveles de análisis
+
+Como cada fila trae estado, municipio, distrito y sección, podemos sumar a cualquier nivel. La sección es la unidad más pequeña y todo lo demás son sumas de secciones. Los niveles no están anidados entre sí (un municipio no necesariamente cae en un solo distrito), así que siempre se suma desde la sección.
 
 ### ¿Qué NO trae esta base?
 
 - Escolaridad, ingreso o nivel de marginación.
 - Si la persona es indígena o afromexicana (el tablero tiene ese filtro, pero esa variable no aparece en los archivos que revisamos).
-- Mapas o coordenadas (los polígonos de las secciones hay que conseguirlos aparte).
+- Mapas o coordenadas (los contornos de las secciones hay que conseguirlos aparte).
 - Voto nulo ni por quién se votó.
+- Votos en casillas especiales ni de personas que viven en el extranjero. Además, la sección es la del domicilio de la credencial. Por eso las cifras no cuadran exacto con los cómputos distritales, y hay que aclararlo en el reporte.
 
-### Cosas a vigilar cuando limpiemos
+### Cosas a cuidar cuando limpiemos
 
-- `DEL` viene vacío en algunas filas (en Aguascalientes 2024, 615 de 91,826).
-- `FELECCION` cambia de formato entre años (`06/02/2024` contra `6/6/2021`). Para identificar la elección es más seguro usar `AELEC`.
-- Hay edades hasta 111 y grupos muy pequeños en edades altas.
-- El código de sexo `2` tiene solo 3 personas en Aguascalientes 2024.
-- El porcentaje de `NS` varía mucho entre estados.
-- Hay que revisar que una misma sección tenga el mismo distrito federal, municipio y tipo en todos los años.
+- **La fecha viene escrita distinto según el año** (en 2024 el mes va primero). Para saber de qué elección es cada fila usamos el año (`AELEC`), no la fecha.
+- **Algunos distritos vienen vacíos** (aparecen como un espacio en blanco): el local en varios años y el federal en 2009 y 2012. No se rellenan, pero al sumar por distrito hay que cuidar que esas filas no se pierdan.
+- **Hay edades de hasta 140 años**, seguramente personas fallecidas que siguen en la lista. Son muy pocas y se quedan en el grupo de 60 o más.
+- **Los archivos de 2024 traen unos caracteres invisibles al inicio.** Hay que leerlos con `encoding="utf-8-sig"`; si no, el nombre de la primera columna sale mal.
+- **Si una sección no tiene dato, su participación queda vacía, no en cero.**
 
 ### Lo que falta verificar
 
-- [ ] Que los archivos de 2018, 2015, 2012 y 2009 tengan las mismas 16 columnas.
-- [ ] Confirmar el código de `SEXO` en 2024 contra el tablero.
-- [ ] Revisar que las secciones crucen bien entre años.
-- [ ] Ver si hay un diccionario de datos dentro de los `.zip`.
-- [ ] Contrastar con el tablero la participación de Aguascalientes con ambos sexos juntos.
+- [x] Que los seis años tengan las mismas columnas. *Sí.*
+- [x] Ver si hay un diccionario de datos dentro de los `.zip`. *Sí, uno por año.*
+- [x] Confirmar el código de `SEXO` en 2024 contra el tablero. *El código `2` corresponde a no binario; son 105 personas.*
+- [ ] Saber qué secciones se pueden seguir de una elección a otra (Fase 2).
+- [x] Contrastar con el tablero la participación de Aguascalientes con ambos sexos juntos. *Coincide en 2021 y 2024.*
+- [x] Averiguar por qué 2012 casi no tiene `NS`. *El INE documenta que se excluyeron cuadernillos no disponibles; falta medir su efecto en la comparabilidad (Fase 2).*
+- [ ] Conseguir los contornos de las secciones de 2023 y confirmar con el INE que se pueden usar.
 
 ---
 
 ## 7. Pendiente por decidir
 
-Estas decisiones las tomamos después de entender los datos:
+Estas decisiones las tomamos después de entender los datos, en la Fase 5 del [plan](PLAN.md). Si una cambia aquí, se cambia también allá.
 
-1. **¿Qué es una "zona"?** Propuesta: la sección para el modelo y el distrito federal para el reporte.
-2. **¿Qué es "riesgo"?** Puede ser abstención alta, caída de participación respecto a la elección comparable, o abstención mayor a la esperada para el perfil de la zona.
+1. **¿Qué es una "zona"?** Propuesta: la sección para el modelo y el distrito federal (de 2023) para el reporte.
+2. **¿Qué es "riesgo"?** Puede ser abstención alta, caída de participación respecto a la elección comparable, o abstención mayor a la esperada para el perfil de la zona. Como el nivel de las intermedias cambia mucho (44.1%, 47.1% y 51.8%), quizá convenga medirlo comparando secciones entre sí y no como porcentaje.
 3. **Elección objetivo.** Candidata natural: la intermedia de 2027.
 4. **Cuántos niveles tiene el semáforo y dónde van los cortes.**
 5. **La intervención hipotética:** a quién se dirige, dónde se aplica y qué efecto se supone.
 6. **Tratamiento de `NS`:** propuesta de excluirlo, y probar cuánto cambia el resultado si no se excluye.
-7. **Datos externos** (Censo, marginación): preguntar al INE si se pueden usar además del CCPC.
+7. **Datos externos:** decidido, **no se usan** (ni Censo ni marginación). La cartografía (contornos) probablemente sí. *Falta confirmarlo con el INE.*
+8. **Secciones sin historial o sin dato:** qué hacer con las 2,775 secciones nuevas de 2024 y con las que no tienen dato en alguna elección.
+9. **Tamaño mínimo de sección** para tomarla en cuenta.
 
 ---
 
 ## Glosario
+
+### Términos electorales
 
 - **CCPC:** Conteos Censales de Participación Ciudadana, la base de datos del INE que usamos.
 - **DECEyEC:** Dirección Ejecutiva de Capacitación Electoral y Educación Cívica, el área del INE que lanzó el concurso.
@@ -234,6 +240,24 @@ Estas decisiones las tomamos después de entender los datos:
 - **IMV (índice de masculinidad en sí votaron):** igual, pero con las personas que votaron.
 - **Escenario:** una corrida del modelo bajo ciertos supuestos (por ejemplo, con o sin intervención).
 - **Semáforo:** clasificación de las zonas en niveles de riesgo (por ejemplo verde, amarillo y rojo).
+- **Reseccionamiento:** cuando el INE divide o redibuja secciones, por ejemplo porque crecieron mucho. Por eso el número de secciones cambia entre elecciones.
+- **Redistritación:** cuando el INE redibuja los distritos electorales. La última fue en 2023 y se usó en 2024.
+- **Casilla especial:** casilla para personas que el día de la elección están fuera de su sección. Sus votos no aparecen en el CCPC.
+- **Cuadernillo:** el cuaderno de la lista nominal que hay en cada casilla, donde se marca quién votó. De ahí salen los datos del CCPC.
+- **Tablero del INE:** la página interactiva del CCPC donde se consultan y descargan cifras. La usamos para comprobar que nuestras sumas coinciden con las oficiales.
+- **Etapas de vida:** los grupos de edad que usa el INE: 18 a 24, 25 a 34, 35 a 44, 45 a 59 y 60 o más.
+- **Brecha intermedia vs presidencial:** cuánto más se abstiene una zona en las intermedias que en las presidenciales.
+- **Intervención hipotética:** una acción supuesta del INE (por ejemplo, una campaña dirigida a jóvenes). Su efecto no se puede medir con estos datos, así que lo declaramos como supuesto.
+
+### Términos del análisis
+
+- **EDA (análisis exploratorio):** revisar los datos con preguntas y gráficas antes de modelar, para entender cómo se comportan.
+- **Polígono (contorno):** la forma de una sección en un mapa. SHP, GeoJSON y GPKG son formatos de archivo que guardan contornos.
+- **Punto de partida (o referencia simple):** la predicción más obvia, por ejemplo "cada sección repetirá lo de la última elección parecida". Un modelo que no la supera no sirve.
+- **Información del futuro:** cuando, sin querer, el modelo usa datos de la elección que intenta predecir o de una posterior. Los resultados se ven muy buenos, pero son falsos.
+- **Cortes del semáforo:** los valores de riesgo en los que una zona pasa de un color a otro (por ejemplo, de verde a amarillo).
+
+---
 
 ## Fase final opcional: aplicación web para presentar los mapas
 
@@ -241,48 +265,24 @@ Esta fase llega **solo después** de terminar todo lo de datos, análisis, model
 
 ### Qué es obligatorio y qué es opcional
 
-**Obligatorio.** Se entrega siempre lo que pide la convocatoria, haya o no aplicación:
-
-- Reporte metodológico y preventivo (PDF de 10 a 15 cuartillas).
-- Mapa de escenarios con y sin intervención (SHP, GeoJSON o GPKG, o enlace a un tablero), junto con la base de datos anonimizada.
-- Presentación de máximo 10 diapositivas.
-- Código o enlace al repositorio.
-- Cartas de cesión de derechos y de decir verdad, firmadas por todo el equipo.
+**Obligatorio.** Se entrega siempre lo que pide la convocatoria, haya o no aplicación (ver la sección 4).
 
 **Opcional.** La aplicación web. La convocatoria no la pide. Sirve para presentar mejor los resultados y para mostrar que el INE podría usar la herramienta, pero **no sustituye ningún entregable**.
 
 ### Qué se podría hacer
 
-Sí es posible armar un **backend con FastAPI** y una interfaz web que muestre los mapas:
+Una página web que muestre los **cuatro mapas** de la sección 3, con su leyenda y una ventana con los datos de cada zona, y que permita cambiar de un mapa a otro. Conviene que los mapas 1 y 2 se puedan ver lado a lado, para comparar el antes y el después.
 
-| Parte | Qué hace |
-|---|---|
-| **Backend (FastAPI)** | Entrega los resultados ya calculados: zonas, riesgo sin y con intervención, y la diferencia entre ambos |
-| **Frontend** | Pinta los **cuatro mapas propuestos** (ver abajo), con su leyenda y una ventana con los datos de cada zona. Permite cambiar de un mapa a otro |
+Tendría dos partes: un servidor que entrega los resultados ya calculados (backend, con FastAPI) y la página que pinta los mapas (frontend). La aplicación solo **muestra** resultados; no vuelve a correr el modelo.
 
-Como los resultados se calculan una sola vez en el análisis, la aplicación solo los **muestra**. No vuelve a correr el modelo.
-
-### Los cuatro mapas que debe pintar
-
-| Orden | Mapa | Colores | Datos que necesita |
-|---|---|---|---|
-| 1 | Sin intervención | Semáforo | Riesgo y semáforo sin intervención |
-| 2 | Con intervención | Semáforo (mismos cortes que el mapa 1) | Riesgo y semáforo con intervención |
-| 3 | Diferencia entre escenarios | Escala de cambio | Diferencia entre ambos escenarios |
-| 4 | Brecha intermedia vs presidencial | Escala de diferencia | Abstención en intermedias menos abstención en presidenciales |
-
-Los mapas 1 y 2 son el mapa de escenarios que exige la convocatoria. Los mapas 3 y 4 son propuestas del equipo, pero la aplicación debe poder pintar los cuatro. Conviene que el mapa 1 y el 2 se puedan ver lado a lado, para comparar el antes y el después.
-
-El mapa 4 se calcula directamente de los datos históricos y no depende del modelo ni de la intervención.
-
-Si el tiempo no alcanza para el backend, hay una versión más sencilla: una página estática que carga los resultados desde un archivo, sin servidor. Y el plan B que la propia convocatoria acepta es un tablero en Power BI o Tableau.
+Si el tiempo no alcanza, hay una versión más sencilla: una página que lee los resultados de un archivo, sin servidor. Y el plan B que la propia convocatoria acepta es un tablero en Power BI o Tableau.
 
 ### Reglas para esta fase
 
 1. **No se empieza hasta tener listo el mínimo obligatorio** (reporte, mapas de escenario y base).
 2. **Si el tiempo aprieta, se descarta.** No debe poner en riesgo ningún entregable.
 3. **Solo datos agregados**, nunca datos de personas.
-4. **El mapa nacional por sección es pesado** (hay del orden de 70 mil secciones). Conviene mostrar primero el distrito federal y dejar la sección para cuando se acerca el zoom.
+4. **El mapa nacional por sección es pesado** (en 2024 hay 70,751 secciones). Conviene mostrar primero el distrito federal y dejar la sección para cuando se acerca el zoom.
 5. **Si la mencionamos en el reporte,** debe quedar disponible mientras dure la evaluación, o incluir capturas en la presentación.
 
 ### Cómo empezar sin frenar el análisis

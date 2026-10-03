@@ -2,7 +2,7 @@
 
 Modelo que estima el riesgo de abstención por sección electoral con el historial 2009–2024 del CCPC, en dos escenarios (sin y con intervención), y lo presenta en mapas con semáforo.
 
-El contexto del reto, los entregables y la explicación de los datos están en [docs/reto_y_datos.md](docs/reto_y_datos.md). El plan técnico por fases está en [docs/PLAN.md](docs/PLAN.md).
+El contexto del reto, los entregables y la explicación de los datos están en [docs/reto_y_datos.md](docs/reto_y_datos.md). El plan técnico por fases está en [docs/PLAN.md](docs/PLAN.md). Si acabas de llegar al equipo, léelos en ese orden.
 
 ## Cómo empezar
 
@@ -55,7 +55,7 @@ pip install -r backend/requirements.txt
 | `data/raw/` | CSV originales del CCPC, un directorio por elección (`ConteosCensales2009/` … `2024/`). **No se versiona** | 1 |
 | `data/interim/` | Tabla unificada y limpia (Parquet). **No se versiona** | 1–2 |
 | `data/processed/` | Tabla de análisis y tabla de escenarios, agregadas y anonimizadas. **Se versiona y se entrega** | 3, 8 |
-| `data/external/` | Cartografía electoral y datos del Censo, si el INE los autoriza. **No se versiona** | 6 |
+| `data/external/` | Cartografía electoral (polígonos de secciones), si el INE la autoriza. No se usan otros datos externos. **No se versiona** | 6 |
 | `ai/notebooks/` | Exploración y EDA | 4 |
 | `ai/src/data_prep/` | Carga, limpieza, consistencia entre años, tabla de análisis | 1–3 |
 | `ai/src/geo/` | Unión de polígonos con la tabla por estado y sección | 6 |
