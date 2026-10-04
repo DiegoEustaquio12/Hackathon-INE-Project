@@ -2,30 +2,34 @@
 
 Modelo que estima el riesgo de abstención por sección electoral con el historial 2009–2024 del CCPC, en dos escenarios (sin y con intervención), y lo presenta en mapas con semáforo.
 
-El contexto del reto, los entregables y la explicación de los datos están en [docs/reto_y_datos.md](docs/reto_y_datos.md). El plan técnico por fases está en [docs/PLAN.md](docs/PLAN.md). Si acabas de llegar al equipo, léelos en ese orden.
+El contexto del reto, los entregables y la explicación de los datos están en [docs/reto_y_datos.md](docs/reto_y_datos.md). El plan de trabajo por fases está en [docs/PLAN.md](docs/PLAN.md). Si acabas de llegar al equipo, léelos en ese orden.
 
 ## Cómo empezar
 
 Necesitas **Python 3.12 o superior** y unos 4 GB libres en disco.
 
 ```bash
-# 1. Crear y activar el entorno (desde la raíz del repo)
-python3 -m venv .venv
+# 1. Crear el entorno (una sola vez, desde la raíz del repo)
+python3 -m venv .venv              # en Windows: py -3.12 -m venv .venv
+
+# 2. Activar el entorno (cada vez que abras una terminal nueva)
 source .venv/bin/activate          # en Windows: .venv\Scripts\activate
 
-# 2. Instalar las librerías
+# 3. Instalar las librerías (una sola vez)
 pip install -r ai/requirements.txt
 
-# 3. Descargar los datos a data/raw/ (~290 MB de descarga, ~3.5 GB ya descomprimidos)
-python3 scripts/download_raw_data.py
+# 4. Descargar los datos a data/raw/ (~290 MB de descarga, ~3.5 GB ya descomprimidos)
+python scripts/download_raw_data.py
 
-# 4. Abrir el notebook
+# 5. Abrir el notebook
 jupyter lab ai/notebooks/00_exploracion_inicial.ipynb
 ```
 
-Pasos 1 y 2 se hacen una sola vez; en las siguientes sesiones solo activa el entorno (`source .venv/bin/activate`).
+Con el entorno activado, el comando es `python` en Mac, Linux y Windows.
 
-**Si `python3 --version` muestra 3.9 o 3.10** (es lo normal en un Mac sin configurar), instala una versión nueva (`brew install python@3.12`) y crea el entorno con ella: `python3.12 -m venv .venv`. En Windows: `py -3.12 -m venv .venv`.
+**Si `python3 --version` muestra 3.9 o 3.10** (es lo normal en un Mac sin configurar), instala una versión nueva (`brew install python@3.12`) y crea el entorno con ella: `python3.12 -m venv .venv`.
+
+**Si PowerShell no te deja activar el entorno** (Windows), corre una sola vez `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` y vuelve a intentarlo.
 
 **Si usas VS Code,** abre el notebook y elige como kernel el de `.venv`. No hace falta Jupyter Lab.
 
