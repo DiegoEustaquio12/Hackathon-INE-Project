@@ -1,8 +1,12 @@
 # Reto 2: riesgo de abstención (Hackathon INE)
 
-Modelo que estima el riesgo de abstención por sección electoral con el historial 2009–2024 del CCPC, en dos escenarios (sin y con intervención), y lo presenta en mapas con semáforo.
+Modelo de regresión que predice la tasa de abstención por municipio con los datos 2009–2024 del CCPC del INE, en dos escenarios (sin y con intervención), y presenta los resultados en mapas con semáforo. **Ya definimos que una zona del proyecto es un municipio.**
+
+Todos los campos de los archivos del INE están disponibles para el análisis y la preparación de variables, incluidos edad, sexo, tipo de sección, distritos, conteos y los demás campos. No se incorporan fuentes externas. La agregación y selección de predictores se evalúa en las fases correspondientes, usando solo información disponible antes de la elección que se busca predecir.
 
 El contexto del reto, los entregables y la explicación de los datos están en [docs/reto_y_datos.md](docs/reto_y_datos.md). El plan de trabajo por fases está en [docs/PLAN.md](docs/PLAN.md). Si acabas de llegar al equipo, léelos en ese orden.
+
+**Trabajo inmediato:** la Fase 1 de carga y limpieza que ya está planteada en el [plan](docs/PLAN.md). Las demás definiciones de la Fase 5 siguen pendientes antes de modelar.
 
 ## Cómo empezar
 
@@ -58,16 +62,16 @@ pip install -r backend/requirements.txt
 |---|---|---|
 | `data/raw/` | CSV originales del CCPC, un directorio por elección (`ConteosCensales2009/` … `2024/`). **No se versiona** | 1 |
 | `data/interim/` | Tabla unificada y limpia (Parquet). **No se versiona** | 1–2 |
-| `data/processed/` | Tabla de análisis y tabla de escenarios, agregadas y anonimizadas. **Se versiona y se entrega** | 3, 8 |
-| `data/external/` | Cartografía electoral (polígonos de secciones), si el INE la autoriza. No se usan otros datos externos. **No se versiona** | 6 |
+| `data/processed/` | Tabla de análisis por municipio y elección, y tabla de escenarios municipales, agregadas y anonimizadas. **Se versiona y se entrega** | 3, 8 |
+| `data/external/` | Cartografía del INE para los polígonos municipales, si el INE autoriza su uso. **No se versiona** | 6 |
 | `ai/notebooks/` | Exploración y EDA | 4 |
 | `ai/src/data_prep/` | Carga, limpieza, consistencia entre años, tabla de análisis | 1–3 |
-| `ai/src/geo/` | Unión de polígonos con la tabla por estado y sección | 6 |
+| `ai/src/geo/` | Unión de polígonos con la tabla por estado y municipio | 6 |
 | `ai/src/models/` | Entrenamiento, validación y explicación | 7 |
 | `ai/src/scenarios/` | Escenarios, semáforo y brecha intermedia vs presidencial | 8 |
 | `ai/artifacts/` | Modelo guardado, métricas y predicciones | 7 |
 | `backend/app/` | API FastAPI (opcional) que **solo lee** `data/processed/` | fase final |
 | `frontend/` | Interfaz con los cuatro mapas (opcional) | fase final |
-| `docs/reports/` | `reporte_calidad.md`, `reporte_eda.md`, `DECISIONES.md`, diccionario de datos | 1–5 |
+| `docs/reports/` | `reporte_calidad.md`, `reporte_eda.md`, diccionario de datos | 1–4 |
 | `docs/deliverables/` | Reporte metodológico (PDF), presentación y cartas firmadas | — |
 | `scripts/` | Utilidades del repo, como la descarga de datos | — |

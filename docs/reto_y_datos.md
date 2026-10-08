@@ -8,9 +8,13 @@ Este documento explica qué nos pide el reto, cómo vamos a resolverlo y, sobre 
 
 **Problema.** El INE tiene recursos limitados para promover la participación en las elecciones. El reto pide anticipar en qué zonas del país podría bajar la participación, para decidir dónde actuar primero.
 
-**Herramienta que vamos a hacer.** Un modelo que usa el historial de participación de 2009 a 2024 (datos del CCPC) para estimar su **riesgo de abstención** en una elección futura. Lo calcula en dos escenarios (sin intervención y con una intervención hipotética) y compara los resultados.
+**Herramienta que vamos a hacer.** Un modelo de regresión que usa los datos del CCPC del INE de 2009 a 2024 para predecir la **tasa de abstención por municipio** en una elección futura. A partir de esa predicción se clasifica el riesgo con un semáforo, en dos escenarios (sin intervención y con una intervención hipotética). **Ya definimos que una zona del proyecto es un municipio. Todos los campos de los archivos del INE están disponibles para el análisis y la preparación de variables; no se incorporan fuentes externas.** Las demás definiciones y la aprobación para modelar siguen pendientes.
+
+**Con qué empezamos.** Con la Fase 1 de carga y limpieza que ya está planteada en el [plan](PLAN.md): unir los archivos del CCPC, conservar todas sus columnas, uniformar formatos, preparar los grupos de edad y revisar la calidad. La comparabilidad territorial y la tabla municipal corresponden a las fases siguientes.
 
 **Quién la usaría.** Las áreas del INE que planean y reparten recursos de capacitación electoral y educación cívica, como la DECEyEC y las juntas locales y distritales (por confirmar).
+
+El público usuario describe quién consulta la herramienta; no define la zona del modelo. Aunque una junta distrital consulte los resultados, estos se estiman por municipio.
 
 **Qué decisión apoya.** En qué territorios concentrar acciones, y de qué tipo, antes de la elección.
 
@@ -20,8 +24,8 @@ Flujo: **Datos → Modelo → Escenarios → Semáforo → Mapas → Recomendaci
 
 | Pieza | Qué es |
 |---|---|
-| **Datos** | Una tabla donde cada fila es una zona en una elección, con su participación histórica y lo poco que el CCPC dice de su gente: edad, sexo y si la sección es urbana, rural o mixta |
-| **Modelo** | Calcula el riesgo de abstención de cada zona. De aquí salen todos los números |
+| **Datos** | Una tabla donde cada fila es un municipio en una elección, construida a partir de todos los campos disponibles en los archivos del INE: conteos, historial, edad, sexo, tipo de sección, información territorial y demás campos |
+| **Modelo** | Predice mediante regresión la tasa de abstención de cada municipio |
 | **Escenarios** | Dos corridas del mismo modelo. La primera sigue las tendencias históricas (sin intervención adicional). La segunda aplica un supuesto de intervención: una acción hipotética del INE y el efecto que suponemos que tendría. Antes de simular hay que definir a quién va dirigida, dónde se aplica y qué efecto se espera |
 | **Semáforo** | Clasifica cada zona por nivel de riesgo. Los cortes se fijan una vez con el escenario sin intervención y se usan iguales en el escenario con intervención, para que los colores sean comparables |
 | **Mapas** | Muestran los resultados de cada escenario |
@@ -40,6 +44,8 @@ Flujo: **Datos → Modelo → Escenarios → Semáforo → Mapas → Recomendaci
 
 Solo los mapas 1 y 2 los exige la convocatoria. Los mapas 3 y 4 se agregan si el modelo y los datos quedan sólidos.
 
+En esta primera versión, la zona de los cuatro mapas es el municipio.
+
 ## 4. Qué tenemos que entregar
 
 **Mínimos del Reto 2 (según la convocatoria):**
@@ -53,8 +59,8 @@ Si falta cualquier entregable mínimo, el equipo queda descalificado.
 
 ## 5. Lo que necesitamos para cumplir los entregables
 
-1. **El contorno de cada sección.** Para hacer los mapas necesitamos el contorno (polígono) de cada sección, y el CCPC no lo trae: solo trae tablas. Hay que conseguirlo de la cartografía del INE (o de INEGI, si el INE lo acepta), en su versión de 2023, que es la que corresponde a los datos. **No podemos usar datos externos**, pero la cartografía probablemente sí. *Por confirmar con el INE.*
-2. **Que las secciones de los datos y del mapa se puedan unir.** Cada sección se identifica con estado + número de sección. Como el INE divide y redibuja secciones con el tiempo, hay que revisar con cuidado cuáles se pueden seguir de una elección a otra (Fase 2 del plan).
+1. **El contorno de cada municipio.** Para hacer los mapas necesitamos polígonos municipales, y el CCPC no los trae: solo trae tablas. Hay que conseguirlos de la cartografía del INE y verificar su fecha y correspondencia territorial con los datos. Si se construyen a partir de contornos de secciones, hay que verificar su cobertura y asignación municipal. El uso y entrega de esa cartografía siguen pendientes de confirmación con el INE.
+2. **Que los municipios de los datos y del mapa se puedan unir.** Se identifican con `EDOCVE` + `MPIOCVE`. Hay que revisar cambios de claves, límites y asignación de secciones para saber qué historial municipal es comparable (Fase 2 del plan).
 3. **La base que entreguemos debe ser la que usamos.** Va agregada por zona, sin grupos muy pequeños de personas. Si usamos la cartografía, hay que revisar que se pueda entregar.
 4. **Diccionario de datos desde el inicio.** El reporte exige explicar las variables, así que cada una se documenta al agregarla: nombre, definición, fuente, año y qué le hicimos.
 
@@ -110,6 +116,8 @@ Los archivos tienen 16 columnas, las mismas en los seis años:
 | `NS` | **No especificado**: no se sabe si votaron (ver más abajo) |
 
 > **Sobre `SEXO`:** confirmamos que `0` es hombre y `1` es mujer comparando el archivo de Aguascalientes 2021 contra el tablero del INE. El diccionario de 2024 identifica `2` como no binario; el tablero y la suma de los 32 archivos de ese año coinciden en **105 personas** con ese código.
+
+**Uso en el proyecto.** Todos los campos de esta tabla se conservan y están disponibles para el análisis y la preparación de variables. Esto incluye `SEXO`, `EDAD`, `TIPOSEC`, `DEF` y `DEL`, además de los conteos y los demás campos. La restricción es sobre las fuentes externas, no sobre las variables que ya proporciona el INE. Al construir la tabla municipal se documenta cómo se resume o representa cada campo; la selección de predictores se evalúa después del EDA y solo usa información disponible antes de la elección que se quiere predecir.
 
 ### La regla que siempre se cumple
 
@@ -169,59 +177,64 @@ Sumando los 32 estados (revisión rápida, hecha solo para corroborar; las cifra
 
 Lo que salta a la vista:
 
-- Las presidenciales se parecen entre sí (alrededor de 60%), pero las **intermedias cambian mucho de una a otra** (de 44% a 52%). Adivinar el porcentaje exacto de 2027 va a ser difícil. Ordenar las secciones de más a menos riesgo debería ser más fácil (se comprueba en el EDA).
+- Las presidenciales se parecen entre sí (alrededor de 60%), pero las **intermedias cambian mucho de una a otra** (de 44% a 52%). Adivinar el porcentaje exacto de 2027 va a ser difícil. En el EDA se comprobará si el historial municipal permite ordenar mejor los municipios de más a menos riesgo que estimar su porcentaje exacto.
 - **El número de secciones crece:** de 64,934 en 2009 a 70,751 en 2024.
 
 ### Lo que cambia con el tiempo
 
 - **Las secciones cambian.** El INE divide y redibuja secciones cuando crecen mucho (reseccionamiento). Por eso hay secciones nuevas que no tienen historial: en 2024 son 2,775. Antes de usar el historial de una sección hay que confirmar que sigue siendo la misma zona (Fase 2 del plan).
-- **Los distritos cambiaron en 2023** (redistritación). El distrito de una sección en 2024 puede ser distinto al que tenía en 2021. Para el reporte usaremos los distritos de 2023.
+- **Los distritos cambiaron en 2023** (redistritación). El distrito de una sección en 2024 puede ser distinto al que tenía en 2021. Un cambio de distrito por sí solo no cambia el agregado municipal si la sección sigue en el mismo municipio y este conserva su territorio. Las predicciones y el reporte serán municipales.
+- **La comparabilidad municipal también se verifica.** Hay que revisar municipios nuevos, cambios de clave o límites y cambios en la asignación de secciones. El reseccionamiento dentro de un mismo municipio no implica por sí solo que este pierda su historial, pero tampoco garantiza que el territorio municipal siga siendo comparable.
 
 ### Niveles de análisis
 
 Como cada fila trae estado, municipio, distrito y sección, podemos sumar a cualquier nivel. La sección es la unidad más pequeña y todo lo demás son sumas de secciones. Los niveles no están anidados entre sí (un municipio no necesariamente cae en un solo distrito), así que siempre se suma desde la sección.
 
+**En el proyecto, una zona es un municipio.** Después de unir los archivos y verificar la comparabilidad, se agrega por municipio y elección con la clave `EDOCVE` + `MPIOCVE` + `AELEC`. Se suman `LN`, `SV`, `NV` y `NS`, y luego se calculan las tasas. También se resume la composición por edad, sexo y tipo de sección, y se prepara la información territorial y los demás campos disponibles para el análisis municipal.
+
+Los distritos federales (`DEF`) y locales (`DEL`) están disponibles para el análisis y la preparación de variables. Como un municipio puede abarcar varios distritos, hay que documentar cómo se representa esa relación sin asignarle arbitrariamente uno solo. Utilizar información distrital no cambia la unidad municipal de la predicción ni convierte el resultado en una estimación por distrito o sección.
+
 ### ¿Qué NO trae esta base?
 
 - Escolaridad, ingreso o nivel de marginación.
 - Si la persona es indígena o afromexicana (el tablero tiene ese filtro, pero esa variable no aparece en los archivos que revisamos).
-- Mapas o coordenadas (los contornos de las secciones hay que conseguirlos aparte).
+- Mapas o coordenadas (los contornos municipales para nuestros mapas hay que conseguirlos aparte).
 - Voto nulo ni por quién se votó.
 - Votos en casillas especiales ni de personas que viven en el extranjero. Además, la sección es la del domicilio de la credencial. Por eso las cifras no cuadran exacto con los cómputos distritales, y hay que aclararlo en el reporte.
 
 ### Cosas a cuidar cuando limpiemos
 
 - **La fecha viene escrita distinto según el año** (en 2024 el mes va primero). Para saber de qué elección es cada fila usamos el año (`AELEC`), no la fecha.
-- **Algunos distritos vienen vacíos** (aparecen como un espacio en blanco): el local en varios años y el federal en 2009 y 2012. No se rellenan, pero al sumar por distrito hay que cuidar que esas filas no se pierdan.
-- **Hay edades de hasta 140 años**, seguramente personas fallecidas que siguen en la lista. Son muy pocas y se quedan en el grupo de 60 o más.
+- **Algunos distritos vienen vacíos** (aparecen como un espacio en blanco): el local en varios años y el federal en 2009 y 2012. Ese vacío no debe eliminar registros ni sus conteos al unir la tabla o agregar por municipio.
+- **Hay edades de hasta 140 años.** Se marcan para revisión sin borrar sus conteos y se incluyen en el grupo de 60 o más. Se conserva la edad original junto con el grupo de edad.
 - **Los archivos de 2024 traen unos caracteres invisibles al inicio.** Hay que leerlos con `encoding="utf-8-sig"`; si no, el nombre de la primera columna sale mal.
-- **Si una sección no tiene dato, su participación queda vacía, no en cero.**
+- **Si una sección no tiene dato, su participación queda vacía, no en cero.** Lo mismo aplica al municipio cuando la suma de `SV + NV` es cero. Si solo algunas secciones carecen de dato, se conserva el agregado y se documenta su cobertura mediante las marcas de calidad y `NS`.
 
 ### Lo que falta verificar
 
 - [x] Que los seis años tengan las mismas columnas. *Sí.*
 - [x] Ver si hay un diccionario de datos dentro de los `.zip`. *Sí, uno por año.*
 - [x] Confirmar el código de `SEXO` en 2024 contra el tablero. *El código `2` corresponde a no binario; son 105 personas.*
-- [ ] Saber qué secciones se pueden seguir de una elección a otra (Fase 2).
+- [ ] Saber qué municipios se pueden comparar entre elecciones y revisar los cambios de sus secciones (Fase 2).
 - [x] Contrastar con el tablero la participación de Aguascalientes con ambos sexos juntos. *Coincide en 2021 y 2024.*
 - [x] Averiguar por qué 2012 casi no tiene `NS`. *El INE documenta que se excluyeron cuadernillos no disponibles; falta medir su efecto en la comparabilidad (Fase 2).*
-- [ ] Conseguir los contornos de las secciones de 2023 y confirmar con el INE que se pueden usar.
+- [ ] Conseguir contornos municipales, verificar su correspondencia con los datos y confirmar con el INE que se pueden usar.
 
 ---
 
 ## 7. Pendiente por decidir
 
-Estas decisiones las tomamos después de entender los datos, en la Fase 5 del [plan](PLAN.md). Si una cambia aquí, se cambia también allá.
+La zona municipal, el objetivo de regresión de la tasa de abstención y la disponibilidad de todos los campos de los archivos del INE, sin fuentes externas, ya están definidos. Las demás decisiones las tomamos después de entender los datos, en la Fase 5 del [plan](PLAN.md). Las definiciones y sus motivos se documentan aquí y en esa fase; si una cambia aquí, se cambia también allá.
 
-1. **¿Qué es una "zona"?** Propuesta: la sección para el modelo y el distrito federal (de 2023) para el reporte.
-2. **¿Qué es "riesgo"?** Puede ser abstención alta, caída de participación respecto a la elección comparable, o abstención mayor a la esperada para el perfil de la zona. Como el nivel de las intermedias cambia mucho (44.1%, 47.1% y 51.8%), quizá convenga medirlo comparando secciones entre sí y no como porcentaje.
+1. **¿Qué es una "zona"?** Definido: municipio para el modelo, los escenarios, el semáforo, los mapas y el reporte. Las secciones se conservan como insumo de agregación y validación.
+2. **¿Qué predice el modelo?** Definido: la tasa de abstención municipal mediante regresión. A partir de esa predicción se clasifica el riesgo; falta decidir los niveles y cortes del semáforo.
 3. **Elección objetivo.** Candidata natural: la intermedia de 2027.
 4. **Cuántos niveles tiene el semáforo y dónde van los cortes.**
 5. **La intervención hipotética:** a quién se dirige, dónde se aplica y qué efecto se supone.
 6. **Tratamiento de `NS`:** propuesta de excluirlo, y probar cuánto cambia el resultado si no se excluye.
-7. **Datos externos:** decidido, **no se usan** (ni Censo ni marginación). La cartografía (contornos) probablemente sí. *Falta confirmarlo con el INE.*
-8. **Secciones sin historial o sin dato:** qué hacer con las 2,775 secciones nuevas de 2024 y con las que no tienen dato en alguna elección.
-9. **Tamaño mínimo de sección** para tomarla en cuenta.
+7. **Datos:** definido, todos los campos de los archivos del CCPC del INE están disponibles para el análisis y la preparación de variables. No se incorporan fuentes externas como Censo o marginación. La representación y selección de predictores se evalúa después del EDA. La cartografía municipal se solicita al INE como soporte de los mapas; su uso y entrega están por confirmar.
+8. **Municipios sin historial, con cambios territoriales o sin dato:** cómo tratarlos y cómo evaluar la cobertura de sus secciones, incluidas las nuevas de 2024.
+9. **Mínimo de casos conocidos por municipio** para tomarlo en cuenta.
 
 ---
 
@@ -232,12 +245,15 @@ Estas decisiones las tomamos después de entender los datos, en la Fase 5 del [p
 - **CCPC:** Conteos Censales de Participación Ciudadana, la base de datos del INE que usamos.
 - **DECEyEC:** Dirección Ejecutiva de Capacitación Electoral y Educación Cívica, el área del INE que lanzó el concurso.
 - **Sección electoral:** la zona más pequeña en la que el INE divide el país. Un municipio tiene varias.
+- **Zona del proyecto:** un municipio, identificado por estado + clave municipal. Es la unidad de predicción, escenarios, semáforo, mapas y reporte.
+- **Distrito electoral federal (`DEF`):** división territorial para elegir una diputación federal por mayoría relativa. Es uno de los campos disponibles para el análisis.
+- **Distrito electoral local (`DEL`):** división territorial para elegir una diputación del Congreso de la entidad por mayoría relativa. Es uno de los campos disponibles para el análisis.
 - **Lista nominal:** las personas con credencial para votar vigente que pueden votar.
 - **Elección intermedia:** elección federal donde no se elige presidente (en nuestros datos: 2009, 2015 y 2021).
 - **Elección presidencial:** elección federal donde sí se elige presidente (2012, 2018 y 2024).
 - **Abstención:** que una persona de la lista nominal no vote.
-- **IML (índice de masculinidad en lista nominal):** hombres entre mujeres de la lista nominal, por cien. Si es 93.7, hay 93.7 hombres por cada 100 mujeres.
-- **IMV (índice de masculinidad en sí votaron):** igual, pero con las personas que votaron.
+- **Regresión:** modelo que predice un valor numérico; en este proyecto, la tasa de abstención de cada municipio.
+- **Etapas de vida:** los grupos de edad que usa el INE: 18 a 24, 25 a 34, 35 a 44, 45 a 59 y 60 o más.
 - **Escenario:** una corrida del modelo bajo ciertos supuestos (por ejemplo, con o sin intervención).
 - **Semáforo:** clasificación de las zonas en niveles de riesgo (por ejemplo verde, amarillo y rojo).
 - **Reseccionamiento:** cuando el INE divide o redibuja secciones, por ejemplo porque crecieron mucho. Por eso el número de secciones cambia entre elecciones.
@@ -245,15 +261,14 @@ Estas decisiones las tomamos después de entender los datos, en la Fase 5 del [p
 - **Casilla especial:** casilla para personas que el día de la elección están fuera de su sección. Sus votos no aparecen en el CCPC.
 - **Cuadernillo:** el cuaderno de la lista nominal que hay en cada casilla, donde se marca quién votó. De ahí salen los datos del CCPC.
 - **Tablero del INE:** la página interactiva del CCPC donde se consultan y descargan cifras. La usamos para comprobar que nuestras sumas coinciden con las oficiales.
-- **Etapas de vida:** los grupos de edad que usa el INE: 18 a 24, 25 a 34, 35 a 44, 45 a 59 y 60 o más.
 - **Brecha intermedia vs presidencial:** cuánto más se abstiene una zona en las intermedias que en las presidenciales.
-- **Intervención hipotética:** una acción supuesta del INE (por ejemplo, una campaña dirigida a jóvenes). Su efecto no se puede medir con estos datos, así que lo declaramos como supuesto.
+- **Intervención hipotética:** una acción supuesta del INE (por ejemplo, una campaña de promoción de participación en municipios priorizados). Su efecto no se puede medir con estos datos, así que lo declaramos como supuesto.
 
 ### Términos del análisis
 
 - **EDA (análisis exploratorio):** revisar los datos con preguntas y gráficas antes de modelar, para entender cómo se comportan.
-- **Polígono (contorno):** la forma de una sección en un mapa. SHP, GeoJSON y GPKG son formatos de archivo que guardan contornos.
-- **Punto de partida (o referencia simple):** la predicción más obvia, por ejemplo "cada sección repetirá lo de la última elección parecida". Un modelo que no la supera no sirve.
+- **Polígono (contorno):** la forma de un territorio (por ejemplo, un municipio) en un mapa. SHP, GeoJSON y GPKG son formatos de archivo que guardan contornos.
+- **Punto de partida (o referencia simple):** la predicción más obvia, por ejemplo "cada municipio repetirá lo de la última elección parecida". Un modelo que no la supera no sirve.
 - **Información del futuro:** cuando, sin querer, el modelo usa datos de la elección que intenta predecir o de una posterior. Los resultados se ven muy buenos, pero son falsos.
 - **Cortes del semáforo:** los valores de riesgo en los que una zona pasa de un color a otro (por ejemplo, de verde a amarillo).
 
@@ -282,14 +297,15 @@ Si el tiempo no alcanza, hay una versión más sencilla: una página que lee los
 1. **No se empieza hasta tener listo el mínimo obligatorio** (reporte, mapas de escenario y base).
 2. **Si el tiempo aprieta, se descarta.** No debe poner en riesgo ningún entregable.
 3. **Solo datos agregados**, nunca datos de personas.
-4. **El mapa nacional por sección es pesado** (en 2024 hay 70,751 secciones). Conviene mostrar primero el distrito federal y dejar la sección para cuando se acerca el zoom.
+4. **Mostrar el riesgo por municipio**, con su leyenda y marcas de calidad. El mapa representa predicciones municipales; no se requieren vistas de riesgo por distrito o sección.
 5. **Si la mencionamos en el reporte,** debe quedar disponible mientras dure la evaluación, o incluir capturas en la presentación.
 
 ### Cómo empezar sin frenar el análisis
 
 Quien haga la aplicación puede avanzar con datos de ejemplo. La tabla de escenarios es el acuerdo entre quien analiza y quien construye la interfaz. Sus columnas:
 
-- Identificador de la zona (estado + sección), estado, municipio, distrito federal y tipo de sección
+- Identificador de la zona (`EDOCVE` + `MPIOCVE`), estado y municipio
+- Marcas de calidad y comparabilidad de los datos de participación
 - Riesgo y semáforo sin intervención
 - Riesgo y semáforo con intervención
 - Diferencia entre ambos
