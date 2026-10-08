@@ -1,13 +1,26 @@
 # Python
 venv/
+.venv/
 __pycache__/
 *.pyc
+.ipynb_checkpoints/
+.pytest_cache/
 
 # Node
 node_modules/
+dist/
 
 # Secretos
 .env
+
+# Datos crudos e intermedios (~3.5 GB, se descargan de la CCPC; ver docs/reto_y_datos.md)
+data/raw/*
+data/interim/*
+data/external/*
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/external/.gitkeep
+# data/processed/ SÍ se versiona: es la base agregada y anonimizada que se entrega
 
 # Sistema / editor
 .DS_Store
