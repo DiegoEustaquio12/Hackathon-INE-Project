@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 """Descarga los datos del CCPC (INE) y los deja en data/raw/ con la estructura esperada:
 
-    data/raw/ConteosCensales2009/datosabiertos_deceyec_conteoscensales2009_ags.csv
-    data/raw/ConteosCensales2009/01_descripcioncampos_conteoscensales2009.txt
-    ...
-
 Solo usa la biblioteca estándar, no hay nada que instalar.
 
 Uso (desde cualquier carpeta):

@@ -25,3 +25,4 @@ data/external/*
 # Sistema / editor
 .DS_Store
 .vscode/
+.idea/
