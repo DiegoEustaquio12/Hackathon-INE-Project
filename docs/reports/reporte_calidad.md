@@ -2,11 +2,11 @@
 
 Generado por `ai/src/data_prep/carga_limpieza.py`. Las cifras son las de esta corrida.
 
-- Archivos CSV leídos: **192** (se esperan 192: 32 estados por 6 elecciones)
+- Archivos CSV en la tabla: **192** (se esperan 192: 32 estados por 6 elecciones)
 - Archivos con encabezados distintos a los 16 esperados: **ninguno**
 
 ## Totales por elección
-| año | tipo | archivos | filas | secciones | ln | sv | nv | ns | participacion_pct | ns_pct_de_ln |
+| anio | tipo | archivos | filas | secciones | ln | sv | nv | ns | participacion_pct | ns_pct_de_ln |
 |---|---|---|---|---|---|---|---|---|---|---|
 | 2009 | intermedia | 32 | 8,706,843 | 64,934 | 77,481,831 | 33,316,974 | 42,298,963 | 1,865,894 | 44.06 | 2.41 |
 | 2012 | presidencial | 32 | 8,604,456 | 65,599 | 76,490,962 | 47,383,154 | 28,939,159 | 168,649 | 62.08 | 0.22 |
@@ -15,9 +15,9 @@ Generado por `ai/src/data_prep/carga_limpieza.py`. Las cifras son las de esta co
 | 2021 | intermedia | 32 | 9,430,502 | 68,812 | 93,532,133 | 46,389,189 | 43,099,624 | 4,043,320 | 51.84 | 4.32 |
 | 2024 | presidencial | 32 | 9,773,730 | 70,751 | 98,330,348 | 54,899,228 | 37,105,466 | 6,325,654 | 59.67 | 6.43 |
 
+Participación = SV / (SV + NV). `ns_pct_de_ln` = NS / LN. Se espera 1 archivo por estado (32 por año).
 
-Participación = SV / (SV + NV). `ns_pct_de_ln` = NS / LN. Para cada estado y año se espera 1 archivo por estado (32 por año).
-## Marcas de calidad
+## Marcas de calidad (las filas se marcan, no se borran)
 | anio | falla_regla_ln | negativos | filas_edad_mayor_90 | edad_maxima | dto_federal_vacio | dto_local_vacio | sexo_no_0_ni_1 |
 |---|---|---|---|---|---|---|---|
 | 2009 | 0 | 0 | 271,633 | 130 | 28,477 | 28,477 | 0 |

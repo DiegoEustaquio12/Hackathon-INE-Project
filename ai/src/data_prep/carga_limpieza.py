@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """Fase 1: carga y limpieza del CCPC con DuckDB.
 
-Lee los CSV de data/raw/ConteosCensalesAAAA/, los unifica en una sola tabla,
-agrega marcas de calidad (NO borra filas) y la guarda en data/interim/ccpc_unificado.parquet.
+Lee los CSV de data/raw/ConteosCensalesAAAA/, los unifica en una sola tabla, agrega marcas
+de calidad (NO borra filas) y la guarda en data/interim/ccpc_unificado.parquet.
 También escribe docs/reports/reporte_calidad.md.
 
-Uso (desde cualquier carpeta):
-    python ai/src/data_prep/fase1_carga_limpieza.py
+Uso (desde la raíz del repo):
+    python ai/src/data_prep/carga_limpieza.py            # si el parquet ya existe, no relee los CSV
+    python ai/src/data_prep/carga_limpieza.py --forzar   # vuelve a leer los 192 CSV
 """
+import argparse
 from pathlib import Path
 
 import duckdb
@@ -74,28 +76,7 @@ def sql_archivo(ruta: Path) -> str:
                                  ruta=esc(ruta.as_posix()), nombre=esc(ruta.name))
 
 
-def cargar_archivos(con):
-    """Lee los CSV uno por uno (cada uno con su propia lectura) y verifica que no se pierda
-    ninguna fila: filas cargadas == líneas de datos del archivo.
-    Se hace así porque leer todo con un glob puede descartar archivos sin avisar."""
-    archivos = sorted(RAW.glob("ConteosCensales*/*.csv"))
-    revision, primero = [], True
-    for i, a in enumerate(archivos, 1):
-        if primero:
-            con.execute(f"CREATE OR REPLACE TABLE ccpc AS {sql_archivo(a)}")
-            primero = False
-        else:
-            con.execute(f"INSERT INTO ccpc {sql_archivo(a)}")
-        cargadas = con.execute("SELECT count(*) FROM ccpc WHERE archivo = ?", [a.name]).fetchone()[0]
-        with open(a, "rb") as f:
-            lineas = sum(1 for linea in f if linea.strip()) - 1  # menos el encabezado
-        revision.append((a.name, lineas, cargadas))
-        marca = "" if lineas == cargadas else "   <-- NO COINCIDE"
-        print(f"[{i}/{len(archivos)}] {a.name}: {cargadas:,} filas{marca}")
-    return revision
-
-
-def revisar_encabezados(con):
+def revisar_encabezados():
     """Los 16 nombres de columna deben ser los esperados en todos los archivos."""
     archivos = sorted(RAW.glob("ConteosCensales*/*.csv"))
     if not archivos:
@@ -106,6 +87,25 @@ def revisar_encabezados(con):
             if f.readline().strip().split(",") != COLUMNAS:
                 malos.append(a.name)
     return len(archivos), malos
+
+
+def cargar_archivos(con):
+    """Lee los CSV uno por uno y verifica que no se pierda ninguna fila:
+    filas cargadas == líneas de datos del archivo. (Un glob puede descartar archivos sin avisar.)"""
+    archivos = sorted(RAW.glob("ConteosCensales*/*.csv"))
+    revision = []
+    for i, a in enumerate(archivos, 1):
+        if i == 1:
+            con.execute(f"CREATE OR REPLACE TABLE ccpc AS {sql_archivo(a)}")
+        else:
+            con.execute(f"INSERT INTO ccpc {sql_archivo(a)}")
+        cargadas = con.execute("SELECT count(*) FROM ccpc WHERE archivo = ?", [a.name]).fetchone()[0]
+        with open(a, "rb") as f:
+            lineas = sum(1 for linea in f if linea.strip()) - 1  # menos el encabezado
+        revision.append((a.name, lineas, cargadas))
+        marca = "" if lineas == cargadas else "   <-- NO COINCIDE"
+        print(f"[{i}/{len(archivos)}] {a.name}: {cargadas:,} filas{marca}")
+    return revision
 
 
 def md(df):
@@ -128,17 +128,27 @@ def md(df):
 
 
 def main():
-    con = duckdb.connect()
-    n_archivos, malos = revisar_encabezados(con)
-    print(f"{n_archivos} archivos CSV; encabezados distintos a los esperados: {malos or 'ninguno'}")
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--forzar", action="store_true", help="relee los CSV aunque el parquet ya exista")
+    args = ap.parse_args()
 
-    revision = cargar_archivos(con)
-    desajustes = [r for r in revision if r[1] != r[2]]
-    if desajustes:
-        raise SystemExit(f"Filas perdidas al cargar (archivo, líneas, cargadas): {desajustes}")
-    OUT_PARQUET.parent.mkdir(parents=True, exist_ok=True)
-    con.execute(f"COPY ccpc TO '{OUT_PARQUET.as_posix()}' (FORMAT parquet, COMPRESSION zstd)")
-    print(f"Guardado: {OUT_PARQUET}")
+    con = duckdb.connect()
+    n_archivos, malos = None, []
+
+    if OUT_PARQUET.exists() and not args.forzar:
+        print(f"Ya existe {OUT_PARQUET.name}: no se releen los CSV (usa --forzar para rehacerlo).")
+        con.execute(f"CREATE VIEW ccpc AS SELECT * FROM read_parquet('{OUT_PARQUET.as_posix()}')")
+        n_archivos = con.execute("SELECT count(DISTINCT archivo) FROM ccpc").fetchone()[0]
+    else:
+        n_archivos, malos = revisar_encabezados()
+        print(f"{n_archivos} archivos CSV; encabezados distintos a los esperados: {malos or 'ninguno'}")
+        revision = cargar_archivos(con)
+        desajustes = [r for r in revision if r[1] != r[2]]
+        if desajustes:
+            raise SystemExit(f"Filas perdidas al cargar (archivo, líneas, cargadas): {desajustes}")
+        OUT_PARQUET.parent.mkdir(parents=True, exist_ok=True)
+        con.execute(f"COPY ccpc TO '{OUT_PARQUET.as_posix()}' (FORMAT parquet, COMPRESSION zstd)")
+        print(f"Guardado: {OUT_PARQUET}")
 
     # --- Resúmenes: aquí sí se pasa a pandas, porque son tablas chicas ---
     por_anio = con.execute("""
@@ -151,13 +161,13 @@ def main():
 
     calidad = con.execute("""
         SELECT anio,
-               sum(flag_regla_ln::INT)::BIGINT   AS falla_regla_ln,
-               sum(flag_negativo::INT)::BIGINT           AS negativos,
-               sum(flag_edad_alta::INT)::BIGINT          AS filas_edad_mayor_90,
-               max(edad)                         AS edad_maxima,
-               sum(flag_dto_federal_vacio::INT)::BIGINT  AS dto_federal_vacio,
-               sum(flag_dto_local_vacio::INT)::BIGINT    AS dto_local_vacio,
-               sum((sexo NOT IN (0, 1))::INT)::BIGINT AS sexo_no_0_ni_1
+               sum(flag_regla_ln::INT)::BIGINT          AS falla_regla_ln,
+               sum(flag_negativo::INT)::BIGINT          AS negativos,
+               sum(flag_edad_alta::INT)::BIGINT         AS filas_edad_mayor_90,
+               max(edad)                                AS edad_maxima,
+               sum(flag_dto_federal_vacio::INT)::BIGINT AS dto_federal_vacio,
+               sum(flag_dto_local_vacio::INT)::BIGINT   AS dto_local_vacio,
+               sum((sexo NOT IN (0, 1))::INT)::BIGINT   AS sexo_no_0_ni_1
         FROM ccpc GROUP BY anio ORDER BY anio""").df()
 
     duplicados = con.execute("""
@@ -183,15 +193,15 @@ def main():
 
     reporte = f"""# Reporte de calidad (Fase 1)
 
-Generado por `ai/src/data_prep/fase1_carga_limpieza.py`. Las cifras son las de esta corrida.
+Generado por `ai/src/data_prep/carga_limpieza.py`. Las cifras son las de esta corrida.
 
-- Archivos CSV leídos: **{n_archivos}** (se esperan 192: 32 estados por 6 elecciones)
+- Archivos CSV en la tabla: **{n_archivos}** (se esperan 192: 32 estados por 6 elecciones)
 - Archivos con encabezados distintos a los 16 esperados: **{', '.join(malos) if malos else 'ninguno'}**
 
 ## Totales por elección
 {md(por_anio)}
 
-Participación = SV / (SV + NV). `ns_pct_de_ln` = NS / LN. Para cada estado y año se espera 1 archivo por estado (32 por año).
+Participación = SV / (SV + NV). `ns_pct_de_ln` = NS / LN. Se espera 1 archivo por estado (32 por año).
 
 ## Marcas de calidad (las filas se marcan, no se borran)
 {md(calidad)}
