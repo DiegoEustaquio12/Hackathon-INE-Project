@@ -15,6 +15,7 @@ import pandas as pd
 RAIZ = Path(__file__).resolve().parents[3]
 RAW = RAIZ / "data" / "raw"
 INTERIM = RAIZ / "data" / "interim" / "ccpc"
+PROCESSED = RAIZ / "data" / "processed"
 REPORTES = RAIZ / "docs" / "reports"
 
 ANIOS = (2009, 2012, 2015, 2018, 2021, 2024)
