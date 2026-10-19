@@ -229,8 +229,8 @@ La zona municipal, el objetivo de regresión de la tasa de abstención y la disp
 1. **¿Qué es una "zona"?** Definido: municipio para el modelo, los escenarios, el semáforo, los mapas y el reporte. Las secciones se conservan como insumo de agregación y validación.
 2. **¿Qué predice el modelo?** Definido: la tasa de abstención municipal mediante regresión. A partir de esa predicción se clasifica el riesgo; falta decidir los niveles y cortes del semáforo.
 3. **Elección objetivo.** Candidata natural: la intermedia de 2027.
-4. **Cuántos niveles tiene el semáforo y dónde van los cortes.**
-5. **La intervención hipotética:** a quién se dirige, dónde se aplica y qué efecto se supone.
+4. **Cuántos niveles tiene el semáforo y dónde van los cortes** (por nivel de abstención o por orden de los municipios). Son los mismos para todas las intervenciones.
+5. **Las intervenciones hipotéticas:** pueden ser varias, una por grupo (por ejemplo, jóvenes, personas mayores, mujeres u hombres, o secciones rurales). Para cada una: a quién se dirige, dónde se aplica y qué efecto se supone.
 6. **Tratamiento de `NS`:** propuesta de excluirlo, y probar cuánto cambia el resultado si no se excluye.
 7. **Datos:** definido, todos los campos de los archivos del CCPC del INE están disponibles para el análisis y la preparación de variables. No se incorporan fuentes externas como Censo o marginación. La representación y selección de predictores se evalúa después del EDA. La cartografía municipal se solicita al INE como soporte de los mapas; su uso y entrega están por confirmar.
 8. **Municipios sin historial, con cambios territoriales o sin dato:** cómo tratarlos y cómo evaluar la cobertura de sus secciones, incluidas las nuevas de 2024.
