@@ -8,6 +8,10 @@ Arma tres tablas a partir de la tabla limpia de la Fase 1 y del catálogo de la 
 - tabla_municipios_2027: la misma tabla con todo hasta 2024 y la abstención de 2027 vacía. Es la
   que llena el modelo y la que va a los mapas.
 
+Las dos tablas de municipios incluyen las features sociodemográficas externas del ECEG 2010/2020
+(`ext_*`), unidas por municipio con la regla de vintage de `externos.py`. No se tocan las columnas
+vacías que llena el modelo (`conocidos_objetivo`, `abstencion_objetivo`).
+
 El historial se calcula sobre el territorio que el municipio tiene en la elección que se predice:
 si un municipio ganó o perdió secciones, su pasado se rearma con esas secciones. También escribe
 el diccionario de datos (idea tomada de build_analisis.py, rama proposals-Max).
@@ -29,6 +33,10 @@ import numpy as np
 import pandas as pd
 
 from ccpc import ANIOS, CONTEOS, ETAPAS, PROCESSED, RAIZ, REPORTES, TIPO_ELECCION, leer_tabla
+from externos import (
+    DICCIONARIO_EXTERNOS, cargar_o_construir_agregados, columnas_externas, unir_externos,
+    validar_externos,
+)
 from fase1 import detener
 from fase2 import CAMBIOS_TERRITORIO, CATALOGO, SECCIONES, guardar, miles, tabla
 
@@ -68,7 +76,7 @@ COL_BASE = [
     *(f"abst_{g}" for g in GRUPOS_ABST),
     "n_def", "n_del", "def_principal", "pct_ln_def_principal", "pct_ln_sin_def",
 ]
-COL_FOTO = [
+COL_FOTO_BASE = [
     "EDOCVE", "MPIOCVE", "nombre_estado", "nombre_municipio", "eleccion_objetivo", "tipo_objetivo",
     "abst_ultima_intermedia", "abst_prom_intermedias", "cambio_intermedias", "abst_ultima_intermedia_vs_pais",
     "abst_ultima_presidencial", "abst_prom_presidenciales", "abst_ultima_presidencial_vs_pais",
@@ -80,6 +88,9 @@ COL_FOTO = [
     "def_principal", "n_def", "n_del",
     "conocidos_objetivo", "abstencion_objetivo",
 ]
+COL_EXTERNOS = columnas_externas()
+# Las dos columnas de respuesta quedan al final, después de las features externas.
+COL_FOTO = [*COL_FOTO_BASE[:-2], *COL_EXTERNOS, *COL_FOTO_BASE[-2:]]
 
 
 def tasa(numerador: pd.Series, denominador: pd.Series) -> pd.Series:
@@ -370,7 +381,7 @@ def armar_foto(objetivo, sumas, cambios, base, nacional, cat) -> tuple[pd.DataFr
         "incompletos": int(foto["historial_incompleto"].sum()),
         "sin_asignar": {int(a): int(v) for a, v in sin_asignar.items() if v > 0},
     }
-    return foto[COL_FOTO], resumen
+    return foto[COL_FOTO_BASE], resumen
 
 
 def redondear(df: pd.DataFrame) -> pd.DataFrame:
@@ -437,6 +448,17 @@ DESC_BASE = [
         ("pct_ln_sin_def", "Parte de la lista sin distrito federal (pasa en 2009 y 2012)", "Sí"),
     ]),
 ]
+DESC_EXTERNOS = [
+    ("Cobertura del censo externo (ECEG)", [
+        ("censo_fuente", "Censo usado en esta fila: 2010 para 2015/2018 y 2020 para 2021/2024/2027"),
+        ("tiene_eceg_2010", "1 si el municipio existe en el ECEG 2010; 0 si no (no se imputa)"),
+        ("tiene_eceg_2020", "1 si el municipio existe en el ECEG 2020; 0 si no (no se imputa)"),
+    ]),
+    ("Características sociodemográficas del municipio (ECEG)", [
+        (f"ext_{nombre}", f"{definicion}. Fórmula: `{formula}`")
+        for nombre, definicion, formula in DICCIONARIO_EXTERNOS
+    ]),
+]
 DESC_FOTO = [
     ("Quién es y qué se predice", [
         ("EDOCVE", "Número del estado (1 a 32)"),
@@ -494,6 +516,7 @@ DESC_FOTO = [
         ("n_def", "Cuántos distritos federales toca"),
         ("n_del", "Cuántos distritos locales toca"),
     ]),
+    *DESC_EXTERNOS,
     ("La respuesta (siempre al final)", [
         ("conocidos_objetivo", "Personas con dato en la elección que se predice; sirve para dar más peso a los "
          "municipios grandes. Vacío en 2027"),
@@ -503,7 +526,8 @@ DESC_FOTO = [
 ]
 EN_PUNTOS = {"cambio_intermedias", "abst_ultima_intermedia_vs_pais", "abst_ultima_presidencial_vs_pais",
              "brecha_intermedia_presidencial"}
-SIN_COMAS = {"EDOCVE", "MPIOCVE", "AELEC", "eleccion_objetivo", "def_principal"}
+SIN_COMAS = {"EDOCVE", "MPIOCVE", "AELEC", "eleccion_objetivo", "def_principal",
+             "censo_fuente", "tiene_eceg_2010", "tiene_eceg_2020"}
 
 
 def mostrar(col: str, valor) -> str:
@@ -514,10 +538,13 @@ def mostrar(col: str, valor) -> str:
         return "True" if valor else "False"
     if col in EN_PUNTOS:
         return f"{100 * valor:+.1f} puntos"
-    if col.startswith(("pct_", "abst_")) or col in ("abstencion", "participacion", "abstencion_objetivo"):
+    if col.startswith(("pct_", "abst_", "ext_pct_", "ext_tasa_")) or col in (
+            "abstencion", "participacion", "abstencion_objetivo"):
         return f"{100 * valor:.1f}%"
-    if col == "edad_promedio":
+    if col in ("edad_promedio", "ext_escolaridad_promedio"):
         return f"{valor:.1f} años"
+    if col.startswith("ext_"):
+        return f"{valor:.3f}"
     if col in SIN_COMAS:
         return str(int(valor))
     if isinstance(valor, (int, np.integer, float, np.floating)):
@@ -564,6 +591,15 @@ def escribir_diccionario(base: pd.DataFrame, entrenamiento: pd.DataFrame, predic
         filas_fotos.append((objetivo, f"{antes[0]} a {antes[-1]}", ui, up, antes[-1],
                             "la real" if objetivo in ANIOS else "vacía: la calcula el modelo"))
 
+    cobertura_ext = []
+    for objetivo in (*FOTOS, PREDECIR):
+        tabla_foto = entrenamiento if objetivo in FOTOS else prediccion
+        grupo = tabla_foto[tabla_foto["eleccion_objetivo"] == objetivo]
+        fuente = 2010 if objetivo <= 2018 else 2020
+        columna = f"tiene_eceg_{fuente}"
+        cobertura_ext.append((objetivo, fuente, len(grupo), int(grupo[columna].sum()),
+                              int((grupo[columna] == 0).sum())))
+
     r = [
         "# Diccionario de datos: tablas de municipios (Fase 3)",
         "",
@@ -584,12 +620,15 @@ def escribir_diccionario(base: pd.DataFrame, entrenamiento: pd.DataFrame, predic
              "abstención de 2027 vacía", "Que el modelo la llene; va a los mapas", miles(len(prediccion))),
         ]),
         "",
-        "Las dos tablas de municipios tienen **las mismas columnas**. Cada tabla viene en dos archivos con el mismo "
-        "contenido: `.csv` (se abre en Excel) y `.parquet` (para el código, con `pd.read_parquet`).",
+        "Las dos tablas de municipios tienen **las mismas columnas**: las 49 históricas más 31 sociodemográficas "
+        "del ECEG 2010/2020 (`censo_fuente`, `tiene_eceg_*` y 28 `ext_*`). Cada tabla viene en dos archivos con el "
+        "mismo contenido: `.csv` (se abre en Excel) y `.parquet` (para el código, con `pd.read_parquet`).",
         "",
         "## Cómo leer los números",
         "",
         "- Las columnas que empiezan con `pct_` o `abst_` son **proporciones de 0 a 1**: `0.25` quiere decir 25%.",
+        "- Las features `ext_pct_*` y `ext_tasa_*` también son **proporciones de 0 a 1**. Las demás `ext_*` son "
+        "promedios o razones (por ejemplo, `ext_escolaridad_promedio` está en años).",
         "- Las que terminan en `_vs_pais` y las de cambio o brecha son **diferencias**: `0.05` quiere decir "
         "5 puntos más.",
         "- **Vacío no es cero.** Una celda vacía quiere decir que no hay dato (por ejemplo, nadie con dato en el "
@@ -618,6 +657,21 @@ def escribir_diccionario(base: pd.DataFrame, entrenamiento: pd.DataFrame, predic
         "",
         "El modelo practica con estas fotos («con lo que se sabía, ¿cuánto fue la abstención?») y luego llena la "
         "columna vacía de 2027.",
+        "",
+        "## Features externas (ECEG)",
+        "",
+        "Además del historial electoral, cada fila trae características sociodemográficas del municipio tomadas "
+        "del ECEG del INEGI. Se usa **el censo más reciente anterior a la elección que se predice**: 2010 para "
+        "2015 y 2018, y 2020 para 2021, 2024 y 2027. Así no se usa información posterior a la elección objetivo.",
+        "",
+        tabla(["Foto", "Censo usado", "Filas", "Con dato del censo", "Sin dato"], [
+            (objetivo, fuente, miles(filas), miles(con_dato), miles(faltan))
+            for objetivo, fuente, filas, con_dato, faltan in cobertura_ext
+        ]),
+        "",
+        "Los municipios sin dato son, en su mayoría, municipios creados después del censo. Se conservan con "
+        "`NaN` y `tiene_eceg_2010 = 0` o `tiene_eceg_2020 = 0`; no se imputan en la Fase 3. Las reglas de "
+        "agregación y el detalle de la cobertura están en `reporte_externos.md`.",
         "",
         "## Municipios que cambiaron de territorio",
         "",
@@ -672,8 +726,8 @@ def escribir_diccionario(base: pd.DataFrame, entrenamiento: pd.DataFrame, predic
         "## Columnas de `tabla_municipios_entrenamiento` y `tabla_municipios_2027`",
         "",
         "El ejemplo es **Puebla en la foto de 2021**. Todo, menos las dos columnas del final, se calcula solo con "
-        "elecciones anteriores a la que se predice, así que todo sirve para predecir. «Última» quiere decir la más "
-        "reciente con dato.",
+        "información anterior a la elección que se predice (historial electoral y censo), así que todo sirve para "
+        "predecir. «Última» quiere decir la más reciente con dato.",
         "",
         *tablas_columnas(DESC_FOTO, puebla, con_uso=False),
         "## Revisiones que hace el script",
@@ -686,12 +740,16 @@ def escribir_diccionario(base: pd.DataFrame, entrenamiento: pd.DataFrame, predic
         "- ✅ Aguascalientes 2021 y 2024 coincide con el tablero del INE.",
         "- ✅ Los grupos de edad, de sexo y de tipo de sección suman exactamente la lista nominal.",
         "- ✅ En los municipios que no cambiaron de territorio, el historial rearmado es idéntico al original.",
-        "- ✅ Ninguna foto usa datos de la elección que predice ni de las posteriores.",
+        "- ✅ La unión externa conserva las filas, las columnas originales y las dos columnas de respuesta.",
+        "- ✅ Ninguna foto usa datos de la elección que predice ni de las posteriores; el censo externo tampoco "
+        "es posterior a la elección objetivo.",
+        "- ✅ Todas las tasas y porcentajes externos quedan en [0, 1].",
         "",
         "## Cómo se usan después",
         "",
         "1. **Análisis exploratorio (Fase 4):** con `municipio_eleccion` y `tabla_municipios_entrenamiento`. Las "
-        "columnas nuevas que salgan de ahí se agregan a copias de las dos tablas de municipios.",
+        "features externas ya vienen en las dos tablas de municipios; las columnas nuevas que salgan del EDA se "
+        "agregan a copias de esas tablas.",
         "2. **Modelo (Fase 7):** aprende con `tabla_municipios_entrenamiento` (la prueba clave es la foto de 2021) y "
         "llena `abstencion_objetivo` en `tabla_municipios_2027`.",
         "3. **Escenarios (Fase 8):** se hace una copia de `tabla_municipios_2027` con la intervención supuesta. Es el "
@@ -745,6 +803,18 @@ def main(argv=None) -> int:
         resumenes.append(resumen)
     entrenamiento = pd.concat(fotos[:-1], ignore_index=True)
     prediccion = fotos[-1]
+
+    ext2010, ext2020 = cargar_o_construir_agregados()
+    original_entrenamiento = entrenamiento[COL_FOTO_BASE]
+    original_prediccion = prediccion[COL_FOTO_BASE]
+    entrenamiento = unir_externos(entrenamiento, ext2010, ext2020)
+    prediccion = unir_externos(prediccion, ext2010, ext2020)
+    avisos = [*validar_externos(original_entrenamiento, entrenamiento),
+              *validar_externos(original_prediccion, prediccion)]
+    if avisos:
+        detener("features externas fuera de rango: " + "; ".join(avisos))
+    entrenamiento = entrenamiento[COL_FOTO]
+    prediccion = prediccion[COL_FOTO]
 
     tablas = {BASE: base[COL_BASE], ENTRENAMIENTO: entrenamiento, PREDICCION: prediccion}
     for destino, df in tablas.items():

@@ -8,7 +8,7 @@ Este documento explica qué nos pide el reto, cómo vamos a resolverlo y, sobre 
 
 **Problema.** El INE tiene recursos limitados para promover la participación en las elecciones. El reto pide anticipar en qué zonas del país podría bajar la participación, para decidir dónde actuar primero.
 
-**Herramienta que vamos a hacer.** Un modelo de regresión que usa los datos del CCPC del INE de 2009 a 2024 para predecir la **tasa de abstención por municipio** en una elección futura. A partir de esa predicción se clasifica el riesgo con un semáforo, en dos escenarios (sin intervención y con una intervención hipotética). **Ya definimos que una zona del proyecto es un municipio. Todos los campos de los archivos del INE están disponibles para el análisis y la preparación de variables; no se incorporan fuentes externas.** Las demás definiciones y la aprobación para modelar siguen pendientes.
+**Herramienta que vamos a hacer.** Un modelo de regresión que usa los datos del CCPC del INE de 2009 a 2024 para predecir la **tasa de abstención por municipio** en una elección futura. A partir de esa predicción se clasifica el riesgo con un semáforo, en dos escenarios (sin intervención y con una intervención hipotética). **Ya definimos que una zona del proyecto es un municipio. Todos los campos de los archivos del INE están disponibles para el análisis y la preparación de variables. Como fuentes externas sociodemográficas se incorporan los ECEG 2010 y 2020 del INEGI; los Censos Económicos no se usan porque sus datos abiertos son solo nacionales.** Las demás definiciones y la aprobación para modelar siguen pendientes.
 
 **Con qué empezamos.** Con la Fase 1 de carga y limpieza que ya está planteada en el [plan](PLAN.md): unir los archivos del CCPC, conservar todas sus columnas, uniformar formatos, preparar los grupos de edad y revisar la calidad. La comparabilidad territorial y la tabla municipal corresponden a las fases siguientes.
 
@@ -117,7 +117,7 @@ Los archivos tienen 16 columnas, las mismas en los seis años:
 
 > **Sobre `SEXO`:** confirmamos que `0` es hombre y `1` es mujer comparando el archivo de Aguascalientes 2021 contra el tablero del INE. El diccionario de 2024 identifica `2` como no binario; el tablero y la suma de los 32 archivos de ese año coinciden en **105 personas** con ese código.
 
-**Uso en el proyecto.** Todos los campos de esta tabla se conservan y están disponibles para el análisis y la preparación de variables. Esto incluye `SEXO`, `EDAD`, `TIPOSEC`, `DEF` y `DEL`, además de los conteos y los demás campos. La restricción es sobre las fuentes externas, no sobre las variables que ya proporciona el INE. Al construir la tabla municipal se documenta cómo se resume o representa cada campo; la selección de predictores se evalúa después del EDA y solo usa información disponible antes de la elección que se quiere predecir.
+**Uso en el proyecto.** Todos los campos de esta tabla se conservan y están disponibles para el análisis y la preparación de variables. Esto incluye `SEXO`, `EDAD`, `TIPOSEC`, `DEF` y `DEL`, además de los conteos y los demás campos. La restricción es sobre las fuentes externas: solo se admiten los ECEG 2010 y 2020 del INEGI, elegidos según la fecha de la elección; no se usan los Censos Económicos porque sus datos abiertos son solo nacionales. Las variables que ya proporciona el INE no tienen restricción. Al construir la tabla municipal se documenta cómo se resume o representa cada campo; la selección de predictores se evalúa después del EDA y solo usa información disponible antes de la elección que se quiere predecir.
 
 ### La regla que siempre se cumple
 
@@ -196,11 +196,25 @@ Los distritos federales (`DEF`) y locales (`DEL`) están disponibles para el an�
 
 ### ¿Qué NO trae esta base?
 
-- Escolaridad, ingreso o nivel de marginación.
-- Si la persona es indígena o afromexicana (el tablero tiene ese filtro, pero esa variable no aparece en los archivos que revisamos).
+- Ingreso, marginación ni condición de actividad económica detallada. La escolaridad y otras características sociodemográficas se toman de los ECEG 2010 y 2020 (ver abajo).
+- Si la persona es indígena o afromexicana: el CCPC no lo trae, pero el ECEG 2020 sí incluye lengua indígena y población afromexicana agregadas por sección.
 - Mapas o coordenadas (los contornos municipales para nuestros mapas hay que conseguirlos aparte).
 - Voto nulo ni por quién se votó.
 - Votos en casillas especiales ni de personas que viven en el extranjero. Además, la sección es la del domicilio de la credencial. Por eso las cifras no cuadran exacto con los cómputos distritales, y hay que aclararlo en el reporte.
+
+### Fuentes externas: ECEG 2010 y 2020
+
+Para complementar el CCPC se usan los **ECEG (Entorno para la Construcción de Escenarios Geoelectorales)** del INEGI, derivados de los Censos de Población y Vivienda 2010 y 2020. Vienen a nivel de sección y se agregan a municipio con la misma lógica del CCPC: se suman los conteos y las tasas se calculan como `suma(numerador) / suma(denominador)`; los promedios se ponderan por su denominador.
+
+- **2010:** 32 archivos estatales; `CLAVEGEO` de 13 dígitos; el municipio se obtiene con los dígitos `[0:2]` (entidad) y `[5:8]` (municipio). Cubre 2,447 municipios.
+- **2020:** un archivo nacional de secciones con `ENTIDAD`, `MUNICIPIO` y `SECCION`. Cubre 2,468 municipios.
+- **Vintage:** para cada fila se usa el censo más reciente **anterior** a la elección objetivo: 2010 para 2015 y 2018; 2020 para 2021, 2024 y 2027. Así no se usa información posterior a la elección que se quiere predecir.
+- **Variables:** el set curado cubre educación, empleo, vivienda y servicios, lengua indígena, migración, limitaciones, jefatura femenina, tamaño del hogar y dependencia. El detalle y las reglas de agregación están en `docs/reports/reporte_externos.md`.
+- **Limpieza:** el ECEG 2010 de Chiapas trae `GRAPROES` escalado por 100; se corrige dividiendo entre 100 y se descartan los valores resultantes mayores a 30 años. También se tratan como faltantes los valores negativos (centinela `-6` en seis secciones de 2020).
+- **Cobertura:** los municipios creados después del censo quedan sin dato: 11 en 2015 y 16 en 2018 con ECEG 2010; 9 en 2024 y 9 en 2027 con ECEG 2020. En 2021 el ECEG 2020 cubre todos los municipios. Se conservan con `NaN` y una marca de cobertura; no se imputan en este paso.
+- **Censos Económicos:** no se usan. Los conjuntos de datos abiertos descargados (2024, 2014 y 2000) son solo nacionales y no permiten un cruce municipal.
+
+El cruce forma parte de las tablas canónicas `tabla_municipios_entrenamiento` y `tabla_municipios_2027`: cada una suma 31 columnas externas (`censo_fuente`, `tiene_eceg_2010`, `tiene_eceg_2020` y 28 `ext_*`). `fase3.py` hace la unión al construir las tablas; `scripts/features_externas_municipio.py` permite reconstruir el caché y actualizar las tablas existentes sin volver a correr las Fases 1 y 2. Las dos columnas de respuesta (`conocidos_objetivo` y `abstencion_objetivo`) se conservan sin cambios.
 
 ### Cosas a cuidar cuando limpiemos
 
@@ -224,7 +238,7 @@ Los distritos federales (`DEF`) y locales (`DEL`) están disponibles para el an�
 
 ## 7. Pendiente por decidir
 
-La zona municipal, el objetivo de regresión de la tasa de abstención y la disponibilidad de todos los campos de los archivos del INE, sin fuentes externas, ya están definidos. Las demás decisiones las tomamos después de entender los datos, en la Fase 5 del [plan](PLAN.md). Las definiciones y sus motivos se documentan aquí y en esa fase; si una cambia aquí, se cambia también allá.
+La zona municipal, el objetivo de regresión de la tasa de abstención, la disponibilidad de todos los campos de los archivos del INE y el uso de los ECEG 2010 y 2020 como fuentes externas sociodemográficas ya están definidos. Las demás decisiones las tomamos después de entender los datos, en la Fase 5 del [plan](PLAN.md). Las definiciones y sus motivos se documentan aquí y en esa fase; si una cambia aquí, se cambia también allá.
 
 1. **¿Qué es una "zona"?** Definido: municipio para el modelo, los escenarios, el semáforo, los mapas y el reporte. Las secciones se conservan como insumo de agregación y validación.
 2. **¿Qué predice el modelo?** Definido: la tasa de abstención municipal mediante regresión. A partir de esa predicción se clasifica el riesgo; falta decidir los niveles y cortes del semáforo.
@@ -232,7 +246,7 @@ La zona municipal, el objetivo de regresión de la tasa de abstención y la disp
 4. **Cuántos niveles tiene el semáforo y dónde van los cortes** (por nivel de abstención o por orden de los municipios). Son los mismos para todas las intervenciones.
 5. **Las intervenciones hipotéticas:** pueden ser varias, una por grupo (por ejemplo, jóvenes, personas mayores, mujeres u hombres, o secciones rurales). Para cada una: a quién se dirige, dónde se aplica y qué efecto se supone.
 6. **Tratamiento de `NS`:** propuesta de excluirlo, y probar cuánto cambia el resultado si no se excluye.
-7. **Datos:** definido, todos los campos de los archivos del CCPC del INE están disponibles para el análisis y la preparación de variables. No se incorporan fuentes externas como Censo o marginación. La representación y selección de predictores se evalúa después del EDA. La cartografía municipal se solicita al INE como soporte de los mapas; su uso y entrega están por confirmar.
+7. **Datos:** definido, todos los campos de los archivos del CCPC del INE están disponibles para el análisis y la preparación de variables. Se incorporan como fuentes externas sociodemográficas los ECEG 2010 y 2020 del INEGI, con la regla de usar el censo más reciente anterior a la elección objetivo. No se usan los Censos Económicos (datos abiertos solo nacionales) ni fuentes de marginación. La representación y selección de predictores se evalúa después del EDA. La cartografía municipal se solicita al INE como soporte de los mapas; su uso y entrega están por confirmar.
 8. **Municipios sin historial, con cambios territoriales o sin dato:** cómo tratarlos y cómo evaluar la cobertura de sus secciones, incluidas las nuevas de 2024.
 9. **Mínimo de casos conocidos por municipio** para tomarlo en cuenta.
 

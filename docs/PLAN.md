@@ -2,7 +2,9 @@
 
 Este plan dice qué hacemos en cada fase, qué sale de ahí y cuándo se puede pasar a la siguiente. Si la condición no se cumple, nos quedamos en esa fase.
 
-**Objetivo definido:** predecir mediante regresión la tasa de abstención por municipio. **Ya definimos que una zona del proyecto es un municipio.** Todos los campos de los archivos del CCPC del INE están disponibles para el análisis y la preparación de variables; no se incorporan fuentes externas. Los registros por sección son el insumo para construir los agregados municipales. Siguen pendientes las demás definiciones y la aprobación de la Fase 5 para modelar.
+**Objetivo definido:** predecir mediante regresión la tasa de abstención por municipio. **Ya definimos que una zona del proyecto es un municipio.** Todos los campos de los archivos del CCPC del INE están disponibles para el análisis y la preparación de variables. Como fuentes externas sociodemográficas se incorporan los ECEG 2010 y 2020 del INEGI; no se usan los Censos Económicos porque sus datos abiertos disponibles son solo nacionales. Toda fuente externa debe ser anterior a la elección objetivo. Los registros por sección son el insumo para construir los agregados municipales. Siguen pendientes las demás definiciones y la aprobación de la Fase 5 para modelar.
+
+**Fuentes externas:** los ECEG (Entorno para la Construcción de Escenarios Geoelectorales) del INEGI se agregan de sección a municipio y se unen por `EDOCVE` + `MPIOCVE`. Para cada fila se usa el censo más reciente anterior a la elección objetivo: 2010 para 2015 y 2018; 2020 para 2021, 2024 y 2027. Los municipios creados después del censo quedan sin dato y se marcan; no se imputan en este paso. El detalle está en `docs/reports/reporte_externos.md`.
 
 **Trabajo inmediato:** la Fase 1 de carga y limpieza descrita abajo. La comparabilidad territorial y la tabla municipal corresponden a las fases siguientes.
 
@@ -77,8 +79,9 @@ Una fila por municipio y por elección, identificada por `EDOCVE` + `MPIOCVE` + 
 - Información de secciones y distritos, cuya representación municipal se documentará sin asignar un distrito único cuando el municipio abarque varios.
 - Indicadores de participación derivados de los conteos del CCPC, como la proporción de `NS` y, cuando haya historial comparable, tasas anteriores y brecha entre intermedias y presidenciales.
 - Las marcas de la Fase 2 y marcas para municipios con pocos casos conocidos o muchos no especificados.
+- Las features sociodemográficas externas del ECEG 2010/2020, agregadas de sección a municipio y unidas con la regla de vintage (censo anterior a la elección objetivo).
 
-**Qué sale:** tabla de análisis y diccionario de datos (cada variable con su nombre, qué significa y de dónde sale).
+**Qué sale:** tabla de análisis y diccionario de datos (cada variable con su nombre, qué significa y de dónde sale). Las dos tablas de municipios (`tabla_municipios_entrenamiento` y `tabla_municipios_2027`) incluyen las columnas históricas más las externas; las columnas de respuesta se dejan intactas para que las llene el modelo.
 
 Todos los campos originales están disponibles para construir esta tabla y preparar variables. La forma de resumirlos o codificarlos se documenta en el diccionario; la selección de predictores se evalúa después del EDA, respetando la disponibilidad temporal de los datos.
 
@@ -116,7 +119,7 @@ Tablas: **base** = `municipio_eleccion` y **entrenamiento** = `tabla_municipios_
 Con lo que mostró el análisis exploratorio, el equipo decide y lo deja por escrito:
 
 - **Zona:** municipio para el modelo, los escenarios, el semáforo, los mapas y el reporte, acordado por el equipo. La sección se conserva como insumo de agregación y validación.
-- **Datos:** todos los campos de los archivos del CCPC del INE están disponibles para el análisis y la preparación de variables, sin fuentes externas. Falta evaluar la selección y representación de predictores después del EDA.
+- **Datos:** todos los campos de los archivos del CCPC del INE están disponibles para el análisis y la preparación de variables. Se añaden como fuentes externas los ECEG 2010 y 2020 del INEGI, eligiendo para cada fila el censo más reciente anterior a la elección objetivo. No se usan los Censos Económicos porque los datos abiertos disponibles son solo nacionales. Falta evaluar la selección y representación de predictores después del EDA.
 - **Objetivo del modelo:** regresión de la tasa de abstención municipal, ya definido. La tasa se calcula desde los conteos sumados por municipio. La clasificación del riesgo se construye a partir de la predicción; sus niveles y cortes se deciden en el semáforo.
 - **Elección objetivo:** propuesta, la intermedia de 2027.
 - **Semáforo:** cuántos colores y dónde va cada corte (por nivel de abstención o por orden de los municipios). Se fija con el escenario sin intervención y es el mismo para todas las intervenciones.
@@ -135,7 +138,7 @@ Con lo que mostró el análisis exploratorio, el equipo decide y lo deja por esc
 
 **Para qué:** sin mapa no hay entregable.
 
-**Se usan los datos de los archivos del CCPC del INE, sin incorporar fuentes externas al análisis.** Los polígonos solo sirven para dibujar los mapas; no entran al modelo.
+**Se usan los datos de los archivos del CCPC del INE y, como fuentes externas sociodemográficas, los ECEG 2010 y 2020 del INEGI.** Los polígonos solo sirven para dibujar los mapas; no entran al modelo.
 
 Esta fase empieza desde el inicio, en paralelo con las demás.
 

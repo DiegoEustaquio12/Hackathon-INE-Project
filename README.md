@@ -2,7 +2,7 @@
 
 Modelo de regresión que predice la tasa de abstención por municipio con los datos 2009–2024 del CCPC del INE, en dos escenarios (sin y con intervención), y presenta los resultados en mapas con semáforo. **Ya definimos que una zona del proyecto es un municipio.**
 
-Todos los campos de los archivos del INE están disponibles para el análisis y la preparación de variables, incluidos edad, sexo, tipo de sección, distritos, conteos y los demás campos. No se incorporan fuentes externas. La agregación y selección de predictores se evalúa en las fases correspondientes, usando solo información disponible antes de la elección que se busca predecir.
+Todos los campos de los archivos del INE están disponibles para el análisis y la preparación de variables, incluidos edad, sexo, tipo de sección, distritos, conteos y los demás campos. Como fuentes externas sociodemográficas se incorporan los ECEG 2010 y 2020 del INEGI, eligiendo para cada fila el censo más reciente anterior a la elección objetivo; no se usan los Censos Económicos porque sus datos abiertos son solo nacionales. La agregación y selección de predictores se evalúa en las fases correspondientes, usando solo información disponible antes de la elección que se busca predecir.
 
 El contexto del reto, los entregables y la explicación de los datos están en [docs/reto_y_datos.md](docs/reto_y_datos.md). El plan de trabajo por fases está en [docs/PLAN.md](docs/PLAN.md). Si acabas de llegar al equipo, léelos en ese orden.
 
@@ -62,7 +62,7 @@ pip install -r backend/requirements.txt
 |---|---|---|
 | `data/raw/` | CSV originales del CCPC, un directorio por elección (`ConteosCensales2009/` … `2024/`). **No se versiona** | 1 |
 | `data/interim/` | Tabla unificada y limpia (Parquet). **No se versiona** | 1–2 |
-| `data/processed/` | Tabla de análisis por municipio y elección, y tabla de escenarios municipales, agregadas y anonimizadas. **Se versiona y se entrega** | 3, 8 |
+| `data/processed/` | Tabla de análisis por municipio y elección, y tablas municipales de entrenamiento y 2027 (con features ECEG), agregadas y anonimizadas. **Se versiona y se entrega** | 3, 8 |
 | `data/external/` | Cartografía del INE para los polígonos municipales, si el INE autoriza su uso. **No se versiona** | 6 |
 | `ai/notebooks/` | Exploración y EDA | 4 |
 | `ai/src/data_prep/` | Carga, limpieza, consistencia entre años, tabla de análisis | 1–3 |

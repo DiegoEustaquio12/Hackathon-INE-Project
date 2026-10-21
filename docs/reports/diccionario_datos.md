@@ -12,11 +12,12 @@ En las tres, **cada fila es un municipio**. Están en `data/processed/`.
 | `tabla_municipios_entrenamiento` | Una fila por municipio y por foto (2015, 2018, 2021 y 2024): lo que se sabía antes de esa elección y, al final, la abstención que hubo | Que el modelo aprenda (Fase 7) | 9,866 |
 | `tabla_municipios_2027` | Una fila por municipio: lo que se sabe hasta 2024 y, al final, la abstención de 2027 vacía | Que el modelo la llene; va a los mapas | 2,477 |
 
-Las dos tablas de municipios tienen **las mismas columnas**. Cada tabla viene en dos archivos con el mismo contenido: `.csv` (se abre en Excel) y `.parquet` (para el código, con `pd.read_parquet`).
+Las dos tablas de municipios tienen **las mismas columnas**: las 49 históricas más 31 sociodemográficas del ECEG 2010/2020 (`censo_fuente`, `tiene_eceg_*` y 28 `ext_*`). Cada tabla viene en dos archivos con el mismo contenido: `.csv` (se abre en Excel) y `.parquet` (para el código, con `pd.read_parquet`).
 
 ## Cómo leer los números
 
 - Las columnas que empiezan con `pct_` o `abst_` son **proporciones de 0 a 1**: `0.25` quiere decir 25%.
+- Las features `ext_pct_*` y `ext_tasa_*` también son **proporciones de 0 a 1**. Las demás `ext_*` son promedios o razones (por ejemplo, `ext_escolaridad_promedio` está en años).
 - Las que terminan en `_vs_pais` y las de cambio o brecha son **diferencias**: `0.05` quiere decir 5 puntos más.
 - **Vacío no es cero.** Una celda vacía quiere decir que no hay dato (por ejemplo, nadie con dato en el municipio), no que la abstención fue 0.
 - Todos los porcentajes se calculan **sumando primero las personas y dividiendo después**, nunca promediando porcentajes de secciones.
@@ -44,6 +45,20 @@ Ejemplo real: **Puebla en la foto de 2021**.
 | **Abstención que hubo en 2021 (la respuesta)** | **56.1%** |
 
 El modelo practica con estas fotos («con lo que se sabía, ¿cuánto fue la abstención?») y luego llena la columna vacía de 2027.
+
+## Features externas (ECEG)
+
+Además del historial electoral, cada fila trae características sociodemográficas del municipio tomadas del ECEG del INEGI. Se usa **el censo más reciente anterior a la elección que se predice**: 2010 para 2015 y 2018, y 2020 para 2021, 2024 y 2027. Así no se usa información posterior a la elección objetivo.
+
+| Foto | Censo usado | Filas | Con dato del censo | Sin dato |
+|---|---|---|---|---|
+| 2015 | 2010 | 2,458 | 2,447 | 11 |
+| 2018 | 2010 | 2,463 | 2,447 | 16 |
+| 2021 | 2020 | 2,468 | 2,468 | 0 |
+| 2024 | 2020 | 2,477 | 2,468 | 9 |
+| 2027 | 2020 | 2,477 | 2,468 | 9 |
+
+Los municipios sin dato son, en su mayoría, municipios creados después del censo. Se conservan con `NaN` y `tiene_eceg_2010 = 0` o `tiene_eceg_2020 = 0`; no se imputan en la Fase 3. Las reglas de agregación y el detalle de la cobertura están en `reporte_externos.md`.
 
 ## Municipios que cambiaron de territorio
 
@@ -154,7 +169,7 @@ El ejemplo es **Puebla en 2021**. La última columna dice si el dato **sirve par
 
 ## Columnas de `tabla_municipios_entrenamiento` y `tabla_municipios_2027`
 
-El ejemplo es **Puebla en la foto de 2021**. Todo, menos las dos columnas del final, se calcula solo con elecciones anteriores a la que se predice, así que todo sirve para predecir. «Última» quiere decir la más reciente con dato.
+El ejemplo es **Puebla en la foto de 2021**. Todo, menos las dos columnas del final, se calcula solo con información anterior a la elección que se predice (historial electoral y censo), así que todo sirve para predecir. «Última» quiere decir la más reciente con dato.
 
 **Quién es y qué se predice**
 
@@ -238,6 +253,47 @@ El ejemplo es **Puebla en la foto de 2021**. Todo, menos las dos columnas del fi
 | `n_def` | Cuántos distritos federales toca | 5 |
 | `n_del` | Cuántos distritos locales toca | 8 |
 
+**Cobertura del censo externo (ECEG)**
+
+| Columna | Qué significa | Ejemplo |
+|---|---|---|
+| `censo_fuente` | Censo usado en esta fila: 2010 para 2015/2018 y 2020 para 2021/2024/2027 | 2020 |
+| `tiene_eceg_2010` | 1 si el municipio existe en el ECEG 2010; 0 si no (no se imputa) | 1 |
+| `tiene_eceg_2020` | 1 si el municipio existe en el ECEG 2020; 0 si no (no se imputa) | 1 |
+
+**Características sociodemográficas del municipio (ECEG)**
+
+| Columna | Qué significa | Ejemplo |
+|---|---|---|
+| `ext_pct_analfabeta` | Población de 15 años y más analfabeta. Fórmula: `P15YM_AN / P_15YMAS` | 2.3% |
+| `ext_pct_sin_escolaridad` | Población de 15 años y más sin escolaridad. Fórmula: `P15YM_SE / P_15YMAS` | 2.9% |
+| `ext_escolaridad_promedio` | Grado promedio de escolaridad (ponderado por población de 15+). Fórmula: `suma(GRAPROES × P_15YMAS) / suma(P_15YMAS)` | 11.1 años |
+| `ext_pct_primaria_incompleta` | Población de 15 años y más con primaria incompleta. Fórmula: `P15PRI_IN / P_15YMAS` | 4.6% |
+| `ext_pct_secundaria_incompleta` | Población de 15 años y más con secundaria incompleta. Fórmula: `P15SEC_IN / P_15YMAS` | 2.5% |
+| `ext_pct_posbasica` | Población de 18 años y más con educación posbásica. Fórmula: `P18YM_PB / P_18YMAS` | 59.3% |
+| `ext_tasa_participacion` | Población de 12 años y más económicamente activa. Fórmula: `PEA / P_12YMAS` | 62.1% |
+| `ext_tasa_desocupacion` | Población de 12 años y más desocupada. Fórmula: `PDESOCUP / PEA` | 2.3% |
+| `ext_tasa_participacion_femenina` | Mujeres de 12 años y más económicamente activas. Fórmula: `PEA_F / P_12YMAS_F` | 51.6% |
+| `ext_tasa_ocupacion` | Población de 12 años y más ocupada. Fórmula: `POCUPADA / PEA` | 97.7% |
+| `ext_pct_sin_electricidad` | Viviendas habitadas sin energía eléctrica. Fórmula: `VPH_S_ELEC / VIVPAR_HAB*` | 0.2% |
+| `ext_pct_sin_agua_entubada` | Viviendas habitadas sin agua entubada en la vivienda. Fórmula: `VPH_AGUAFV / VIVPAR_HAB*` | 2.2% |
+| `ext_pct_sin_drenaje` | Viviendas habitadas sin drenaje. Fórmula: `VPH_NODREN / VIVPAR_HAB*` | 0.8% |
+| `ext_pct_piso_tierra` | Viviendas habitadas con piso de tierra. Fórmula: `VPH_PISOTI / VIVPAR_HAB*` | 1.2% |
+| `ext_pct_con_internet` | Viviendas habitadas con internet. Fórmula: `VPH_INTER / VIVPAR_HAB*` | 63.7% |
+| `ext_pct_con_computadora` | Viviendas habitadas con computadora, laptop o tablet. Fórmula: `VPH_PC / VIVPAR_HAB*` | 49.1% |
+| `ext_pct_con_celular` | Viviendas habitadas con teléfono celular. Fórmula: `VPH_CEL / VIVPAR_HAB*` | 92.4% |
+| `ext_pct_con_refrigerador` | Viviendas habitadas con refrigerador. Fórmula: `VPH_REFRI / VIVPAR_HAB*` | 89.5% |
+| `ext_pct_con_automovil` | Viviendas habitadas con automóvil o camioneta. Fórmula: `VPH_AUTOM / VIVPAR_HAB*` | 44.8% |
+| `ext_promedio_ocupantes` | Promedio de ocupantes por vivienda (ponderado). Fórmula: `suma(PROM_OCUP × VIVPAR_HAB) / suma(VIVPAR_HAB)` | 3.541 |
+| `ext_pct_limitacion_visual` | Población con limitación para ver, aun usando lentes. Fórmula: `PCLIM_VIS / POBTOT` | 6.6% |
+| `ext_pct_limitacion_motriz` | Población con limitación para vestirse, bañarse o comer. Fórmula: `PCLIM_MOT2 / POBTOT` | 0.6% |
+| `ext_pct_lengua_indigena` | Población de 3 años y más que habla alguna lengua indígena. Fórmula: `P3YM_HLI / P_3YMAS` | 3.1% |
+| `ext_pct_nacido_otra_entidad` | Población nacida en otra entidad. Fórmula: `PNACOE / POBTOT` | 13.5% |
+| `ext_pct_jefatura_femenina` | Población en hogares con persona de referencia mujer. Fórmula: `PHOGJEF_F / POBHOG` | 32.8% |
+| `ext_promedio_hogar` | Promedio de personas por hogar censal. Fórmula: `POBHOG / TOTHOG` | 3.536 |
+| `ext_razon_dependencia` | Razón de dependencia demográfica. Fórmula: `(POB0_14 + POB65_MAS) / POB15_64` | 0.443 |
+| `ext_relacion_hombres_mujeres` | Hombres por cada mujer. Fórmula: `POBMAS / POBFEM` | 0.917 |
+
 **La respuesta (siempre al final)**
 
 | Columna | Qué significa | Ejemplo |
@@ -254,12 +310,33 @@ Si alguna falla, el script se detiene y no guarda nada.
 - ✅ Aguascalientes 2021 y 2024 coincide con el tablero del INE.
 - ✅ Los grupos de edad, de sexo y de tipo de sección suman exactamente la lista nominal.
 - ✅ En los municipios que no cambiaron de territorio, el historial rearmado es idéntico al original.
-- ✅ Ninguna foto usa datos de la elección que predice ni de las posteriores.
+- ✅ La unión externa conserva las filas, las columnas originales y las dos columnas de respuesta.
+- ✅ Ninguna foto usa datos de la elección que predice ni de las posteriores; el censo externo tampoco es posterior a la elección objetivo.
+- ✅ Todas las tasas y porcentajes externos quedan en [0, 1].
 
 ## Cómo se usan después
 
-1. **Análisis exploratorio (Fase 4):** con `municipio_eleccion` y `tabla_municipios_entrenamiento`. Las columnas nuevas que salgan de ahí se agregan a copias de las dos tablas de municipios.
+1. **Análisis exploratorio (Fase 4):** con `municipio_eleccion` y `tabla_municipios_entrenamiento`. Las features externas ya vienen en las dos tablas de municipios; las columnas nuevas que salgan del EDA se agregan a copias de esas tablas.
 2. **Modelo (Fase 7):** aprende con `tabla_municipios_entrenamiento` (la prueba clave es la foto de 2021) y llena `abstencion_objetivo` en `tabla_municipios_2027`.
 3. **Escenarios (Fase 8):** se hace una copia de `tabla_municipios_2027` con la intervención supuesta. Es el mismo modelo y los mismos cortes del semáforo.
 
+## Palabras que usamos
 
+- **Foto:** la tabla de municipios armada como si estuviéramos justo antes de una elección.
+- **Elección que se predice (objetivo):** la elección de la foto; su abstención va al final de la fila.
+- **Intermedia / presidencial:** elección federal sin o con presidente en juego (intermedias: 2009, 2015, 2021 y 2027).
+- **Lista nominal:** personas registradas para votar.
+- **Con dato / conocidos:** personas de las que se sabe si votaron o no (SV + NV).
+- **NS:** personas de la lista de las que no se sabe si votaron.
+- **Sección:** la zona más pequeña en que el INE divide el país; un municipio tiene varias.
+- **Historial rearmado:** el pasado de un municipio recalculado con las secciones que tiene ahora.
+- **Punto:** diferencia entre dos porcentajes (de 40% a 45% son 5 puntos).
+
+## Cambios propuestos para los docs
+
+Los docs no se tocan en esta fase. Esto es lo que se propone cambiar:
+
+- `PLAN.md`, Fase 3: la fase produce tres tablas (`municipio_eleccion`, `tabla_municipios_entrenamiento` y `tabla_municipios_2027`) y este diccionario; se corre con `python ai/src/data_prep/fase3.py`.
+- `PLAN.md`, Fase 5, y `reto_y_datos.md`, sección 7, punto 8: el historial de los municipios con cambios de territorio se rearma con sus secciones (falta el acuerdo del equipo).
+- `reto_y_datos.md`, sección 2 («Escenarios»), y `PLAN.md`, Fase 8: la intervención se aplica sobre una copia de `tabla_municipios_2027`, con el mismo modelo.
+- `reto_y_datos.md`, «Niveles de análisis»: los distritos se representan con `n_def`, `n_del`, `def_principal` y `pct_ln_def_principal`, sin asignar un solo distrito al municipio.
