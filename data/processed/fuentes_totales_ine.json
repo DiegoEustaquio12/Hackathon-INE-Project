@@ -1,0 +1,281 @@
+{
+  "pagina_fuente": "https://ine.mx/transparencia/datos-abiertos/visualizacion-datos/conteos-censales-participacion/",
+  "tablero": "https://tableau.ine.mx/t/DECEYEC/views/Prototipo9/Datosgenerales?:embed=y&:showVizHome=no",
+  "libro": "Plataforma Conteos Censales",
+  "version_libro": 65,
+  "publicado_utc": "2026-04-21T20:33:23.406Z",
+  "parametro_anio": "[Parameters].[Parámetro 4]",
+  "filtros_iniciales": {
+    "estrato": "Entidad",
+    "[Sexo]": "(Todo)",
+    "[Edad]": {
+      "quickFilterType": "quantitative",
+      "quickFilterSettings": [
+        1,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "fn": "[federated.05dk1901iir8g010s8wkz0eaa7tv].[none:EDAD:qk]",
+      "columnFullNames": [
+        "[Edad]"
+      ],
+      "included": "include-all",
+      "valueMin": "18",
+      "valueMax": "140",
+      "rangeMin": "18",
+      "rangeMax": "140",
+      "quantitativeMode": "min-max",
+      "numberFormats": [],
+      "startOfWeekEnum": "sow-7-day-period"
+    },
+    "[Etapa de vida]": "(Todo)",
+    "[Grupo quinquenal]": "(Todo)",
+    "[Tiposec]": "(Todo)",
+    "[Estado]": "(Todo)",
+    "[Municipio]": "(Todo)",
+    "[Distrito Federal]": "(Todo)",
+    "[Distrito Local]": "(Todo)",
+    "[Sección]": "(Todo)",
+    "[Población ind/afro]": "(Todo)",
+    "[% Participación]": {
+      "quickFilterType": "quantitative",
+      "quickFilterSettings": [
+        1,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "fn": "[federated.05dk1901iir8g010s8wkz0eaa7tv].[usr:Calculation_2205637929172779048:qk]",
+      "columnFullNames": [
+        "[% Participación]"
+      ],
+      "included": "include-all",
+      "valueMin": "0.47046153130834088",
+      "valueMax": "0.71448773864510576",
+      "rangeMin": "0.47046153130834088",
+      "rangeMax": "0.71448773864510576",
+      "dataMin": "0.47046153130834088",
+      "dataMax": "0.71448773864510576",
+      "quantitativeMode": "min-max",
+      "numberFormats": [],
+      "startOfWeekEnum": "sow-7-day-period"
+    }
+  },
+  "equivalencia_estados": {
+    "AGS": 1,
+    "BC": 2,
+    "BCS": 3,
+    "CAMP": 4,
+    "COAH": 5,
+    "COL": 6,
+    "CHIS": 7,
+    "CHIH": 8,
+    "CDMX": 9,
+    "DGO": 10,
+    "GTO": 11,
+    "GRO": 12,
+    "HGO": 13,
+    "JAL": 14,
+    "MEX": 15,
+    "MICH": 16,
+    "MOR": 17,
+    "NAY": 18,
+    "NL": 19,
+    "OAX": 20,
+    "PUE": 21,
+    "QRO": 22,
+    "QROO": 23,
+    "SLP": 24,
+    "SIN": 25,
+    "SON": 26,
+    "TAB": 27,
+    "TAMPS": 28,
+    "TLAX": 29,
+    "VER": 30,
+    "YUC": 31,
+    "ZAC": 32
+  },
+  "archivos": [
+    {
+      "archivo": "data/external/validacion_ine/captura_sesion.json",
+      "url": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/startSession/viewing?:embed=y&:showVizHome=no&:tabs=yes",
+      "url_final": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/startSession/viewing?:embed=y&:showVizHome=no&:tabs=yes",
+      "metodo": "POST",
+      "formulario": null,
+      "consulta_utc": "2026-10-24T23:18:29.122099+00:00",
+      "content_type": "application/json;charset=UTF-8",
+      "sha256": "eabfa35427588bd6c400a626787b1e2e7b3deb8960e5208247a43edf255ab27d",
+      "bytes": 55565
+    },
+    {
+      "archivo": "data/external/validacion_ine/captura_inicial.txt",
+      "url": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/bootstrapSession/sessions/8BBA33C70BF1473F9D3F7BD1791CEAD1-1:1",
+      "url_final": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/bootstrapSession/sessions/8BBA33C70BF1473F9D3F7BD1791CEAD1-1:1",
+      "metodo": "POST",
+      "formulario": {
+        "sheet_id": "Datos generales",
+        "clientDimension": "{\"w\": 1200, \"h\": 900}",
+        "renderMapsClientSide": "true",
+        "isBrowserRendering": "true",
+        "browserRenderingThreshold": "100",
+        "formatDataValueLocally": "false",
+        "locale": "es_ES",
+        "language": "es",
+        "timezoneOffset": "360"
+      },
+      "consulta_utc": "2026-10-24T23:18:29.657949+00:00",
+      "content_type": "application/octet-stream;charset=UTF-8",
+      "sha256": "dec1f5b5732f74eb64c6b38fbac755512968f83d847d13e383e66f7b64360543",
+      "bytes": 767395
+    },
+    {
+      "archivo": "data/external/validacion_ine/captura_2009.json",
+      "url": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/sessions/8BBA33C70BF1473F9D3F7BD1791CEAD1-1:1/commands/tabdoc/set-parameter-value",
+      "url_final": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/sessions/8BBA33C70BF1473F9D3F7BD1791CEAD1-1:1/commands/tabdoc/set-parameter-value",
+      "metodo": "POST",
+      "formulario": {
+        "globalFieldName": "[Parameters].[Parámetro 4]",
+        "valueString": "2009",
+        "useUsLocale": "false"
+      },
+      "consulta_utc": "2026-10-24T23:18:33.401857+00:00",
+      "content_type": "application/octet-stream;charset=UTF-8",
+      "sha256": "a141263a56c371d358e0a08613dfb0e4033e97ac98699cc21a3fe73f16933e7d",
+      "bytes": 772386
+    },
+    {
+      "archivo": "data/external/validacion_ine/captura_2012.json",
+      "url": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/sessions/8BBA33C70BF1473F9D3F7BD1791CEAD1-1:1/commands/tabdoc/set-parameter-value",
+      "url_final": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/sessions/8BBA33C70BF1473F9D3F7BD1791CEAD1-1:1/commands/tabdoc/set-parameter-value",
+      "metodo": "POST",
+      "formulario": {
+        "globalFieldName": "[Parameters].[Parámetro 4]",
+        "valueString": "2012",
+        "useUsLocale": "false"
+      },
+      "consulta_utc": "2026-10-24T23:18:35.503172+00:00",
+      "content_type": "application/octet-stream;charset=UTF-8",
+      "sha256": "4a7d6e84b40cbc9696e26a31d3a27b36631be2f46d38125b2f7feecaffe294bd",
+      "bytes": 557995
+    },
+    {
+      "archivo": "data/external/validacion_ine/captura_2015.json",
+      "url": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/sessions/8BBA33C70BF1473F9D3F7BD1791CEAD1-1:1/commands/tabdoc/set-parameter-value",
+      "url_final": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/sessions/8BBA33C70BF1473F9D3F7BD1791CEAD1-1:1/commands/tabdoc/set-parameter-value",
+      "metodo": "POST",
+      "formulario": {
+        "globalFieldName": "[Parameters].[Parámetro 4]",
+        "valueString": "2015",
+        "useUsLocale": "false"
+      },
+      "consulta_utc": "2026-10-24T23:18:37.392211+00:00",
+      "content_type": "application/octet-stream;charset=UTF-8",
+      "sha256": "50f953108f7c0bd5dfb0f9645bbe9590429f7d16ff013977bacceb0b8579169e",
+      "bytes": 548728
+    },
+    {
+      "archivo": "data/external/validacion_ine/captura_2018.json",
+      "url": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/sessions/8BBA33C70BF1473F9D3F7BD1791CEAD1-1:1/commands/tabdoc/set-parameter-value",
+      "url_final": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/sessions/8BBA33C70BF1473F9D3F7BD1791CEAD1-1:1/commands/tabdoc/set-parameter-value",
+      "metodo": "POST",
+      "formulario": {
+        "globalFieldName": "[Parameters].[Parámetro 4]",
+        "valueString": "2018",
+        "useUsLocale": "false"
+      },
+      "consulta_utc": "2026-10-24T23:18:39.800135+00:00",
+      "content_type": "application/octet-stream;charset=UTF-8",
+      "sha256": "ed6ccf5c385dfd1e6d49e3ea32556d9b083eda004589b533ffd6799ee0278e1c",
+      "bytes": 559233
+    },
+    {
+      "archivo": "data/external/validacion_ine/captura_2021.json",
+      "url": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/sessions/8BBA33C70BF1473F9D3F7BD1791CEAD1-1:1/commands/tabdoc/set-parameter-value",
+      "url_final": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/sessions/8BBA33C70BF1473F9D3F7BD1791CEAD1-1:1/commands/tabdoc/set-parameter-value",
+      "metodo": "POST",
+      "formulario": {
+        "globalFieldName": "[Parameters].[Parámetro 4]",
+        "valueString": "2021",
+        "useUsLocale": "false"
+      },
+      "consulta_utc": "2026-10-24T23:18:41.775985+00:00",
+      "content_type": "application/octet-stream;charset=UTF-8",
+      "sha256": "673952adb48e26855cf838a28ed7539a8568bc9b08cd8584462949ecdac354e7",
+      "bytes": 548531
+    },
+    {
+      "archivo": "data/external/validacion_ine/captura_2024.json",
+      "url": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/sessions/8BBA33C70BF1473F9D3F7BD1791CEAD1-1:1/commands/tabdoc/set-parameter-value",
+      "url_final": "https://tableau.ine.mx/vizql/t/DECEYEC/w/Prototipo9/v/Datosgenerales/sessions/8BBA33C70BF1473F9D3F7BD1791CEAD1-1:1/commands/tabdoc/set-parameter-value",
+      "metodo": "POST",
+      "formulario": {
+        "globalFieldName": "[Parameters].[Parámetro 4]",
+        "valueString": "2024",
+        "useUsLocale": "false"
+      },
+      "consulta_utc": "2026-10-24T23:18:44.725830+00:00",
+      "content_type": "application/octet-stream;charset=UTF-8",
+      "sha256": "64297d8478651600efffc8a6244f45316bb3725ed088366ab945b71d4414d609",
+      "bytes": 555636
+    }
+  ],
+  "totales_nacionales": [
+    {
+      "AELEC": 2009,
+      "LN": 77481831,
+      "SV": 33316974,
+      "NV": 42298963,
+      "NS": 1865894,
+      "participacion_publicada": 0.441
+    },
+    {
+      "AELEC": 2012,
+      "LN": 76490962,
+      "SV": 47383154,
+      "NV": 28939159,
+      "NS": 168649,
+      "participacion_publicada": 0.621
+    },
+    {
+      "AELEC": 2015,
+      "LN": 83563462,
+      "SV": 36926612,
+      "NV": 41517874,
+      "NS": 5118976,
+      "participacion_publicada": 0.471
+    },
+    {
+      "AELEC": 2018,
+      "LN": 89123997,
+      "SV": 51784399,
+      "NV": 31249856,
+      "NS": 6089742,
+      "participacion_publicada": 0.624
+    },
+    {
+      "AELEC": 2021,
+      "LN": 93532133,
+      "SV": 46389189,
+      "NV": 43099624,
+      "NS": 4043320,
+      "participacion_publicada": 0.518
+    },
+    {
+      "AELEC": 2024,
+      "LN": 98330348,
+      "SV": 54899228,
+      "NV": 37105466,
+      "NS": 6325654,
+      "participacion_publicada": 0.597
+    }
+  ],
+  "oficiales_sha256": "a9f6d8f8b5f865c28f10a3c52f9613d44c93da2a3266accb384a1f4f966ce7a9",
+  "metodo": "Respuestas públicas de Tableau: Tabla General y Totales Generales. Sin CSV originales del proyecto."
+}

@@ -28,6 +28,7 @@ import pandas as pd
 
 from ccpc import ANIOS, CONTEOS, PROCESSED, RAIZ, REPORTES, leer_tabla
 from fase1 import detener
+from validacion_ine import bloque_validacion_ine
 
 SECCIONES = RAIZ / "data" / "interim" / "secciones.parquet"
 CATALOGO = PROCESSED / "catalogo_municipios.csv"
@@ -573,10 +574,10 @@ def escribir_reporte(por_eleccion, historial, nombre_mpio, por_anio, mun, catalo
         tabla(["Estado", "Clave", "Escrituras (años)", "Nombre elegido"],
               [(estado(e), m, f["variantes_nombre"], f["nombre_municipio"]) for (e, m), f in reales.iterrows()]),
         "",
-        "## 8. Pendiente",
+        "## 8. Validación oficial y decisiones pendientes",
         "",
-        "- **Comparar con el tablero del INE** (punto 5 de la Fase 2): falta que alguien del equipo exporte las "
-        "cifras por estado y elección.",
+        bloque_validacion_ine(),
+        "",
         f"- **Qué hacer con los {len(con_cambio)} municipios con cambios** (decisión 8 de la Fase 5): marcarlos y no "
         "usar su historial anterior al cambio, o rearmar su historial sumando las secciones que hoy les pertenecen. "
         f"De los {len(nuevos)} casos de `nuevo` o `clave_reasignada`, {int(casi_todo.sum())} tienen más del 99% de "
@@ -595,14 +596,14 @@ def escribir_reporte(por_eleccion, historial, nombre_mpio, por_anio, mun, catalo
         f"- `reto_y_datos.md`, «¿Qué es NS?»: en {HUECO} faltan {miles(len(regresan))} secciones que sí están en "
         f"{ANTES_HUECO} y {DESPUES_HUECO}; en {n10} municipios son más del 10% de su lista (sección 6).",
         "- `reto_y_datos.md`, «Lo que falta verificar»: ya se sabe qué municipios se pueden comparar y por qué; "
-        "falta contrastar los totales con el tablero.",
+        "el contraste de totales con el tablero queda documentado en `reporte_validacion_ine.md`.",
         "- `PLAN.md`, Fase 2: anotar que se corre con `python ai/src/data_prep/fase2.py` y que sus salidas son "
         "`catalogo_municipios.csv`, `cambios_secciones.csv` y este reporte.",
         "",
         "## Qué sigue",
         "",
-        "Fase 3: armar la tabla de municipios con este catálogo. El nombre sale de `nombre_municipio`, y las columnas "
-        "`situacion_AAAA` dicen qué parte del historial de cada municipio se puede comparar.",
+        "La Fase 3 ya produjo las tablas municipales y su diccionario. El siguiente trabajo es el EDA de la Fase 4; "
+        "la decisión sobre el historial reconstruido sigue en la Fase 5.",
         "",
     ]
     return "\n".join(r)

@@ -302,9 +302,18 @@ Entre elecciones, los municipios se unen con este catálogo, nunca por nombre. E
 | VERACRUZ (30) | 10 | Alto Lucero de Gutiérrez Barrios (2009, 2012, 2015, 2018, 2021) · Alto Lucero de Gutiérrez Barios (2024) | Alto Lucero de Gutiérrez Barrios |
 | VERACRUZ (30) | 47 | Cosamaloapan de Carpio (2009, 2012, 2015, 2018, 2021) · Cosamaloapan (2024) | Cosamaloapan |
 
-## 8. Pendiente
+## 8. Validación oficial y decisiones pendientes
 
-- **Comparar con el tablero del INE** (punto 5 de la Fase 2): falta que alguien del equipo exporte las cifras por estado y elección.
+<!-- inicio-validacion-ine -->
+
+### Comparación con el tablero del INE
+
+**Completada:** 192/192 combinaciones estado–elección coinciden exactamente en LN, SV, NV y NS; participación, abstención y NS coinciden con el redondeo publicado. Se cumple el punto 5 de la Fase 2.
+
+La comparación se calcula contra los totales actuales de `data/interim/secciones.parquet`; no se confía únicamente en un resultado anterior guardado. Fuente, método y evidencia en [reporte_validacion_ine.md](reporte_validacion_ine.md).
+
+<!-- fin-validacion-ine -->
+
 - **Qué hacer con los 46 municipios con cambios** (decisión 8 de la Fase 5): marcarlos y no usar su historial anterior al cambio, o rearmar su historial sumando las secciones que hoy les pertenecen. De los 24 casos de `nuevo` o `clave_reasignada`, 19 tienen más del 99% de su lista en secciones que ya existían; los otros 5 están hechos solo de secciones nuevas, así que no se sabe de dónde salieron.
 
 ## 9. Cambios propuestos para los docs
@@ -314,9 +323,9 @@ Los docs no se tocan en esta fase. Esto es lo que se propone cambiar:
 - `reto_y_datos.md`, «Lo que cambia con el tiempo»: 254 secciones cambian de municipio (64 en 2021 y 190 en 2024; antes de 2021, ninguna), así que 46 municipios cambian de territorio aunque conserven su clave y su nombre. Además, 5 claves pasan a otro territorio (secciones 3 y 4).
 - `reto_y_datos.md`, «Cosas a cuidar cuando limpiemos»: entre elecciones, los municipios se unen con `catalogo_municipios.csv`, no por nombre ni solo por clave: hay claves reasignadas y nombres repetidos dentro de un estado (secciones 4 y 7).
 - `reto_y_datos.md`, «¿Qué es NS?»: en 2012 faltan 1,048 secciones que sí están en 2009 y 2015; en 66 municipios son más del 10% de su lista (sección 6).
-- `reto_y_datos.md`, «Lo que falta verificar»: ya se sabe qué municipios se pueden comparar y por qué; falta contrastar los totales con el tablero.
+- `reto_y_datos.md`, «Lo que falta verificar»: ya se sabe qué municipios se pueden comparar y por qué; el contraste de totales con el tablero queda documentado en `reporte_validacion_ine.md`.
 - `PLAN.md`, Fase 2: anotar que se corre con `python ai/src/data_prep/fase2.py` y que sus salidas son `catalogo_municipios.csv`, `cambios_secciones.csv` y este reporte.
 
 ## Qué sigue
 
-Fase 3: armar la tabla de municipios con este catálogo. El nombre sale de `nombre_municipio`, y las columnas `situacion_AAAA` dicen qué parte del historial de cada municipio se puede comparar.
+La Fase 3 ya produjo las tablas municipales y su diccionario. El siguiente trabajo es el EDA de la Fase 4; la decisión sobre el historial reconstruido sigue en la Fase 5.

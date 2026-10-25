@@ -6,7 +6,7 @@ Este plan dice qué hacemos en cada fase, qué sale de ahí y cuándo se puede p
 
 **Fuentes externas:** los ECEG (Entorno para la Construcción de Escenarios Geoelectorales) del INEGI se agregan de sección a municipio y se unen por `EDOCVE` + `MPIOCVE`. Para cada fila se usa el censo más reciente anterior a la elección objetivo: 2010 para 2015 y 2018; 2020 para 2021, 2024 y 2027. Los municipios creados después del censo quedan sin dato y se marcan; no se imputan en este paso. El detalle está en `docs/reports/reporte_externos.md`.
 
-**Trabajo inmediato:** la Fase 1 de carga y limpieza descrita abajo. La comparabilidad territorial y la tabla municipal corresponden a las fases siguientes.
+**Estado al 24 de octubre de 2026:** fases 1 a 3 implementadas. La Fase 2 queda cerrada tras validar las 192 combinaciones estado–elección contra el tablero del INE, sin diferencias en los conteos. Evidencia en [reporte_validacion_ine.md](reports/reporte_validacion_ine.md). **Trabajo inmediato:** Fase 4 (análisis exploratorio), avanzando en paralelo la cartografía de la Fase 6. Las decisiones de la Fase 5 siguen pendientes antes de modelar.
 
 | Fase | Qué hacemos | Qué sale de ahí |
 |---|---|---|
@@ -63,6 +63,8 @@ Esta es la fase más importante. Si falla, todo lo demás falla.
 **Qué sale:** reporte de consistencia, clasificación de municipios (con historial comparable, nuevos, con cambios territoriales y sin dato en algún año) y registro de cambios de sus secciones.
 
 **Se pasa cuando:** nuestros totales coinciden con el tablero y sabemos qué municipios no se pueden comparar y por qué. Si algún total no cuadra, se busca la causa antes de seguir.
+
+**Cierre verificado (24/10/2026):** 192/192 estados–elección coinciden en `LN`, `SV`, `NV` y `NS` (768 conteos); participación, abstención y NS coinciden con el redondeo publicado. El catálogo documenta los municipios con cambios y sus motivos. Reproducción: `python scripts/comparar_totales_ine.py`. Véanse el [reporte de validación](reports/reporte_validacion_ine.md) y el [reporte de consistencia](reports/reporte_consistencia.md).
 
 ---
 

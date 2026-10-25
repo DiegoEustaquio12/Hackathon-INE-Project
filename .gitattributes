@@ -1,0 +1,11 @@
+# Detectar texto automaticamente; las reglas siguientes fijan LF entre sistemas.
+* text=auto
+.gitattributes text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.ipynb text eol=lf
+*.parquet binary
+
+# La validacion oficial comprueba el SHA256 de los bytes de este CSV.
+data/processed/totales_oficiales_ine.csv -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

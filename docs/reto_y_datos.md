@@ -10,7 +10,7 @@ Este documento explica qué nos pide el reto, cómo vamos a resolverlo y, sobre 
 
 **Herramienta que vamos a hacer.** Un modelo de regresión que usa los datos del CCPC del INE de 2009 a 2024 para predecir la **tasa de abstención por municipio** en una elección futura. A partir de esa predicción se clasifica el riesgo con un semáforo, en dos escenarios (sin intervención y con una intervención hipotética). **Ya definimos que una zona del proyecto es un municipio. Todos los campos de los archivos del INE están disponibles para el análisis y la preparación de variables. Como fuentes externas sociodemográficas se incorporan los ECEG 2010 y 2020 del INEGI; los Censos Económicos no se usan porque sus datos abiertos son solo nacionales.** Las demás definiciones y la aprobación para modelar siguen pendientes.
 
-**Con qué empezamos.** Con la Fase 1 de carga y limpieza que ya está planteada en el [plan](PLAN.md): unir los archivos del CCPC, conservar todas sus columnas, uniformar formatos, preparar los grupos de edad y revisar la calidad. La comparabilidad territorial y la tabla municipal corresponden a las fases siguientes.
+**Estado actual (24/10/2026).** Las fases 1 a 3 ya cuentan con carga limpia, catálogo de consistencia y tablas municipales. La comparación externa de la Fase 2 quedó validada para los 32 estados en las seis elecciones, sin diferencias en los conteos ([reporte](reports/reporte_validacion_ine.md)). El siguiente trabajo es la Fase 4 de análisis exploratorio, con mapas en paralelo y las decisiones de la Fase 5 pendientes antes de modelar.
 
 **Quién la usaría.** Las áreas del INE que planean y reparten recursos de capacitación electoral y educación cívica, como la DECEyEC y las juntas locales y distritales (por confirmar).
 
@@ -226,12 +226,13 @@ El cruce forma parte de las tablas canónicas `tabla_municipios_entrenamiento` y
 
 ### Lo que falta verificar
 
+- [x] Contrastar `LN`, `SV`, `NV` y `NS` de los 32 estados en las seis elecciones con el tablero oficial. *192/192 combinaciones coinciden; también los porcentajes al redondeo publicado. [Evidencia reproducible](reports/reporte_validacion_ine.md), 24/10/2026.*
 - [x] Que los seis años tengan las mismas columnas. *Sí.*
 - [x] Ver si hay un diccionario de datos dentro de los `.zip`. *Sí, uno por año.*
 - [x] Confirmar el código de `SEXO` en 2024 contra el tablero. *El código `2` corresponde a no binario; son 105 personas.*
-- [ ] Saber qué municipios se pueden comparar entre elecciones y revisar los cambios de sus secciones (Fase 2).
+- [x] Saber qué municipios se pueden comparar entre elecciones y revisar los cambios de sus secciones (Fase 2). *El catálogo y el reporte documentan 46 municipios con cambios territoriales y 254 secciones que cambian de municipio; la decisión sobre su historial reconstruido sigue en la Fase 5.*
 - [x] Contrastar con el tablero la participación de Aguascalientes con ambos sexos juntos. *Coincide en 2021 y 2024.*
-- [x] Averiguar por qué 2012 casi no tiene `NS`. *El INE documenta que se excluyeron cuadernillos no disponibles; falta medir su efecto en la comparabilidad (Fase 2).*
+- [x] Averiguar por qué 2012 casi no tiene `NS`. *El INE documenta que se excluyeron cuadernillos no disponibles. La Fase 2 identificó 1,048 secciones ausentes que reaparecen en 2015; en 66 municipios representan más del 10% de su lista. Su uso en el historial se decidirá con el EDA.*
 - [ ] Conseguir contornos municipales, verificar su correspondencia con los datos y confirmar con el INE que se pueden usar.
 
 ---

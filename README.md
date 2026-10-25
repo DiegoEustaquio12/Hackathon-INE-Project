@@ -6,7 +6,7 @@ Todos los campos de los archivos del INE están disponibles para el análisis y 
 
 El contexto del reto, los entregables y la explicación de los datos están en [docs/reto_y_datos.md](docs/reto_y_datos.md). El plan de trabajo por fases está en [docs/PLAN.md](docs/PLAN.md). Si acabas de llegar al equipo, léelos en ese orden.
 
-**Trabajo inmediato:** la Fase 1 de carga y limpieza que ya está planteada en el [plan](docs/PLAN.md). Las demás definiciones de la Fase 5 siguen pendientes antes de modelar.
+**Trabajo inmediato:** Fase 4, análisis exploratorio. Las fases 1 a 3 ya tienen sus entregables; la validación externa de la Fase 2 coincide en las 192 combinaciones estado–elección del tablero del INE ([evidencia](docs/reports/reporte_validacion_ine.md)). Las definiciones de la Fase 5 siguen pendientes antes de modelar; la Fase 6 de mapas debe avanzar en paralelo.
 
 ## Cómo empezar
 
@@ -48,6 +48,25 @@ El notebook usa rutas relativas (`../../data/raw`), así que debe abrirse desde 
 - `--years 2021 2024` baja solo esas elecciones.
 - `--force` vuelve a descargar un año aunque ya exista.
 
+### Validar los totales de la Fase 2
+
+Con la salida local `data/interim/secciones.parquet` ya generada:
+
+```bash
+python scripts/comparar_totales_ine.py
+```
+
+No necesita red: usa las cifras oficiales normalizadas y su manifiesto, guardados en `data/processed/`. Compara los 32 estados de las seis elecciones, genera `comparacion_totales_ine.csv` y actualiza el [reporte de validación](docs/reports/reporte_validacion_ine.md). Devuelve un código de error si hay diferencias o falta evidencia.
+
+Para obtener una captura nueva del tablero público y reconstruir los agregados oficiales:
+
+```bash
+python scripts/descargar_evidencia_ine.py --tablero
+python scripts/comparar_totales_ine.py --normalizar
+```
+
+Las respuestas originales quedan en `data/external/validacion_ine/` (excluido de Git); el CSV oficial y `fuentes_totales_ine.json` conservan las cifras, fecha, filtros y huellas de la consulta. No se modifican las tablas de análisis ni de entrenamiento.
+
 ### Backend (fase final, opcional)
 
 Tiene sus propias librerías, porque solo sirve resultados ya calculados y no entrena modelos:
@@ -55,6 +74,27 @@ Tiene sus propias librerías, porque solo sirve resultados ya calculados y no en
 ```bash
 pip install -r backend/requirements.txt
 ```
+
+## Saltos de línea y Git
+
+El archivo [`.gitattributes`](.gitattributes) fija saltos de línea **LF** para Python, Markdown, JSON y notebooks, tanto en Windows como en Linux y macOS. Esto evita conversiones a CRLF y diferencias de formato entre integrantes del equipo. Las reglas del repositorio prevalecen sobre `core.autocrlf`; no hace falta cambiar la configuración global de Git.
+
+Los archivos Parquet se tratan como binarios. `data/processed/totales_oficiales_ine.csv` tiene una excepción `-text`: Git conserva sus bytes originales porque la validación oficial comprueba su SHA256. Cambiar sus saltos de línea también cambiaría esa huella, aunque las cifras fueran iguales. Para ese archivo, la comprobación de espacios de Git reconoce CRLF como terminación válida y conserva las comprobaciones habituales de espacios sobrantes.
+
+Al editar los archivos de código y documentación, configura el editor para guardar con LF. Puedes consultar las reglas y el formato actual con:
+
+```bash
+git check-attr text eol -- ai/tests/test_validacion_ine.py scripts/descargar_evidencia_ine.py
+git ls-files --eol
+```
+
+Si Git ya había preparado el CSV oficial antes de añadir estas reglas, actualiza únicamente ese archivo en el área de preparación:
+
+```bash
+git add --renormalize -- data/processed/totales_oficiales_ine.csv
+```
+
+Evita una normalización masiva de los datos: esta excepción permite conservar la evidencia sin cambiar las tablas de análisis.
 
 ## Estructura
 
