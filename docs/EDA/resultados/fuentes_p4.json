@@ -1,0 +1,15 @@
+{
+  "pregunta": 4,
+  "archivos": {
+    "data/processed/municipio_eleccion.parquet": "3cc748d1fc5606f431e2b805b08a4a44f7d3cc4d9aa7845bbc70ef32e84160c1",
+    "data/processed/tabla_municipios_entrenamiento.parquet": "cbe9228d078ba68b7463f3e9858c75c2af1ad9476f986ad15fe04949b003567d",
+    "ai/src/eda/eda_p4.py": "97d5c093cbd8ebb0dbfa78c4c387fea9e08af30d9fda80eebd3057edefa6cf52",
+    "ai/src/eda/eda_common.py": "0662b64f5b6a3bc92234759c4a019a4837e18219dad29ea94418562372d7c4b3",
+    "data/interim/ccpc/ccpc_2009.parquet": "467c6bad5e26a23199faf4fcabc0b29c6d787585b3a4d4c74028f69311585b67",
+    "data/interim/ccpc/ccpc_2012.parquet": "4f218799e29a8ac9aa02ad485163b5a731d17f382abd4bbf0fe44f233241ca8e",
+    "data/interim/ccpc/ccpc_2015.parquet": "5a37c77fc0b52d418698b92d1464c4a4e84df2cfd5c99b66382bec1d2172b1b5",
+    "data/interim/ccpc/ccpc_2018.parquet": "313e160754cc18b10d40f001b2529ed6e35c08ef3b2e701b7048072245698956",
+    "data/interim/ccpc/ccpc_2021.parquet": "59d9e94b65f0a59b5729545c241741bdcf7594b14b4d29d2acfa1b5385584376",
+    "data/interim/ccpc/ccpc_2024.parquet": "886c0d609caf990ea7c68e5b4666f4d4fd68c9ea295ca2958f604d1ebb5b87ac"
+  }
+}

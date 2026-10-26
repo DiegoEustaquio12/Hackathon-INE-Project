@@ -1,0 +1,3 @@
+foto,cortes_prev,cortes_obj_terciles,cambia_color_nivel_fijo,cambia_color_por_orden,rojos_nivel_fijo,rojos_prev,rojo_previo_sigue_rojo_nivel,rojo_previo_sigue_rojo_orden,verde_sube_a_rojo_nivel,verde_sube_a_rojo_orden
+2015,"[np.float64(47.9), np.float64(60.4)]","[np.float64(41.3), np.float64(55.6)]",40.10739364,39.85956216,18.83519207,33.33333333,40.39653036,60.09913259,1.48698885,4.33705081
+2021,"[np.float64(41.2), np.float64(55.5)]","[np.float64(32.0), np.float64(45.8)]",50.35109459,54.97728211,14.91119372,33.33333333,29.61586121,51.92069393,1.11524164,6.44361834

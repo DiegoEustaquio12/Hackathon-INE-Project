@@ -1,0 +1,5 @@
+eleccion,comparacion,municipios,enlaces_dirigidos,relacion_con_promedio_vecinos,indice_moran,probabilidad_permutacion
+2021,Nacional,1740,8178,0.69054124,0.52001195,0.00100000
+2021,Dentro del estado,1740,8178,0.46768613,0.30772039,0.00100000
+2024,Nacional,1740,8178,0.70489258,0.53814686,0.00100000
+2024,Dentro del estado,1740,8178,0.44575830,0.28563793,0.00100000

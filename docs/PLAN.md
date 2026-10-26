@@ -112,6 +112,8 @@ Tablas: **base** = `municipio_eleccion` y **entrenamiento** = `tabla_municipios_
 
 **Qué sale:** `reporte_eda.md` con las respuestas; cada cifra dice qué código la produjo.
 
+**Reproducción:** `python scripts/ejecutar_eda.py` comprueba la cartografía y ejecuta en paralelo `ai/src/eda/eda_p1.py` a `eda_p10.py`. Reúne las diez secciones en `docs/EDA/reporte_eda.md` solo si todos los procesos terminan correctamente. Las tablas, fuentes y salidas de terminal quedan en `docs/EDA/resultados/`. Cada pregunta también se puede ejecutar por separado para actualizar su sección. La pregunta 10 usa el mapa de `scripts/descargar_cartografia_eda.py`; la unión exploratoria no sustituye la revisión final de la Fase 6.
+
 **Se pasa cuando:** las 10 preguntas tienen respuesta.
 
 ---

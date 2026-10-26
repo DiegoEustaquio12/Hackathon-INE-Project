@@ -1,0 +1,9 @@
+{
+  "pregunta": 2,
+  "archivos": {
+    "data/processed/municipio_eleccion.parquet": "3cc748d1fc5606f431e2b805b08a4a44f7d3cc4d9aa7845bbc70ef32e84160c1",
+    "data/processed/tabla_municipios_entrenamiento.parquet": "cbe9228d078ba68b7463f3e9858c75c2af1ad9476f986ad15fe04949b003567d",
+    "ai/src/eda/eda_p2.py": "36a4cd4a49c31808d99da4601a3b15488f38d68f18f51d7e453a52199b09b789",
+    "ai/src/eda/eda_common.py": "0662b64f5b6a3bc92234759c4a019a4837e18219dad29ea94418562372d7c4b3"
+  }
+}

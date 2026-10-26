@@ -5,6 +5,7 @@ __pycache__/
 *.pyc
 .ipynb_checkpoints/
 .pytest_cache/
+docs/EDA/resultados/*_salida.log
 
 # Node
 node_modules/

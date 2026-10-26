@@ -1,0 +1,11 @@
+{
+  "pregunta": 8,
+  "archivos": {
+    "data/processed/municipio_eleccion.parquet": "3cc748d1fc5606f431e2b805b08a4a44f7d3cc4d9aa7845bbc70ef32e84160c1",
+    "data/processed/tabla_municipios_entrenamiento.parquet": "cbe9228d078ba68b7463f3e9858c75c2af1ad9476f986ad15fe04949b003567d",
+    "ai/src/eda/eda_p8.py": "560b9f006eef8530e798f59a73970c3ae3133895f9a86a4e09469c32ca8bd75a",
+    "ai/src/eda/eda_common.py": "0662b64f5b6a3bc92234759c4a019a4837e18219dad29ea94418562372d7c4b3",
+    "data/processed/catalogo_municipios.csv": "08ffa883f66353d68aedb081c579c1f29efc9149213a9dbe324c732f5e812228",
+    "data/interim/secciones.parquet": "b0e3bcaa2cfad18bb1392445388549dde9a81ed7c15ba3a20edfbbda1aea79ef"
+  }
+}

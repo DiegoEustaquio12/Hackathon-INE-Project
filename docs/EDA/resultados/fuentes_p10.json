@@ -1,0 +1,17 @@
+{
+  "pregunta": 10,
+  "archivos": {
+    "data/processed/municipio_eleccion.parquet": "3cc748d1fc5606f431e2b805b08a4a44f7d3cc4d9aa7845bbc70ef32e84160c1",
+    "data/processed/tabla_municipios_entrenamiento.parquet": "cbe9228d078ba68b7463f3e9858c75c2af1ad9476f986ad15fe04949b003567d",
+    "ai/src/eda/eda_p10.py": "ba7124b660c7ffb906eb5835cbac2d9f4033e04b0415cba7215482b59ada1d19",
+    "ai/src/eda/eda_common.py": "0662b64f5b6a3bc92234759c4a019a4837e18219dad29ea94418562372d7c4b3",
+    "data/processed/tabla_municipios_2027.parquet": "0d25b5f191d2b26f848fa0f27adfdfcffda650a24fb9c9fdeb0b9f53dcd0dd83",
+    "data/external/cartografia/mun22gw/mun22gw.shp": "4b13a583d122af090cffe8f8b9c2d637f6690d5ed1db19c6fd277c8af1c06450",
+    "data/external/cartografia/mun22gw/mun22gw.shx": "b66d6bc0a3714cdf0b996ef29902dd86ea2f585133e070068b650a77aa1797ea",
+    "data/external/cartografia/mun22gw/mun22gw.dbf": "d46f450d6e514e620d3647c42cc2b64a5a5e1c42b432e6a5b94b9329a1e15d6f",
+    "data/external/cartografia/mun22gw/mun22gw.prj": "a02a27b1d1982c8516d83398e85a3c8b1aef1713c13ef4d84d7bde17430c07c4",
+    "data/external/cartografia/mun22gw/fuente.json": "a6907da08d2f6a691ddebc30044479344fa5ffb9a78ed6ab864cca088b374269"
+  },
+  "semilla": 20261025,
+  "permutaciones": 999
+}

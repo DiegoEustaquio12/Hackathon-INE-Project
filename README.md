@@ -6,7 +6,7 @@ Todos los campos de los archivos del INE están disponibles para el análisis y 
 
 El contexto del reto, los entregables y la explicación de los datos están en [docs/reto_y_datos.md](docs/reto_y_datos.md). El plan de trabajo por fases está en [docs/PLAN.md](docs/PLAN.md). Si acabas de llegar al equipo, léelos en ese orden.
 
-**Trabajo inmediato:** Fase 4, análisis exploratorio. Las fases 1 a 3 ya tienen sus entregables; la validación externa de la Fase 2 coincide en las 192 combinaciones estado–elección del tablero del INE ([evidencia](docs/reports/reporte_validacion_ine.md)). Las definiciones de la Fase 5 siguen pendientes antes de modelar; la Fase 6 de mapas debe avanzar en paralelo.
+Las fases 1 a 3 ya tienen sus entregables; la validación externa de la Fase 2 coincide en las 192 combinaciones estado–elección del tablero del INE ([evidencia](docs/reports/reporte_validacion_ine.md)). La Fase 4 tiene análisis reproducibles para las diez preguntas y un [reporte único](docs/EDA/reporte_eda.md). Las definiciones de la Fase 5 siguen pendientes antes de modelar; la Fase 6 de mapas debe avanzar en paralelo.
 
 ## Cómo empezar
 
@@ -67,6 +67,25 @@ python scripts/comparar_totales_ine.py --normalizar
 
 Las respuestas originales quedan en `data/external/validacion_ine/` (excluido de Git); el CSV oficial y `fuentes_totales_ine.json` conservan las cifras, fecha, filtros y huellas de la consulta. No se modifican las tablas de análisis ni de entrenamiento.
 
+### Ejecutar el análisis exploratorio (preguntas 1 a 10)
+
+Con las fases 1 a 3 ya ejecutadas y el entorno activado:
+
+```bash
+python scripts/ejecutar_eda.py
+```
+
+El ejecutor usa el Python del entorno activo, comprueba o descarga la cartografía con `scripts/descargar_cartografia_eda.py` y corre `ai/src/eda/eda_p1.py` a `eda_p10.py` en paralelo. Cada pregunta guarda sus tablas y su salida de terminal en `docs/EDA/resultados/`. Cuando las diez terminan correctamente, reúne sus secciones en `docs/EDA/reporte_eda.md`. Si falla una pregunta, conserva el reporte anterior y muestra dónde revisar el error.
+
+Para reducir los procesos simultáneos o repetir una pregunta:
+
+```bash
+python scripts/ejecutar_eda.py --procesos 4
+python ai/src/eda/eda_p5.py
+```
+
+La ejecución individual actualiza únicamente su sección del mismo reporte. Para ejecutar la pregunta 10 por separado, prepara primero el mapa con `python scripts/descargar_cartografia_eda.py`. Las figuras se guardan en `docs/EDA/`. Los comandos anteriores de las preguntas 1 a 3 siguen disponibles como entradas compatibles.
+
 ### Backend (fase final, opcional)
 
 Tiene sus propias librerías, porque solo sirve resultados ya calculados y no entrena modelos:
@@ -104,7 +123,8 @@ Evita una normalización masiva de los datos: esta excepción permite conservar 
 | `data/interim/` | Tabla unificada y limpia (Parquet). **No se versiona** | 1–2 |
 | `data/processed/` | Tabla de análisis por municipio y elección, y tablas municipales de entrenamiento y 2027 (con features ECEG), agregadas y anonimizadas. **Se versiona y se entrega** | 3, 8 |
 | `data/external/` | Cartografía del INE para los polígonos municipales, si el INE autoriza su uso. **No se versiona** | 6 |
-| `ai/notebooks/` | Exploración y EDA | 4 |
+| `ai/notebooks/` | Exploración interactiva de los datos | 4 |
+| `ai/src/eda/` | Un script por pregunta (`eda_p1.py` … `eda_p10.py`) | 4 |
 | `ai/src/data_prep/` | Carga, limpieza, consistencia entre años, tabla de análisis | 1–3 |
 | `ai/src/geo/` | Unión de polígonos con la tabla por estado y municipio | 6 |
 | `ai/src/models/` | Entrenamiento, validación y explicación | 7 |
@@ -112,6 +132,7 @@ Evita una normalización masiva de los datos: esta excepción permite conservar 
 | `ai/artifacts/` | Modelo guardado, métricas y predicciones | 7 |
 | `backend/app/` | API FastAPI (opcional) que **solo lee** `data/processed/` | fase final |
 | `frontend/` | Interfaz con los cuatro mapas (opcional) | fase final |
-| `docs/reports/` | `reporte_calidad.md`, `reporte_eda.md`, diccionario de datos | 1–4 |
+| `docs/reports/` | Reportes de calidad, consistencia, validación y diccionario de datos | 1–3 |
+| `docs/EDA/` | `reporte_eda.md`, gráficas y resultados por pregunta | 4 |
 | `docs/deliverables/` | Reporte metodológico (PDF), presentación y cartas firmadas | — |
 | `scripts/` | Utilidades del repo, como la descarga de datos | — |
