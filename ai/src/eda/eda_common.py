@@ -104,6 +104,22 @@ def write_report(sections, out=RESULTS):
         {"#": number, "Respuesta en una línea": SUMMARIES[number][0], "Decisión que apoya": SUMMARIES[number][1]}
         for number in numbers
     ], columns=["#", "Respuesta en una línea", "Decisión que apoya"])
+    parts.extend(["## Preparación de features posterior al EDA",
+                  "El pipeline de Fase 3 incorpora nueve candidatas temporales al final de ambas tablas municipales: "
+                  "`cambio_presidenciales`, `anios_desde_ultima_intermedia` y "
+                  "`anios_desde_ultima_presidencial`; además, última tasa, promedio y número de presidenciales "
+                  "sin 2012, brecha intermedia–presidencial sin 2012 y cambios entre las dos últimas elecciones "
+                  "conocidas de cada tipo descontando el cambio nacional. La tasa nacional se calcula como "
+                  "NV / (SV + NV) sobre todos los registros del país antes de reconstruir territorios, "
+                  "sin promediar tasas municipales. Se calculan sobre el historial territorial reconstruido, "
+                  "solo con elecciones anteriores al objetivo y tasas conocidas; los antecedentes ausentes "
+                  "quedan vacíos, salvo el conteo de presidenciales, que es cero si hay historial pero ninguna "
+                  "presidencial conocida fuera de 2012. No se elimina 2012 de las variables originales. "
+                  "Se generan copias `*_features_eda` antes de publicar las tablas canónicas. "
+                  "Su mejora predictiva no está demostrada: la Fase 7 debe compararlas contra el mismo modelo "
+                  "sin estas columnas y conservarlas solo si mejoran la evaluación temporal y por estados. "
+                  "Código: `ai/src/data_prep/features_eda.py` y `fase3.py`. Esta preparación no entrena modelos "
+                  "ni modifica las decisiones pendientes de la Fase 5."])
     parts.extend(["## Resumen", markdown(summary)])
     parts.extend(sections[n].strip() for n in numbers)
     display = out.relative_to(ROOT) if out.is_relative_to(ROOT) else out

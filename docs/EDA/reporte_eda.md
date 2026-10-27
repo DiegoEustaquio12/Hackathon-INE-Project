@@ -8,6 +8,10 @@ Aquí van las respuestas a las preguntas de la Fase 4 del plan. Cada una dice **
 
 Salvo donde se indica un cálculo nacional por personas o una ponderación, cada municipio tiene el mismo peso.
 
+## Preparación de features posterior al EDA
+
+El pipeline de Fase 3 incorpora nueve candidatas temporales al final de ambas tablas municipales: `cambio_presidenciales`, `anios_desde_ultima_intermedia` y `anios_desde_ultima_presidencial`; además, última tasa, promedio y número de presidenciales sin 2012, brecha intermedia–presidencial sin 2012 y cambios entre las dos últimas elecciones conocidas de cada tipo descontando el cambio nacional. La tasa nacional se calcula como NV / (SV + NV) sobre todos los registros del país antes de reconstruir territorios, sin promediar tasas municipales. Se calculan sobre el historial territorial reconstruido, solo con elecciones anteriores al objetivo y tasas conocidas; los antecedentes ausentes quedan vacíos, salvo el conteo de presidenciales, que es cero si hay historial pero ninguna presidencial conocida fuera de 2012. No se elimina 2012 de las variables originales. Se generan copias `*_features_eda` antes de publicar las tablas canónicas. Su mejora predictiva no está demostrada: la Fase 7 debe compararlas contra el mismo modelo sin estas columnas y conservarlas solo si mejoran la evaluación temporal y por estados. Código: `ai/src/data_prep/features_eda.py` y `fase3.py`. Esta preparación no entrena modelos ni modifica las decisiones pendientes de la Fase 5.
+
 ## Resumen
 
 | # | Respuesta en una línea | Decisión que apoya |
@@ -378,4 +382,4 @@ python ai/src/eda/eda_p4.py
 python ai/src/eda/eda_p10.py
 ```
 
-Tablas, salidas de terminal y manifiestos de fuentes: `docs/EDA/resultados/`. Las figuras están en `docs/EDA/`. Cada sección indica el script que la genera. La pregunta 4 requiere los seis archivos de la Fase 1 y la 8 requiere `data/interim/secciones.parquet`. La cartografía se obtiene con `python scripts/descargar_cartografia_eda.py`. No se modifican las tablas canónicas de `data/processed/`.
+Tablas, salidas de terminal y manifiestos de fuentes: `docs\EDA\resultados/`. Las figuras están en `docs/EDA/`. Cada sección indica el script que la genera. La pregunta 4 requiere los seis archivos de la Fase 1 y la 8 requiere `data/interim/secciones.parquet`. La cartografía se obtiene con `python scripts/descargar_cartografia_eda.py`. No se modifican las tablas canónicas de `data/processed/`.

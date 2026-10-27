@@ -4,7 +4,7 @@ Arma tres tablas a partir de la tabla limpia de la Fase 1 y del catálogo de la 
 
 - municipio_eleccion: una fila por municipio y elección, con todo lo que pasó, tal como viene.
 - tabla_municipios_entrenamiento: una fila por municipio y "foto" (2015, 2018, 2021 y 2024). Cada
-  fila trae solo lo que se sabía antes de esa elección y, al final, su abstención real.
+  fila trae solo lo que se sabía antes de esa elección y su abstención real.
 - tabla_municipios_2027: la misma tabla con todo hasta 2024 y la abstención de 2027 vacía. Es la
   que llena el modelo y la que va a los mapas.
 
@@ -38,6 +38,7 @@ from externos import (
     validar_externos,
 )
 from fase1 import detener
+from features_eda import COLUMNAS as FEATURES_EDA, DESCRIPCIONES as DESC_FEATURES_EDA, calcular_features_temporales
 from fase2 import CAMBIOS_TERRITORIO, CATALOGO, SECCIONES, guardar, miles, tabla
 
 BASE = PROCESSED / "municipio_eleccion"
@@ -89,8 +90,8 @@ COL_FOTO_BASE = [
     "conocidos_objetivo", "abstencion_objetivo",
 ]
 COL_EXTERNOS = columnas_externas()
-# Las dos columnas de respuesta quedan al final, después de las features externas.
-COL_FOTO = [*COL_FOTO_BASE[:-2], *COL_EXTERNOS, *COL_FOTO_BASE[-2:]]
+# Conservar el orden original y añadir las nuevas features después de las respuestas.
+COL_FOTO = [*COL_FOTO_BASE[:-2], *COL_EXTERNOS, *COL_FOTO_BASE[-2:], *FEATURES_EDA]
 
 
 def tasa(numerador: pd.Series, denominador: pd.Series) -> pd.Series:
@@ -291,7 +292,7 @@ def asignar_territorio(sumas: pd.DataFrame, cambios: dict, objetivo: int) -> tup
 
 
 def armar_foto(objetivo, sumas, cambios, base, nacional, cat) -> tuple[pd.DataFrame, dict]:
-    """Una fila por municipio con lo que se sabía antes del objetivo y, al final, su abstención."""
+    """Una fila por municipio con lo que se sabía antes del objetivo y su abstención."""
     territorio = min(objetivo, TERRITORIO_FINAL)
     previas, rearmados, incompletos = asignar_territorio(sumas, cambios, objetivo)
     asignadas = previas[previas["MPIOCVE_T"].notna()].copy()
@@ -337,6 +338,7 @@ def armar_foto(objetivo, sumas, cambios, base, nacional, cat) -> tuple[pd.DataFr
     foto["abst_prom_presidenciales"] = prom_p
     foto["abst_ultima_presidencial_vs_pais"] = up["abstencion"] - up["AELEC"].map(nacional)
     foto["brecha_intermedia_presidencial"] = prom_i - prom_p
+    foto = foto.join(calcular_features_temporales(hist, objetivo, nacional))
     for grupo in GRUPOS_ABST:
         foto[f"abst_{grupo}_ui"] = ui[f"abst_{grupo}"]
 
@@ -381,7 +383,7 @@ def armar_foto(objetivo, sumas, cambios, base, nacional, cat) -> tuple[pd.DataFr
         "incompletos": int(foto["historial_incompleto"].sum()),
         "sin_asignar": {int(a): int(v) for a, v in sin_asignar.items() if v > 0},
     }
-    return foto[COL_FOTO_BASE], resumen
+    return foto[[*COL_FOTO_BASE, *FEATURES_EDA]], resumen
 
 
 def redondear(df: pd.DataFrame) -> pd.DataFrame:
@@ -517,15 +519,17 @@ DESC_FOTO = [
         ("n_del", "Cuántos distritos locales toca"),
     ]),
     *DESC_EXTERNOS,
-    ("La respuesta (siempre al final)", [
+    ("La respuesta", [
         ("conocidos_objetivo", "Personas con dato en la elección que se predice; sirve para dar más peso a los "
          "municipios grandes. Vacío en 2027"),
         ("abstencion_objetivo", "**La abstención de la elección que se predice.** En entrenamiento es la real; en "
          "2027 está vacía y la llena el modelo"),
     ]),
+    ("Features temporales candidatas del EDA (al final; mejora pendiente de evaluar en Fase 7)", DESC_FEATURES_EDA),
 ]
-EN_PUNTOS = {"cambio_intermedias", "abst_ultima_intermedia_vs_pais", "abst_ultima_presidencial_vs_pais",
-             "brecha_intermedia_presidencial"}
+EN_PUNTOS = {"cambio_presidenciales", "cambio_intermedias", "abst_ultima_intermedia_vs_pais", "abst_ultima_presidencial_vs_pais",
+             "brecha_intermedia_presidencial", "brecha_intermedia_presidencial_sin_2012",
+             "cambio_intermedias_vs_pais", "cambio_presidenciales_vs_pais"}
 SIN_COMAS = {"EDOCVE", "MPIOCVE", "AELEC", "eleccion_objetivo", "def_principal",
              "censo_fuente", "tiene_eceg_2010", "tiene_eceg_2020"}
 
@@ -614,9 +618,9 @@ def escribir_diccionario(base: pd.DataFrame, entrenamiento: pd.DataFrame, predic
             ("`municipio_eleccion`", "Lo que pasó en cada municipio en cada elección, tal como viene", "Revisar los "
              "datos y hacer el análisis exploratorio (Fase 4)", miles(len(base))),
             ("`tabla_municipios_entrenamiento`", "Una fila por municipio y por foto (2015, 2018, 2021 y 2024): lo que "
-             "se sabía antes de esa elección y, al final, la abstención que hubo", "Que el modelo aprenda (Fase 7)",
+             "se sabía antes de esa elección y la abstención que hubo", "Que el modelo aprenda (Fase 7)",
              miles(len(entrenamiento))),
-            ("`tabla_municipios_2027`", "Una fila por municipio: lo que se sabe hasta 2024 y, al final, la "
+            ("`tabla_municipios_2027`", "Una fila por municipio: lo que se sabe hasta 2024 y la "
              "abstención de 2027 vacía", "Que el modelo la llene; va a los mapas", miles(len(prediccion))),
         ]),
         "",
@@ -643,7 +647,7 @@ def escribir_diccionario(base: pd.DataFrame, entrenamiento: pd.DataFrame, predic
         "final, la abstención que hubo.",
         "",
         tabla(["Foto", "Usa elecciones", "Última intermedia", "Última presidencial", "Lista nominal de",
-               "Abstención al final"], filas_fotos),
+               "Abstención objetivo"], filas_fotos),
         "",
         "Ejemplo real: **Puebla en la foto de 2021**.",
         "",
@@ -725,11 +729,21 @@ def escribir_diccionario(base: pd.DataFrame, entrenamiento: pd.DataFrame, predic
         *tablas_columnas(DESC_BASE, puebla_base, con_uso=True),
         "## Columnas de `tabla_municipios_entrenamiento` y `tabla_municipios_2027`",
         "",
-        "El ejemplo es **Puebla en la foto de 2021**. Todo, menos las dos columnas del final, se calcula solo con "
+        "El ejemplo es **Puebla en la foto de 2021**. Todo, menos `conocidos_objetivo` y `abstencion_objetivo`, se calcula solo con "
         "información anterior a la elección que se predice (historial electoral y censo), así que todo sirve para "
         "predecir. «Última» quiere decir la más reciente con dato.",
         "",
         *tablas_columnas(DESC_FOTO, puebla, con_uso=False),
+        "Las nueve features temporales candidatas se añaden al final de ambas tablas. "
+        "La variante sin 2012 conserva el historial original y deja vacías las tasas sin antecedentes. "
+        "Su conteo es cero sin presidenciales conocidas fuera de 2012 y vacío si no hay historial asignado. "
+        "Los cambios respecto al país restan el cambio nacional al municipal entre los dos últimos "
+        "antecedentes conocidos de cada tipo; sin dos antecedentes quedan vacíos. La tasa nacional es "
+        "suma(NV) / suma(SV + NV) antes de reconstruir territorios. Todas las diferencias están en "
+        "proporciones (0.01 = 1 punto porcentual). No usan datos de la elección objetivo. "
+        "Su mejora predictiva se evaluará en Fase 7. Para actualizar las tablas existentes: "
+        "`python scripts/features_eda_municipio.py`; primero se validan copias `*_features_eda`.",
+        "",
         "## Revisiones que hace el script",
         "",
         "Si alguna falla, el script se detiene y no guarda nada.",
@@ -758,7 +772,7 @@ def escribir_diccionario(base: pd.DataFrame, entrenamiento: pd.DataFrame, predic
         "## Palabras que usamos",
         "",
         "- **Foto:** la tabla de municipios armada como si estuviéramos justo antes de una elección.",
-        "- **Elección que se predice (objetivo):** la elección de la foto; su abstención va al final de la fila.",
+        "- **Elección que se predice (objetivo):** la elección de la foto; su abstención se guarda en `abstencion_objetivo`.",
         "- **Intermedia / presidencial:** elección federal sin o con presidente en juego (intermedias: 2009, 2015, "
         "2021 y 2027).",
         "- **Lista nominal:** personas registradas para votar.",
@@ -783,6 +797,25 @@ def escribir_diccionario(base: pd.DataFrame, entrenamiento: pd.DataFrame, predic
         "",
     ]
     return "\n".join(r)
+
+
+def revisar_y_guardar_features(df: pd.DataFrame, destino) -> None:
+    """Genera copias, las relee y comprueba que solo se añadan las features."""
+    copia = destino.with_name(destino.name + "_features_eda")
+    df = redondear(df)
+    guardar(df, copia.with_suffix(".parquet"))
+    guardar(df, copia.with_suffix(".csv"))
+    revisada = pd.read_parquet(copia.with_suffix(".parquet"))
+    pd.testing.assert_frame_equal(df, revisada)
+    csv = pd.read_csv(copia.with_suffix(".csv"), dtype=df.dtypes.to_dict())
+    pd.testing.assert_frame_equal(df, csv, check_dtype=False, check_exact=False, atol=1e-6, rtol=0)
+    if destino.with_suffix(".parquet").exists():
+        anterior = pd.read_parquet(destino.with_suffix(".parquet"))
+        originales = [c for c in anterior if c not in FEATURES_EDA]
+        pd.testing.assert_frame_equal(anterior[originales], revisada[originales],
+                                      check_dtype=False, check_exact=False, atol=1e-6, rtol=0)
+    if destino == PREDICCION and revisada[["conocidos_objetivo", "abstencion_objetivo"]].notna().any().any():
+        detener("la tabla 2027 contiene respuestas")
 
 
 def main(argv=None) -> int:
@@ -817,6 +850,9 @@ def main(argv=None) -> int:
     prediccion = prediccion[COL_FOTO]
 
     tablas = {BASE: base[COL_BASE], ENTRENAMIENTO: entrenamiento, PREDICCION: prediccion}
+    # Publicar las tablas ampliadas solo después de revisar copias contra las actuales.
+    for destino, df in ((ENTRENAMIENTO, entrenamiento), (PREDICCION, prediccion)):
+        revisar_y_guardar_features(df, destino)
     for destino, df in tablas.items():
         df = redondear(df)
         guardar(df, destino.with_suffix(".parquet"))

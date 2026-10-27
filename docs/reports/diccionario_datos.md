@@ -9,8 +9,8 @@ En las tres, **cada fila es un municipio**. Están en `data/processed/`.
 | Tabla | Qué trae | Para qué sirve | Filas |
 |---|---|---|---|
 | `municipio_eleccion` | Lo que pasó en cada municipio en cada elección, tal como viene | Revisar los datos y hacer el análisis exploratorio (Fase 4) | 14,779 |
-| `tabla_municipios_entrenamiento` | Una fila por municipio y por foto (2015, 2018, 2021 y 2024): lo que se sabía antes de esa elección y, al final, la abstención que hubo | Que el modelo aprenda (Fase 7) | 9,866 |
-| `tabla_municipios_2027` | Una fila por municipio: lo que se sabe hasta 2024 y, al final, la abstención de 2027 vacía | Que el modelo la llene; va a los mapas | 2,477 |
+| `tabla_municipios_entrenamiento` | Una fila por municipio y por foto (2015, 2018, 2021 y 2024): lo que se sabía antes de esa elección y la abstención que hubo | Que el modelo aprenda (Fase 7) | 9,866 |
+| `tabla_municipios_2027` | Una fila por municipio: lo que se sabe hasta 2024 y la abstención de 2027 vacía | Que el modelo la llene; va a los mapas | 2,477 |
 
 Las dos tablas de municipios tienen **las mismas columnas**: las 49 históricas más 31 sociodemográficas del ECEG 2010/2020 (`censo_fuente`, `tiene_eceg_*` y 28 `ext_*`). Cada tabla viene en dos archivos con el mismo contenido: `.csv` (se abre en Excel) y `.parquet` (para el código, con `pd.read_parquet`).
 
@@ -24,9 +24,9 @@ Las dos tablas de municipios tienen **las mismas columnas**: las 49 históricas 
 
 ## Qué es una foto
 
-Para aprender, el modelo necesita ejemplos con la respuesta conocida. Una **foto** es la tabla de municipios armada como si estuviéramos justo antes de una elección: solo trae lo que se sabía hasta ese momento y, al final, la abstención que hubo.
+Para aprender, el modelo necesita ejemplos con la respuesta conocida. Una **foto** es la tabla de municipios armada como si estuviéramos justo antes de una elección: solo trae lo que se sabía hasta ese momento y la abstención que hubo.
 
-| Foto | Usa elecciones | Última intermedia | Última presidencial | Lista nominal de | Abstención al final |
+| Foto | Usa elecciones | Última intermedia | Última presidencial | Lista nominal de | Abstención objetivo |
 |---|---|---|---|---|---|
 | 2015 | 2009 a 2012 | 2009 | 2012 | 2012 | la real |
 | 2018 | 2009 a 2015 | 2015 | 2012 | 2015 | la real |
@@ -169,7 +169,7 @@ El ejemplo es **Puebla en 2021**. La última columna dice si el dato **sirve par
 
 ## Columnas de `tabla_municipios_entrenamiento` y `tabla_municipios_2027`
 
-El ejemplo es **Puebla en la foto de 2021**. Todo, menos las dos columnas del final, se calcula solo con información anterior a la elección que se predice (historial electoral y censo), así que todo sirve para predecir. «Última» quiere decir la más reciente con dato.
+El ejemplo es **Puebla en la foto de 2021**. Todo, menos `conocidos_objetivo` y `abstencion_objetivo`, se calcula solo con información anterior a la elección que se predice (historial electoral y censo), así que todo sirve para predecir. «Última» quiere decir la más reciente con dato.
 
 **Quién es y qué se predice**
 
@@ -294,12 +294,49 @@ El ejemplo es **Puebla en la foto de 2021**. Todo, menos las dos columnas del fi
 | `ext_razon_dependencia` | Razón de dependencia demográfica. Fórmula: `(POB0_14 + POB65_MAS) / POB15_64` | 0.443 |
 | `ext_relacion_hombres_mujeres` | Hombres por cada mujer. Fórmula: `POBMAS / POBFEM` | 0.917 |
 
-**La respuesta (siempre al final)**
+**La respuesta**
 
 | Columna | Qué significa | Ejemplo |
 |---|---|---|
 | `conocidos_objetivo` | Personas con dato en la elección que se predice; sirve para dar más peso a los municipios grandes. Vacío en 2027 | 1,288,184 |
 | `abstencion_objetivo` | **La abstención de la elección que se predice.** En entrenamiento es la real; en 2027 está vacía y la llena el modelo | 56.1% |
+
+**Features temporales candidatas del EDA (al final; mejora pendiente de evaluar en Fase 7)**
+
+| Columna | Qué significa | Ejemplo |
+|---|---|---|
+| `cambio_presidenciales` | Última abstención presidencial menos la penúltima con dato; vacío si hay menos de dos | +0.1 puntos |
+| `anios_desde_ultima_intermedia` | Años entre el objetivo y la última intermedia con abstención conocida; vacío sin historial | 6 |
+| `anios_desde_ultima_presidencial` | Años entre el objetivo y la última presidencial con abstención conocida; vacío sin historial | 3 |
+| `abst_ultima_presidencial_sin_2012` | Última abstención presidencial conocida excluyendo 2012; vacío sin antecedentes | 37.5% |
+| `abst_prom_presidenciales_sin_2012` | Promedio simple de tasas presidenciales conocidas excluyendo 2012; vacío sin antecedentes | 37.5% |
+| `brecha_intermedia_presidencial_sin_2012` | Promedio de intermedias conocidas menos promedio de presidenciales conocidas sin 2012; vacío si falta uno de los dos tipos | +26.5 puntos |
+| `n_presidenciales_previas_sin_2012` | Número de presidenciales anteriores con tasa conocida excluyendo 2012; cero sin presidenciales y vacío si no hay ningún historial territorial asignado | 1 |
+| `cambio_intermedias_vs_pais` | Cambio entre las dos últimas intermedias conocidas de (abstención municipal menos abstención nacional de cada elección); vacío con menos de dos | +6.2 puntos |
+| `cambio_presidenciales_vs_pais` | Cambio entre las dos últimas presidenciales conocidas de (abstención municipal menos abstención nacional de cada elección); vacío con menos de dos | +0.4 puntos |
+
+Se calculan sobre el historial reconstruido al territorio de cada foto, usando solo
+elecciones anteriores al objetivo. No se imputan antecedentes ausentes. Su aportación
+predictiva debe evaluarse en la Fase 7; no se ha entrenado un modelo para seleccionarlas.
+`python scripts/features_eda_municipio.py` actualiza las tablas existentes conservando
+sus columnas ECEG, sin necesitar los archivos censales originales. Primero guarda y
+valida copias `*_features_eda.csv` y `.parquet`, y después publica las tablas canónicas.
+`fase3.py` también incorpora estas columnas al reconstruir el pipeline completo.
+Las nueve features nuevas se añaden al final, después de las columnas de respuesta,
+conservando el orden original de las demás columnas.
+
+La variante sin 2012 conserva la última tasa presidencial, su promedio simple, el
+número de antecedentes y la brecha respecto al promedio de intermedias. No cambia
+las variables originales ni rellena tasas ausentes. El conteo es cero si existe
+historial territorial asignado pero no una presidencial conocida distinta de 2012;
+queda vacío si no hay ningún historial asignado.
+
+Los cambios respecto al país restan dos diferencias: `(abst_municipal_última −
+abst_país_última) − (abst_municipal_penúltima − abst_país_penúltima)`. Se calculan por
+tipo de elección con los dos últimos antecedentes conocidos; no usan la tasa nacional
+del objetivo. El nivel nacional es `suma(NV) / suma(SV + NV)` de todas las secciones,
+antes de reconstruir territorios. Las tasas y diferencias están en proporciones:
+0.01 equivale a un punto porcentual; las diferencias pueden ser negativas.
 
 ## Revisiones que hace el script
 
@@ -323,7 +360,7 @@ Si alguna falla, el script se detiene y no guarda nada.
 ## Palabras que usamos
 
 - **Foto:** la tabla de municipios armada como si estuviéramos justo antes de una elección.
-- **Elección que se predice (objetivo):** la elección de la foto; su abstención va al final de la fila.
+- **Elección que se predice (objetivo):** la elección de la foto; su abstención se guarda en `abstencion_objetivo`.
 - **Intermedia / presidencial:** elección federal sin o con presidente en juego (intermedias: 2009, 2015, 2021 y 2027).
 - **Lista nominal:** personas registradas para votar.
 - **Con dato / conocidos:** personas de las que se sabe si votaron o no (SV + NV).

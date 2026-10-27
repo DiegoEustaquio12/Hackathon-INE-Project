@@ -170,10 +170,40 @@ Esta fase empieza desde el inicio, en paralelo con las demás.
 
 | Tabla | Qué es | Para qué |
 |---|---|---|
-| `tabla_municipios_entrenamiento` | Cada fila es un municipio en una foto (2015, 2018, 2021 o 2024): lo que se sabía antes de esa elección y, al final, la abstención que hubo | El modelo aprende aquí |
+| `tabla_municipios_entrenamiento` | Cada fila es un municipio en una foto (2015, 2018, 2021 o 2024): lo que se sabía antes de esa elección y la abstención que hubo | El modelo aprende aquí |
 | `tabla_municipios_2027` | Una fila por municipio con lo que se sabe hasta 2024 y la abstención de 2027 vacía | El modelo la llena |
 
 Si el EDA (Fase 4) propone columnas nuevas, se agregan a las dos tablas por igual antes de entrenar.
+
+**Preparación posterior al EDA (26/10/2026):** se incorporan nueve candidatas temporales. Las tres iniciales son:
+`cambio_presidenciales`, `anios_desde_ultima_intermedia` y
+`anios_desde_ultima_presidencial`. Usan el historial territorial reconstruido y solo
+elecciones anteriores al objetivo, con tasas conocidas. No se añaden transformaciones
+redundantes ni variables espaciales. Su mejora predictiva aún no está demostrada:
+la Fase 7 debe compararlas con el modelo sin estas columnas, usando las mismas
+particiones temporales y por estados, y conservar solo las que mejoren la evaluación.
+No se entrenó un modelo ni se tomaron las decisiones pendientes de la Fase 5.
+`fase3.py` genera y valida primero copias `*_features_eda.csv` y `.parquet`, comprueba
+que las columnas previas y las respuestas se conserven y después publica las tablas canónicas.
+Para actualizar tablas existentes sin reconstruir las fuentes ECEG:
+`python scripts/features_eda_municipio.py` (requiere los agregados por sección de Fase 2).
+Las nueve features temporales nuevas se añaden al final de ambas tablas, después de
+las columnas de respuesta; las columnas originales conservan su orden.
+
+La ampliación añade `abst_ultima_presidencial_sin_2012`,
+`abst_prom_presidenciales_sin_2012`, `brecha_intermedia_presidencial_sin_2012` y
+`n_presidenciales_previas_sin_2012`: solo se excluye 2012 en esta variante y no se
+modifica el historial original. Las tasas quedan vacías sin antecedentes; el conteo
+es cero si hay historial asignado pero ninguna presidencial conocida fuera de 2012.
+La brecha resta el promedio presidencial sin 2012 al promedio intermedio conocido.
+
+También se añaden `cambio_intermedias_vs_pais` y `cambio_presidenciales_vs_pais`.
+Cada una calcula `(abst_municipal_última − abst_país_última) −
+(abst_municipal_penúltima − abst_país_penúltima)` entre las dos últimas elecciones
+conocidas del mismo tipo, siempre anteriores al objetivo. Sin dos antecedentes queda
+vacía. La tasa nacional es `suma(NV) / suma(SV + NV)`, calculada sobre todas las
+secciones antes de reconstruir territorios; no es un promedio de tasas municipales.
+Estas variantes siguen pendientes de validación predictiva en la Fase 7.
 
 **Cómo, paso a paso:**
 
