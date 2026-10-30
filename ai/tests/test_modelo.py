@@ -16,10 +16,11 @@ from datos_modelo import (
     preparar, sin_2012, solo_seleccion, variante_ns,
 )
 from explicacion import explicar, explicar_referencia
+from calibracion import aplicar
 from fase7 import ARTIFACTOS, construir_salida, reporte_desde_archivos, validar_salida
 from validacion import (
     INICIALES, aplicar_rango, calibrar_rango, centrar, entrenar, evaluar,
-    gana, lightgbm, metricas, particiones_estados, predecir, seleccionar,
+    gana, lightgbm, metricas, particiones_estados, predecir, regla_2024, seleccionar,
 )
 
 
@@ -156,6 +157,21 @@ class ValidacionTest(unittest.TestCase):
                 self.assertFalse(gana(copia))
         self.assertFalse(gana(v.iloc[:2]))
 
+    def test_regla_2024_es_secundaria_y_tiene_tolerancia(self):
+        filas = [dict(prueba="C_2024", segmento="todos", metodo=m, mae_pts=e)
+                 for m, e in (("modelo", 5.2), ("punto de partida", 5.0))]
+        v = pd.DataFrame(filas)
+        regla = regla_2024(v, .3)
+        self.assertTrue(regla["cumple"])
+        self.assertAlmostEqual(regla["diferencia_pts"], .2)
+        self.assertAlmostEqual(regla["tolerancia_pts"], .3)
+        self.assertEqual(regla["recomendacion"], "mantener la adopción")
+        v.loc[0, "mae_pts"] = 5.4
+        self.assertFalse(regla_2024(v, .3)["cumple"])
+        self.assertIn("mezcla", regla_2024(v, .3)["recomendacion"])
+        with self.assertRaises(ValueError):
+            regla_2024(v.loc[v.metodo.eq("modelo")])
+
     def test_rango_sesgado_contiene_punto_e_invierte_participacion(self):
         foto = pd.DataFrame(dict(conocidos_ultima=np.arange(1, 31),
                                  abstencion_objetivo=np.repeat(.8, 30)))
@@ -264,14 +280,42 @@ class ArtefactosTest(unittest.TestCase):
     def test_modelo_guardado_reproduce_la_salida(self):
         _, _, foto, _ = cargar()
         modelo = lightgbm().Booster(model_file=str(ARTIFACTOS / "modelo_2027.txt"))
-        pred, _ = predecir(modelo, foto, self.config["columnas"], self.config["nivel_pais_supuesto"])
+        distancias = modelo.predict(matriz(foto, self.config["columnas"]))
         if self.config["metodo"] == "punto de partida":
             pred = foto.referencia
+        else:
+            if self.config["calibracion_aplicada"]:
+                distancias = aplicar(distancias, self.config["calibracion"]["final"])
+            pred, _ = centrar(distancias, foto.conocidos_ultima,
+                              self.config["nivel_pais_supuesto"])
         np.testing.assert_allclose(pred, self.predicciones.abstencion_pred, atol=1e-12, rtol=0)
         validar_salida(self.predicciones, self.config["nivel_pais_supuesto"], self.config["metodo"])
         seleccion = pd.read_csv(ARTIFACTOS / "seleccion_columnas.csv")
         self.assertTrue(seleccion.fotos.eq("2015 2018").all())
         self.assertEqual(self.config["fotos_seleccion"], [2015, 2018])
+
+    def test_calibracion_y_regla_quedan_registradas(self):
+        self.assertIn(self.config["variante"], {"calibrado", "sin_calibrar", "punto_de_partida"})
+        self.assertEqual(self.config["calibracion_aplicada"], self.config["variante"] == "calibrado")
+        self.assertEqual(self.config["gana"], self.config["metodo"] == "modelo")
+        self.assertAlmostEqual(self.config["regla_2024"]["tolerancia_pts"], .3)
+        self.assertIn("final", self.config["calibracion"])
+        self.assertEqual(self.config["calibracion"]["final"]["fotos"], [2015, 2018, 2021, 2024])
+        self.assertEqual(self.config["nivel"]["publicado"], self.config["nivel_pais_supuesto"])
+        calibracion = pd.read_csv(ARTIFACTOS / "calibracion.csv")
+        self.assertEqual(set(calibracion.variante), {"sin_calibrar", "calibrado"})
+        self.assertTrue(calibracion.loc[calibracion.variante.eq("calibrado"), "b"].gt(0).all())
+        bootstrap = pd.read_csv(ARTIFACTOS / "validacion_bootstrap.csv")
+        self.assertEqual(set(bootstrap.prueba), {"A_2021", "B_estados", "C_2024"})
+        self.assertTrue(bootstrap.ic95_min_pts.le(bootstrap.ic95_max_pts).all())
+        oof = pd.read_csv(ARTIFACTOS / "predicciones_oof.csv")
+        self.assertEqual(set(oof.conjunto),
+                         {"ajuste_2015_2018", "ajuste_2015_2021", "ajuste_2015_2024"})
+        self.assertTrue(oof.groupby(["conjunto", "EDOCVE"]).fold.nunique().eq(1).all())
+        fotos_por_conjunto = {"ajuste_2015_2018": 2, "ajuste_2015_2021": 3,
+                              "ajuste_2015_2024": 4}
+        for conjunto, grupo in oof.groupby("conjunto"):
+            self.assertEqual(grupo.eleccion_objetivo.nunique(), fotos_por_conjunto[conjunto])
 
     def test_reporte_se_reconstruye_desde_archivos(self):
         self.assertEqual(reporte_desde_archivos(ARTIFACTOS),

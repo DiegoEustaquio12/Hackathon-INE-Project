@@ -1,5 +1,5 @@
 {
-  "arboles": 172,
+  "arboles": 115,
   "bloque": "A",
   "columnas": [
     "abst_ultima_intermedia",
@@ -47,8 +47,8 @@
     2018
   ],
   "parametros": {
-    "min_data_in_leaf": 50,
+    "min_data_in_leaf": 20,
     "num_leaves": 31,
-    "objective": "regression_l1"
+    "objective": "regression"
   }
 }

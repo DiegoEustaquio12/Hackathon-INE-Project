@@ -10,7 +10,7 @@ Este documento explica qué nos pide el reto, cómo vamos a resolverlo y, sobre 
 
 **Herramienta que vamos a hacer.** Un modelo de regresión que usa los datos del CCPC del INE de 2009 a 2024 para predecir la **tasa de abstención por municipio** en una elección futura. A partir de esa predicción se clasifica el riesgo con un semáforo, en dos escenarios (sin intervención y con una intervención hipotética). **Ya definimos que una zona del proyecto es un municipio. Todos los campos de los archivos del INE están disponibles para el análisis y la preparación de variables. Como fuentes externas sociodemográficas se incorporan los ECEG 2010 y 2020 del INEGI; los Censos Económicos no se usan porque sus datos abiertos son solo nacionales.** Las definiciones necesarias para modelar se aprobaron al solicitar la implementación de Fase 7; semáforo e intervenciones siguen pendientes.
 
-**Estado actual (29/10/2026).** Las fases 1 a 4 son reproducibles. Azael aprobó los valores de la sección 7 para modelar, y el modelo de la Fase 7 le gana a repetir la última elección del mismo tipo. El reporte y las predicciones están en `docs/reports/reporte_modelo.md` y `ai/artifacts/`. Siguen pendientes la cartografía y el semáforo.
+**Estado actual (30/10/2026).** Las fases 1 a 4 son reproducibles. Azael aprobó los valores de la sección 7 para modelar, y el modelo de la Fase 7 le gana a repetir la última elección del mismo tipo en 2021 y dejando estados fuera. La prueba secundaria de 2024 no decide y excede la tolerancia pre-registrada; el reporte recomienda evaluar una mezcla o un modelo más simple. El reporte y las predicciones están en `docs/reports/reporte_modelo.md` y `ai/artifacts/`. Siguen pendientes la cartografía y el semáforo.
 
 **Quién la usaría.** Las áreas del INE que planean y reparten recursos de capacitación electoral y educación cívica, como la DECEyEC y las juntas locales y distritales (por confirmar).
 
@@ -247,10 +247,11 @@ El cruce forma parte de las tablas canónicas `tabla_municipios_entrenamiento` y
 | 2012 | Se conserva sin rellenar huecos; sensibilidad con historial sin 2012 |
 | Sin respuesta | Se excluye del entrenamiento; no se inventa una observación real |
 | Historial rearmado e incompleto | Se incluye, se marca y se evalúa por separado |
-| Validación | Selección solo en 2015/2018, prueba temporal en 2021 y prueba adicional dejando estados completos fuera |
+| Validación | Selección solo en 2015/2018, prueba temporal en 2021 y prueba adicional dejando estados completos fuera. 2024 es secundaria, con tolerancia pre-registrada de 0.3 puntos |
+| Calibración | Recta robusta sobre la distancia municipal con predicciones fuera de fold: 2015/2018 para A y B, 2015/2018/2021 para C y las cuatro fotos para la corrida final |
 | ECEG | Bloque candidato; solo se retiene si mejora la selección previa a 2021. Pendiente de decisión del equipo; `--sin-censo` lo excluye |
 | Modelo y pesos | Un LightGBM de distancia municipal al país, sin pesos al entrenar; comparación exclusiva contra repetir la última elección del mismo tipo |
-| Nivel nacional 2027 | Supuesto: tasa nacional de 2021 (48.16% redondeado), con escenarios de ±5 puntos |
+| Nivel nacional 2027 | Publicado: tasa nacional de 2021 (48.16% redondeado). Escenarios: ±5 puntos, tendencia de las intermedias y último cambio |
 
 **Intervenciones:** van como las propuso Diego en `docs/EDA/Fase 5/fase5.md`: tres por separado (jóvenes de 18 a 34, hombres y zonas rurales), solo en los municipios rojos del escenario sin intervención y con un efecto supuesto de 10% (se prueban también 5% y 15%). Se ven en dos mapas: sin y con intervención.
 

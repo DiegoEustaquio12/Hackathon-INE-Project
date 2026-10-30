@@ -1,21 +1,64 @@
 {
-  "ajuste_centrado": 0.0067680326425170745,
-  "ancho_rango_medio_pts": 20.098653985975723,
-  "arboles": 172,
+  "ajuste_centrado": -0.0019477444597506,
+  "ancho_rango_medio_pts": 19.536695272481047,
+  "arboles": 115,
   "artefactos_sha256": {
-    "escenarios_nivel.csv": "2b80b0001f5f00996de498972d82a1cbb716f26f5b60dbc22b9f8a412a3f4674",
-    "explicacion_global.csv": "a371b970a0eafe97be74e84c6a2c9ee13f9156d4d6f25a16267e122def5f0657",
-    "modelo_2027.txt": "4d3febc980814caac216bc1c28c147e9e532ab9bf8218b209dedbf26c7ae064d",
-    "predicciones_2027.csv": "ab9ce36d8d66207bb9dda1a83076b0befbd66e375378bf214e5098b03aad8bbd",
-    "predicciones_2027.parquet": "e88bcc9548519df2954599ee5f13dcf325a9f68966d374f0ccf3a864e5858c09",
-    "predicciones_pruebas.csv": "5c3b6eaf97da2e4c3befcffca07dd29bd1c0432cf37a3a8c1b0d5b7970f4a410",
-    "seleccion_columnas.csv": "41a32fbe4feeaa8ddc3997ccef98882b8b701a3f2c73b827bf272ceaaf1cc398",
-    "seleccion_congelada.json": "d9a6bf2ee68693ddcb5111093d95b5a4afa18dd6fb5c50cf6aff545a75ffb9c1",
-    "sensibilidades.csv": "027ba3b36acff339a15f55711b60027a39074cc926689d926ef8ed0231c4058a",
-    "validacion.csv": "f66a8b33b66e321e04c48acbe6c322a612ade0307ba420c998533357606aff56"
+    "calibracion.csv": "4ec979dc116d578f3ab509bda90f8306c55db15e1027b0ffaac614512c93647f",
+    "escenarios_nivel.csv": "762953849ed2dd88a815f5ce704622906b180d5540576afedd9958d5b95e8561",
+    "explicacion_global.csv": "06dcfddf8621ec9afb9e5922b0ce5f85a48bbe7898fcc9a6def5195a1cf21351",
+    "modelo_2027.txt": "dee0344b60f7d3defa4e7c12f0166c55995ef7737301c48ee1acf308d7f7135e",
+    "nivel_escenarios.csv": "c46d2a0bed569c6258ddff5b38a219011bc55ab9c008d50634e5eb973b8b9e8d",
+    "nivel_nacional.csv": "fb487fffeb01209dd9124f3fb9b309bffb59b74fd38587d0c521de6a6f95f71c",
+    "predicciones_2027.csv": "716ad456a1768e8c04b539e9067ab627529e9b95c35d2415e8b95c561ae15fba",
+    "predicciones_2027.parquet": "5a39a8509cdfe8fef54082eaaa13b9c890c7a32016eb42d4a098231bdbc7bc22",
+    "predicciones_oof.csv": "8e179f3d9580c1a4f391766b26dc6f941482e0be3f2a5e3f685ea98143fd1c36",
+    "predicciones_pruebas.csv": "df1752c0b18b5c962ac849207542a5fd5a716392981c158756a009a8411d8e64",
+    "seleccion_columnas.csv": "5517fa49aaf4775dd1765a6472dc2f1ce624411a9aa9ee065a1b66b983b1de36",
+    "seleccion_congelada.json": "17b5c33c531ab040f58a0601603c1724373a64bd9c494ea8b74562280f82bb42",
+    "sensibilidades.csv": "259b399f4e24609e943359295d57d3a5c81db61c6bb2acda654d32cd65de1671",
+    "validacion.csv": "d1b15db054faf47c745a9b876178ddcfb66955a6236a87cb20741f9519a6ad72",
+    "validacion_bootstrap.csv": "eb9699e91d83c1d846a3da82dcc02567c88d73e24ed97de165d097f1211dc211"
   },
-  "base_shap": -0.056057075199041954,
+  "base_shap": -0.05607182957249161,
   "bloque": "A",
+  "calibracion": {
+    "a_b": {
+      "a": 0.010819640108805937,
+      "b": 1.0515737180207856,
+      "fotos": [
+        2015,
+        2018
+      ],
+      "metodo": "huber",
+      "n": 4742
+    },
+    "aplicada": true,
+    "c": {
+      "a": 0.013540715286903364,
+      "b": 1.0830928596247926,
+      "fotos": [
+        2015,
+        2018,
+        2021
+      ],
+      "metodo": "huber",
+      "n": 7136
+    },
+    "final": {
+      "a": 0.012758232218357746,
+      "b": 1.083275503570989,
+      "fotos": [
+        2015,
+        2018,
+        2021,
+        2024
+      ],
+      "metodo": "huber",
+      "n": 9531
+    },
+    "variante": "calibrado"
+  },
+  "calibracion_aplicada": true,
   "calidad_por_foto": [
     {
       "foto": 2015,
@@ -48,10 +91,12 @@
   ],
   "cobertura_rango_pct": 79.98372660699756,
   "codigo_sha256": {
+    "ai/src/models/calibracion.py": "4d0dfd05151077ed7fdc01773da8551e185f72d034ec4deb17f863805d2df7cd",
     "ai/src/models/datos_modelo.py": "dc5e579c267408f47259a172c2706892876a14c2c06521669fa0368b9c399f76",
     "ai/src/models/explicacion.py": "cb932fccb303cf57292428a058066fdf4706518cba34acaafc0c7123cddef4bc",
-    "ai/src/models/fase7.py": "041616837e743ff6fe86f75d82d2a712985c64bbaa4614ec8f037c0dc07ade31",
-    "ai/src/models/validacion.py": "e100414b699c02f1bd8ec4e52063e9f763e171ee9e7664098ffdd87ef44f49ae"
+    "ai/src/models/fase7.py": "b773ff722757f9fdc4ef2a5799a2894dcc5b13a7d804db0bfbb31f979f5cb18f",
+    "ai/src/models/nivel.py": "3ceccaaf24528d4a1a4b3b07cbd9bc0b8c266aa1de6385a68649ec9a998bb881",
+    "ai/src/models/validacion.py": "da500224f9567bcd3a4132e34a0ebc5376ee12f7b0b345e1cf54cd85ec6ac12c"
   },
   "columnas": [
     "abst_ultima_intermedia",
@@ -95,6 +140,7 @@
     "es_intermedia"
   ],
   "decisiones": {
+    "calibracion": "Huber sobre distancia con predicciones fuera de fold; respaldo lineal",
     "censo": "candidato pendiente de decisión del equipo",
     "conservar_2012": true,
     "ns": "fuera",
@@ -137,6 +183,8 @@
     "data/processed/tabla_municipios_entrenamiento.parquet": "15e7319aa4ca8e644695737f996a7fd6c7da0049e15133d1dc147ce25f25ab93"
   },
   "gana": true,
+  "gana_calibrado": true,
+  "gana_sin_calibrar": true,
   "media_publicada": 0.4816202445326881,
   "metodo": "modelo",
   "minimo": 500,
@@ -166,11 +214,48 @@
       "eleccion": 2024
     }
   ],
+  "nivel": {
+    "backtest": [
+      {
+        "eleccion": 2015,
+        "error_pts": 3.0127766531,
+        "metodo": "ultimo",
+        "pronostico_pct": 55.9392168876,
+        "real_pct": 52.9264402344,
+        "tipo": "intermedia"
+      },
+      {
+        "eleccion": 2021,
+        "error_pts": 4.7644157812,
+        "metodo": "ultimo",
+        "pronostico_pct": 52.9264402344,
+        "real_pct": 48.1620244533,
+        "tipo": "intermedia"
+      },
+      {
+        "eleccion": 2021,
+        "error_pts": 1.751639128,
+        "metodo": "tendencia",
+        "pronostico_pct": 49.9136635813,
+        "real_pct": 48.1620244533,
+        "tipo": "intermedia"
+      }
+    ],
+    "cambio": 0.43397608672102284,
+    "intermedios": [
+      2009,
+      2015,
+      2021
+    ],
+    "objetivo": 2027,
+    "publicado": 0.48162024453268815,
+    "tendencia": 0.4456536809078866
+  },
   "nivel_pais_supuesto": 0.48162024453268815,
   "parametros": {
-    "min_data_in_leaf": 50,
+    "min_data_in_leaf": 20,
     "num_leaves": 31,
-    "objective": "regression_l1"
+    "objective": "regression"
   },
   "parametros_fijos": {
     "bagging_fraction": 0.8,
@@ -187,8 +272,8 @@
     "seed": 2027,
     "verbosity": -1
   },
-  "plataforma": "macOS-26.3.1-arm64-arm-64bit",
-  "python": "3.12.13",
+  "plataforma": "Linux-7.2.13-200.fc44.x86_64-x86_64-with-glibc2.43",
+  "python": "3.14.8",
   "rango": {
     "cortes": [
       4467.0,
@@ -198,31 +283,48 @@
     "grupos": [
       {
         "grupo": 0,
-        "margen_max": 0.1142400444561499,
-        "margen_min": -0.1179059043546821,
+        "margen_max": 0.11620058983380387,
+        "margen_min": -0.10275891202777658,
         "n": 819,
-        "q10": -0.1179059043546821,
-        "q90": 0.1142400444561499
+        "q10": -0.10275891202777658,
+        "q90": 0.11620058983380387
       },
       {
         "grupo": 1,
-        "margen_max": 0.06846008414904377,
-        "margen_min": -0.15842370232088157,
+        "margen_max": 0.06972319547428146,
+        "margen_min": -0.15296197264908634,
         "n": 819,
-        "q10": -0.15842370232088157,
-        "q90": 0.06846008414904377
+        "q10": -0.15296197264908634,
+        "q90": 0.06972319547428146
       },
       {
         "grupo": 2,
-        "margen_max": 0.05486784190616442,
-        "margen_min": -0.09578020680045965,
+        "margen_max": 0.0574249458888181,
+        "margen_min": -0.09313130564405944,
         "n": 820,
-        "q10": -0.09578020680045965,
-        "q90": 0.05486784190616442
+        "q10": -0.09313130564405944,
+        "q90": 0.0574249458888181
       }
     ]
   },
+  "regla_2024": {
+    "cumple": false,
+    "diferencia_pts": 0.9748490951456468,
+    "mae_modelo_pts": 6.677989947072625,
+    "mae_referencia_pts": 5.703140851926978,
+    "recomendacion": "evaluar una mezcla con el punto de partida o un modelo más simple; no cambiar automáticamente la adopción",
+    "tolerancia_pts": 0.3
+  },
+  "regla_2024_calibrado": {
+    "cumple": false,
+    "diferencia_pts": 0.9748490951456468,
+    "mae_modelo_pts": 6.677989947072625,
+    "mae_referencia_pts": 5.703140851926978,
+    "recomendacion": "evaluar una mezcla con el punto de partida o un modelo más simple; no cambiar automáticamente la adopción",
+    "tolerancia_pts": 0.3
+  },
   "sin_censo": false,
+  "variante": "calibrado",
   "versiones": {
     "lightgbm": "4.7.0",
     "numpy": "2.5.3",

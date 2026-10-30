@@ -240,21 +240,22 @@ En la Fase 7 estas columnas se probaron juntas, sin `n_presidenciales_previas_si
 
 **Cómo correrlo:** `python ai/src/models/fase7.py`. Tarda unos minutos. En Mac puede pedir `brew install libomp`. Las pruebas se corren con `python -m unittest discover -s ai/tests -v`.
 
-**Nivel del país:** el modelo no adivina el nivel nacional de 2027. Se supone igual al de 2021 (48.16%), y el reporte muestra qué pasa si es 5 puntos mayor o menor. Los municipios se ajustan para que, juntos, den ese nivel. Al probar 2021 se supuso el nivel de 2015, porque era lo que se sabía antes de esa elección. Si el modelo no ganara, se publicaría el punto de partida tal cual.
+**Nivel del país:** el modelo no adivina el nivel nacional de 2027. Se conserva el de 2021 (48.16%) por compatibilidad con la corrida publicada; el reporte agrega la tendencia de las intermedias (44.57%) y el último cambio (43.40%) como escenarios, no como observaciones. Los municipios se ajustan para que, juntos, den el nivel elegido. Al probar 2021 se supuso el nivel de 2015, porque era lo que se sabía antes de esa elección. Si el modelo no ganara, se publicaría el punto de partida tal cual. La prueba de 2024 es secundaria y usa una tolerancia pre-registrada de 0.3 puntos.
 
-**Rango:** sale de cuánto se equivocó el modelo con cada municipio en 2021, sin contar lo que falló el supuesto del nivel del país. Ese margen se suma a la predicción de 2027.
+**Rango:** sale de cuánto se equivocó el método publicado con cada municipio en 2021, sin contar lo que falló el supuesto del nivel del país. Ese margen se suma a la predicción de 2027. La calibración se ajusta sobre distancias con predicciones fuera de fold y no sustituye una validación prospectiva.
 
 **Explicación:** para cada municipio se guardan las tres columnas que más mueven su predicción. Todo el detalle técnico está en [reporte_modelo.md](reports/reporte_modelo.md), que se genera con el mismo script. Las tablas de `data/processed/` no se modifican.
 
-**Resultado (29/10/2026):** el modelo usa 39 columnas de historial y de la lista nominal; ni las del EDA ni las del censo mejoraron la selección.
-- **2021:** se equivoca 9.31 puntos en promedio (6.19 pesando por personas), contra 12.40 (8.46) de repetir la intermedia anterior.
-- **Dejando estados fuera:** 10.27 (6.34) contra 12.40 (8.46).
-- **Semáforo:** pone en rojo al 75% de los municipios que de verdad fueron rojos en 2021; el punto de partida, al 52%.
-- **2024, que no decide:** repetir la presidencial anterior le gana al modelo (5.70 contra 6.47 puntos).
+**Resultado (30/10/2026):** el modelo usa 39 columnas de historial y de la lista nominal; ni las del EDA ni las del censo mejoraron la selección. La calibración se ajusta con predicciones fuera de fold y la corrida final usa las cuatro fotos.
+- **2021:** con la variante calibrada se equivoca 8.61 puntos en promedio (6.02 pesando por personas), contra 12.40 (8.46) de repetir la intermedia anterior.
+- **Dejando estados fuera:** 9.71 (6.17) contra 12.40 (8.46).
+- **Semáforo:** pone en rojo al 76% de los municipios que de verdad fueron rojos en 2021; el punto de partida, al 52%.
+- **2024, que no decide:** repetir la presidencial anterior le gana al modelo (5.70 contra 6.68 puntos), una diferencia de 0.97 que supera la tolerancia pre-registrada de 0.3. El reporte recomienda evaluar una mezcla o un modelo más simple, sin cambiar automáticamente la adopción.
+- **Calibración:** reduce el MAE simple de A y B; el ponderado queda prácticamente igual. La calibración final con las cuatro fotos expande la distancia (pendiente 1.083).
 
 Gana las dos pruebas que deciden, así que se publican sus 2,477 predicciones. Detalle en [reporte_modelo.md](reports/reporte_modelo.md).
 
-**Se pasa cuando:** el modelo le gana al punto de partida en las dos pruebas. Si no, se dice así y se usa el punto de partida.
+**Se pasa cuando:** el modelo le gana al punto de partida en las dos pruebas. Si la variante calibrada no gana, se prueba la sin calibrar; si ninguna gana, se dice así y se usa el punto de partida. La prueba de 2024 no decide la adopción.
 
 ---
 

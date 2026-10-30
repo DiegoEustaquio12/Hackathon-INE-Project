@@ -50,6 +50,20 @@ def entrenar(foto, columnas, parametros, arboles, validacion=None):
     return lgb.train({**FIJOS, **parametros}, datos, num_boost_round=arboles, **opciones)
 
 
+def _entrenar_anidado(foto, columnas, parametros, i, j, grupos_internos=4):
+    """Early stopping dentro del fold de entrenamiento, nunca en el fold externo."""
+    externo = foto.iloc[i]
+    grupos = min(grupos_internos, externo.EDOCVE.nunique())
+    if grupos < 2:
+        raise ValueError("Se necesitan al menos dos estados para la validación interna")
+    i_in, j_in = next(particiones_estados(externo, grupos))
+    modelo = entrenar(externo.iloc[i_in], columnas, parametros, 3000,
+                      externo.iloc[j_in])
+    arboles = max(1, int(modelo.best_iteration))
+    final = entrenar(externo, columnas, parametros, arboles)
+    return final, arboles
+
+
 def seleccionar(foto, opciones):
     solo_seleccion(foto)
     resultados = []
@@ -57,17 +71,17 @@ def seleccionar(foto, opciones):
     def probar(etapa, bloque, columnas, parametros, candidato):
         errores, iteraciones = [], []
         for numero, (i, j) in enumerate(particiones_estados(foto), 1):
-            modelo = entrenar(foto.iloc[i], columnas, parametros, 3000, foto.iloc[j])
+            modelo, arboles = _entrenar_anidado(foto, columnas, parametros, i, j)
             error = np.abs(modelo.predict(matriz(foto.iloc[j], columnas))
                            - foto.iloc[j].distancia_objetivo.to_numpy(float))
             errores.extend(error)
-            iteraciones.append(modelo.best_iteration)
+            iteraciones.append(arboles)
             resultados.append(dict(
                 etapa=etapa, candidato=candidato, bloque=bloque, fold=numero,
                 n_columnas=len(columnas), n_entrenamiento=len(i), n_validacion=len(j),
                 estados_validacion=" ".join(map(str, sorted(foto.iloc[j].EDOCVE.unique()))),
                 fotos="2015 2018", mae_distancia_pts=float(error.mean() * 100),
-                arboles=modelo.best_iteration, **parametros,
+                arboles=arboles, **parametros,
             ))
         return float(np.mean(errores)), max(1, int(np.median(iteraciones)))
 
@@ -177,6 +191,85 @@ def gana(validacion):
             if not s.loc["modelo", columna] < s.loc["punto de partida", columna]:
                 return False
     return True
+
+
+def regla_2024(validacion, tolerancia=0.3):
+    """Prueba secundaria: no debe empeorar más de ``tolerancia`` puntos."""
+    s = validacion.loc[validacion.prueba.eq("C_2024") & validacion.segmento.eq("todos")]
+    if len(s) != 2 or set(s.metodo) != {"modelo", "punto de partida"}:
+        raise ValueError("La prueba 2024 necesita modelo y punto de partida")
+    s = s.set_index("metodo")
+    diferencia = float(s.loc["modelo", "mae_pts"] - s.loc["punto de partida", "mae_pts"])
+    cumple = bool(diferencia <= tolerancia)
+    return dict(
+        diferencia_pts=diferencia,
+        tolerancia_pts=float(tolerancia),
+        cumple=cumple,
+        mae_modelo_pts=float(s.loc["modelo", "mae_pts"]),
+        mae_referencia_pts=float(s.loc["punto de partida", "mae_pts"]),
+        recomendacion=("mantener la adopción" if cumple else
+                       "evaluar una mezcla con el punto de partida o un modelo más simple; "
+                       "no cambiar automáticamente la adopción"),
+    )
+
+
+def bootstrap_diferencia(foto, pred_modelo, pred_referencia, n=5000, semilla=2027,
+                         por_estado=True):
+    """IC bootstrap pareado para MAE modelo − punto de partida.
+
+    Por estado es más conservador: respeta la dependencia espacial. También
+    devuelve la versión simple y la ponderada por conocidos del objetivo.
+    """
+    y = foto.abstencion_objetivo.to_numpy(float)
+    pm = np.asarray(pred_modelo, dtype=float)
+    pr = np.asarray(pred_referencia, dtype=float)
+    w = foto.conocidos_objetivo.to_numpy(float)
+    valido = np.isfinite(y) & np.isfinite(pm) & np.isfinite(pr) & np.isfinite(w)
+    y, pm, pr, w = y[valido], pm[valido], pr[valido], w[valido]
+    if not len(y):
+        raise ValueError("No hay filas para el bootstrap")
+    grupos = foto.EDOCVE.to_numpy()[valido]
+    rng = np.random.default_rng(semilla)
+
+    if por_estado:
+        unicos, inverse = np.unique(grupos, return_inverse=True)
+        indices = [np.flatnonzero(inverse == k) for k in range(len(unicos))]
+
+        def muestra():
+            return np.concatenate([indices[k] for k in rng.integers(0, len(unicos), len(unicos))])
+    else:
+        def muestra():
+            return rng.integers(0, len(y), len(y))
+
+    simple, ponderado = [], []
+    for _ in range(n):
+        idx = muestra()
+        error_modelo = np.abs(y[idx] - pm[idx])
+        error_referencia = np.abs(y[idx] - pr[idx])
+        simple.append(float(error_modelo.mean() - error_referencia.mean()) * 100)
+        ponderado.append(float(
+            np.average(error_modelo, weights=w[idx])
+            - np.average(error_referencia, weights=w[idx])
+        ) * 100)
+    simple, ponderado = np.asarray(simple), np.asarray(ponderado)
+    return dict(
+        n=int(len(y)),
+        n_bootstrap=int(n),
+        unidad="estado" if por_estado else "municipio",
+        mae_modelo_pts=float(np.abs(y - pm).mean() * 100),
+        mae_referencia_pts=float(np.abs(y - pr).mean() * 100),
+        diferencia_pts=float((np.abs(y - pm).mean() - np.abs(y - pr).mean()) * 100),
+        ic95_min_pts=float(np.quantile(simple, 0.025)),
+        ic95_max_pts=float(np.quantile(simple, 0.975)),
+        mae_ponderado_modelo_pts=float(np.average(np.abs(y - pm), weights=w) * 100),
+        mae_ponderado_referencia_pts=float(np.average(np.abs(y - pr), weights=w) * 100),
+        diferencia_ponderada_pts=float((
+            np.average(np.abs(y - pm), weights=w)
+            - np.average(np.abs(y - pr), weights=w)
+        ) * 100),
+        ic95_ponderado_min_pts=float(np.quantile(ponderado, 0.025)),
+        ic95_ponderado_max_pts=float(np.quantile(ponderado, 0.975)),
+    )
 
 
 def calibrar_rango(foto, prediccion, error_nacional=0.0):
