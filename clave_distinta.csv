@@ -1,0 +1,1367 @@
+EDOCVE,MPIOCVE,nombre_municipio,clave,n,CVEGEO,_merge
+10.0,19.0,El Oro,10019,10|el oro,10018,both
+10.0,17.0,Nuevo Ideal,10017,10|nuevo ideal,10039,both
+10.0,18.0,Ocampo,10018,10|ocampo,10017,both
+10.0,20.0,Otáez,10020,10|otaez,10019,both
+10.0,21.0,Pánuco de Coronado,10021,10|panuco de coronado,10020,both
+10.0,22.0,Peñón Blanco,10022,10|penon blanco,10021,both
+10.0,23.0,Poanas,10023,10|poanas,10022,both
+10.0,24.0,Pueblo Nuevo,10024,10|pueblo nuevo,10023,both
+10.0,25.0,Rodeo,10025,10|rodeo,10024,both
+10.0,26.0,San Bernardo,10026,10|san bernardo,10025,both
+10.0,27.0,San Dimas,10027,10|san dimas,10026,both
+10.0,28.0,San Juan de Guadalupe,10028,10|san juan de guadalupe,10027,both
+10.0,29.0,San Juan del Río,10029,10|san juan del rio,10028,both
+10.0,30.0,San Luis del Cordero,10030,10|san luis del cordero,10029,both
+10.0,31.0,San Pedro del Gallo,10031,10|san pedro del gallo,10030,both
+10.0,32.0,Santa Clara,10032,10|santa clara,10031,both
+10.0,33.0,Santiago Papasquiaro,10033,10|santiago papasquiaro,10032,both
+10.0,34.0,Súchil,10034,10|suchil,10033,both
+10.0,35.0,Tamazula,10035,10|tamazula,10034,both
+10.0,36.0,Tepehuanes,10036,10|tepehuanes,10035,both
+10.0,37.0,Tlahualilo,10037,10|tlahualilo,10036,both
+10.0,38.0,Topia,10038,10|topia,10037,both
+10.0,39.0,Vicente Guerrero,10039,10|vicente guerrero,10038,both
+12.0,79.0,Cochoapa el Grande,12079,12|cochoapa el grande,12078,both
+12.0,30.0,Eduardo Neri,12030,12|eduardo neri,12075,both
+12.0,31.0,Florencio Villarreal,12031,12|florencio villarreal,12030,both
+12.0,32.0,General Canuto A. Neri,12032,12|general canuto a. neri,12031,both
+12.0,33.0,General Heliodoro Castillo,12033,12|general heliodoro castillo,12032,both
+12.0,34.0,Huamuxtitlán,12034,12|huamuxtitlan,12033,both
+12.0,35.0,Huitzuco de los Figueroa,12035,12|huitzuco de los figueroa,12034,both
+12.0,36.0,Iguala de la Independencia,12036,12|iguala de la independencia,12035,both
+12.0,37.0,Igualapa,12037,12|igualapa,12036,both
+12.0,78.0,Iliatenco,12078,12|iliatenco,12081,both
+12.0,38.0,Ixcateopan de Cuauhtémoc,12038,12|ixcateopan de cuauhtemoc,12037,both
+12.0,77.0,José Joaquín de Herrera,12077,12|jose joaquin de herrera,12079,both
+12.0,40.0,Juan R. Escudero,12040,12|juan r. escudero,12039,both
+12.0,81.0,Juchitán,12081,12|juchitan,12080,both
+12.0,69.0,La Unión de Isidoro Montes de Oca,12069,12|la union de isidoro montes de oca,12068,both
+12.0,83.0,Las Vigas,12083,12|las vigas,12082,both
+12.0,41.0,Leonardo Bravo,12041,12|leonardo bravo,12040,both
+12.0,42.0,Malinaltepec,12042,12|malinaltepec,12041,both
+12.0,80.0,Marquelia,12080,12|marquelia,12077,both
+12.0,43.0,Mártir de Cuilapan,12043,12|martir de cuilapan,12042,both
+12.0,44.0,Metlatónoc,12044,12|metlatonoc,12043,both
+12.0,45.0,Mochitlán,12045,12|mochitlan,12044,both
+12.0,82.0,Ñuu Savi,12082,12|nuu savi,12083,both
+12.0,46.0,Olinalá,12046,12|olinala,12045,both
+12.0,47.0,Ometepec,12047,12|ometepec,12046,both
+12.0,48.0,Pedro Ascencio Alquisiras,12048,12|pedro ascencio alquisiras,12047,both
+12.0,49.0,Petatlán,12049,12|petatlan,12048,both
+12.0,50.0,Pilcaya,12050,12|pilcaya,12049,both
+12.0,51.0,Pungarabato,12051,12|pungarabato,12050,both
+12.0,52.0,Quechultenango,12052,12|quechultenango,12051,both
+12.0,53.0,San Luis Acatlán,12053,12|san luis acatlan,12052,both
+12.0,54.0,San Marcos,12054,12|san marcos,12053,both
+12.0,55.0,San Miguel Totolapan,12055,12|san miguel totolapan,12054,both
+12.0,84.0,San Nicolás,12084,12|san nicolas,12085,both
+12.0,85.0,Santa Cruz del Rincón,12085,12|santa cruz del rincon,12084,both
+12.0,56.0,Taxco de Alarcón,12056,12|taxco de alarcon,12055,both
+12.0,57.0,Tecoanapa,12057,12|tecoanapa,12056,both
+12.0,58.0,Técpan de Galeana,12058,12|tecpan de galeana,12057,both
+12.0,59.0,Teloloapan,12059,12|teloloapan,12058,both
+12.0,60.0,Tepecoacuilco de Trujano,12060,12|tepecoacuilco de trujano,12059,both
+12.0,61.0,Tetipac,12061,12|tetipac,12060,both
+12.0,62.0,Tixtla de Guerrero,12062,12|tixtla de guerrero,12061,both
+12.0,63.0,Tlacoachistlahuaca,12063,12|tlacoachistlahuaca,12062,both
+12.0,64.0,Tlacoapa,12064,12|tlacoapa,12063,both
+12.0,65.0,Tlalchapa,12065,12|tlalchapa,12064,both
+12.0,66.0,Tlalixtaquilla de Maldonado,12066,12|tlalixtaquilla de maldonado,12065,both
+12.0,67.0,Tlapa de Comonfort,12067,12|tlapa de comonfort,12066,both
+12.0,68.0,Tlapehuala,12068,12|tlapehuala,12067,both
+12.0,70.0,Xalpatláhuac,12070,12|xalpatlahuac,12069,both
+12.0,71.0,Xochihuehuetlán,12071,12|xochihuehuetlan,12070,both
+12.0,72.0,Xochistlahuaca,12072,12|xochistlahuaca,12071,both
+12.0,73.0,Zapotitlán Tablas,12073,12|zapotitlan tablas,12072,both
+12.0,39.0,Zihuatanejo de Azueta,12039,12|zihuatanejo de azueta,12038,both
+12.0,74.0,Zirándaro,12074,12|zirandaro,12073,both
+12.0,75.0,Zitlala,12075,12|zitlala,12074,both
+13.0,9.0,Atitalaquia,13009,13|atitalaquia,13010,both
+13.0,10.0,Atlapexco,13010,13|atlapexco,13011,both
+13.0,12.0,Atotonilco de Tula,13012,13|atotonilco de tula,13013,both
+13.0,11.0,Atotonilco el Grande,13011,13|atotonilco el grande,13012,both
+13.0,13.0,Calnali,13013,13|calnali,13014,both
+13.0,14.0,Cardonal,13014,13|cardonal,13015,both
+13.0,16.0,Chapantongo,13016,13|chapantongo,13017,both
+13.0,17.0,Chapulhuacán,13017,13|chapulhuacan,13018,both
+13.0,18.0,Chilcuautla,13018,13|chilcuautla,13019,both
+13.0,15.0,Cuautepec de Hinojosa,13015,13|cuautepec de hinojosa,13016,both
+13.0,19.0,El Arenal,13019,13|el arenal,13009,both
+13.0,34.0,La Misión,13034,13|la mision,13040,both
+13.0,35.0,Lolotla,13035,13|lolotla,13034,both
+13.0,36.0,Metepec,13036,13|metepec,13035,both
+13.0,40.0,Mineral de la Reforma,13040,13|mineral de la reforma,13051,both
+13.0,47.0,Pachuca de Soto,13047,13|pachuca de soto,13048,both
+13.0,46.0,Pacula,13046,13|pacula,13047,both
+13.0,48.0,Pisaflores,13048,13|pisaflores,13049,both
+13.0,49.0,Progreso de Obregón,13049,13|progreso de obregon,13050,both
+13.0,50.0,San Agustín Metzquititlán,13050,13|san agustin metzquititlan,13036,both
+13.0,51.0,San Agustín Tlaxiaca,13051,13|san agustin tlaxiaca,13052,both
+13.0,52.0,San Bartolo Tutotepec,13052,13|san bartolo tutotepec,13053,both
+13.0,53.0,San Felipe Orizatlán,13053,13|san felipe orizatlan,13046,both
+13.0,66.0,Tezontepec de Aldama,13066,13|tezontepec de aldama,13067,both
+13.0,67.0,Tianguistengo,13067,13|tianguistengo,13068,both
+13.0,68.0,Tizayuca,13068,13|tizayuca,13069,both
+13.0,69.0,Tlahuelilpan,13069,13|tlahuelilpan,13070,both
+13.0,70.0,Tlahuiltepa,13070,13|tlahuiltepa,13071,both
+13.0,71.0,Tlanalapa,13071,13|tlanalapa,13072,both
+13.0,72.0,Tlanchinol,13072,13|tlanchinol,13073,both
+13.0,73.0,Tlaxcoapan,13073,13|tlaxcoapan,13074,both
+13.0,74.0,Tolcayuca,13074,13|tolcayuca,13075,both
+13.0,75.0,Tula de Allende,13075,13|tula de allende,13076,both
+13.0,76.0,Tulancingo de Bravo,13076,13|tulancingo de bravo,13077,both
+13.0,77.0,Villa de Tezontepec,13077,13|villa de tezontepec,13066,both
+14.0,31.0,Chapala,14031,14|chapala,14030,both
+14.0,32.0,Chimaltitán,14032,14|chimaltitan,14031,both
+14.0,33.0,Chiquilistlán,14033,14|chiquilistlan,14032,both
+14.0,25.0,Cocula,14025,14|cocula,14024,both
+14.0,26.0,Colotlán,14026,14|colotlan,14025,both
+14.0,27.0,Concepción de Buenos Aires,14027,14|concepcion de buenos aires,14026,both
+14.0,28.0,Cuautitlán de García Barragán,14028,14|cuautitlan de garcia barragan,14027,both
+14.0,29.0,Cuautla,14029,14|cuautla,14028,both
+14.0,30.0,Cuquío,14030,14|cuquio,14029,both
+14.0,34.0,Degollado,14034,14|degollado,14033,both
+14.0,35.0,Ejutla,14035,14|ejutla,14034,both
+14.0,39.0,El Grullo,14039,14|el grullo,14037,both
+14.0,56.0,El Limón,14056,14|el limon,14054,both
+14.0,72.0,El Salto,14072,14|el salto,14070,both
+14.0,36.0,Encarnación de Díaz,14036,14|encarnacion de diaz,14035,both
+14.0,37.0,Etzatlán,14037,14|etzatlan,14036,both
+14.0,38.0,Gómez Farías,14038,14|gomez farias,14079,both
+14.0,40.0,Guachinango,14040,14|guachinango,14038,both
+14.0,41.0,Guadalajara,14041,14|guadalajara,14039,both
+14.0,42.0,Hostotipaquillo,14042,14|hostotipaquillo,14040,both
+14.0,43.0,Huejúcar,14043,14|huejucar,14041,both
+14.0,44.0,Huejuquilla el Alto,14044,14|huejuquilla el alto,14042,both
+14.0,46.0,Ixtlahuacán de los Membrillos,14046,14|ixtlahuacan de los membrillos,14044,both
+14.0,47.0,Ixtlahuacán del Río,14047,14|ixtlahuacan del rio,14045,both
+14.0,48.0,Jalostotitlán,14048,14|jalostotitlan,14046,both
+14.0,49.0,Jamay,14049,14|jamay,14047,both
+14.0,50.0,Jesús María,14050,14|jesus maria,14048,both
+14.0,51.0,Jilotlán de los Dolores,14051,14|jilotlan de los dolores,14049,both
+14.0,52.0,Jocotepec,14052,14|jocotepec,14050,both
+14.0,53.0,Juanacatlán,14053,14|juanacatlan,14051,both
+14.0,54.0,Juchitlán,14054,14|juchitlan,14052,both
+14.0,45.0,La Huerta,14045,14|la huerta,14043,both
+14.0,59.0,La Manzanilla de la Paz,14059,14|la manzanilla de la paz,14057,both
+14.0,55.0,Lagos de Moreno,14055,14|lagos de moreno,14053,both
+14.0,57.0,Magdalena,14057,14|magdalena,14055,both
+14.0,60.0,Mascota,14060,14|mascota,14058,both
+14.0,61.0,Mazamitla,14061,14|mazamitla,14059,both
+14.0,62.0,Mexticacán,14062,14|mexticacan,14060,both
+14.0,63.0,Mezquitic,14063,14|mezquitic,14061,both
+14.0,64.0,Mixtlán,14064,14|mixtlan,14062,both
+14.0,65.0,Ocotlán,14065,14|ocotlan,14063,both
+14.0,66.0,Ojuelos de Jalisco,14066,14|ojuelos de jalisco,14064,both
+14.0,67.0,Pihuamo,14067,14|pihuamo,14065,both
+14.0,68.0,Poncitlán,14068,14|poncitlan,14066,both
+14.0,69.0,Puerto Vallarta,14069,14|puerto vallarta,14067,both
+14.0,71.0,Quitupan,14071,14|quitupan,14069,both
+14.0,73.0,San Cristóbal de la Barranca,14073,14|san cristobal de la barranca,14071,both
+14.0,74.0,San Diego de Alejandría,14074,14|san diego de alejandria,14072,both
+14.0,24.0,San Gabriel,14024,14|san gabriel,14113,both
+14.0,75.0,San Juan de los Lagos,14075,14|san juan de los lagos,14073,both
+14.0,76.0,San Julián,14076,14|san julian,14074,both
+14.0,77.0,San Marcos,14077,14|san marcos,14075,both
+14.0,78.0,San Martín de Bolaños,14078,14|san martin de bolanos,14076,both
+14.0,79.0,San Martín Hidalgo,14079,14|san martin hidalgo,14077,both
+14.0,80.0,San Miguel el Alto,14080,14|san miguel el alto,14078,both
+14.0,99.0,San Pedro Tlaquepaque,14099,14|san pedro tlaquepaque,14098,both
+14.0,81.0,San Sebastián del Oeste,14081,14|san sebastian del oeste,14080,both
+14.0,82.0,Santa María de los Ángeles,14082,14|santa maria de los angeles,14081,both
+14.0,58.0,Santa María del Oro,14058,14|santa maria del oro,14056,both
+14.0,83.0,Sayula,14083,14|sayula,14082,both
+14.0,84.0,Tala,14084,14|tala,14083,both
+14.0,85.0,Talpa de Allende,14085,14|talpa de allende,14084,both
+14.0,86.0,Tamazula de Gordiano,14086,14|tamazula de gordiano,14085,both
+14.0,87.0,Tapalpa,14087,14|tapalpa,14086,both
+14.0,88.0,Tecalitlán,14088,14|tecalitlan,14087,both
+14.0,90.0,Techaluta de Montenegro,14090,14|techaluta de montenegro,14089,both
+14.0,89.0,Tecolotlán,14089,14|tecolotlan,14088,both
+14.0,91.0,Tenamaxtlán,14091,14|tenamaxtlan,14090,both
+14.0,92.0,Teocaltiche,14092,14|teocaltiche,14091,both
+14.0,93.0,Teocuitatlán de Corona,14093,14|teocuitatlan de corona,14092,both
+14.0,94.0,Tepatitlán de Morelos,14094,14|tepatitlan de morelos,14093,both
+14.0,95.0,Tequila,14095,14|tequila,14094,both
+14.0,96.0,Teuchitlán,14096,14|teuchitlan,14095,both
+14.0,97.0,Tizapán el Alto,14097,14|tizapan el alto,14096,both
+14.0,98.0,Tlajomulco de Zúñiga,14098,14|tlajomulco de zuniga,14097,both
+14.0,100.0,Tolimán,14100,14|toliman,14099,both
+14.0,101.0,Tomatlán,14101,14|tomatlan,14100,both
+14.0,102.0,Tonalá,14102,14|tonala,14101,both
+14.0,103.0,Tonaya,14103,14|tonaya,14102,both
+14.0,104.0,Tonila,14104,14|tonila,14103,both
+14.0,105.0,Totatiche,14105,14|totatiche,14104,both
+14.0,106.0,Tototlán,14106,14|tototlan,14105,both
+14.0,107.0,Tuxcacuesco,14107,14|tuxcacuesco,14106,both
+14.0,108.0,Tuxcueca,14108,14|tuxcueca,14107,both
+14.0,109.0,Tuxpan,14109,14|tuxpan,14108,both
+14.0,110.0,Unión de San Antonio,14110,14|union de san antonio,14109,both
+14.0,111.0,Unión de Tula,14111,14|union de tula,14110,both
+14.0,112.0,Valle de Guadalupe,14112,14|valle de guadalupe,14111,both
+14.0,113.0,Valle de Juárez,14113,14|valle de juarez,14112,both
+14.0,70.0,Villa Purificación,14070,14|villa purificacion,14068,both
+15.0,26.0,Chalco,15026,15|chalco,15025,both
+15.0,27.0,Chapa de Mota,15027,15|chapa de mota,15026,both
+15.0,28.0,Chapultepec,15028,15|chapultepec,15027,both
+15.0,29.0,Chiautla,15029,15|chiautla,15028,both
+15.0,30.0,Chicoloapan,15030,15|chicoloapan,15029,both
+15.0,31.0,Chiconcuac,15031,15|chiconcuac,15030,both
+15.0,32.0,Chimalhuacán,15032,15|chimalhuacan,15031,both
+15.0,25.0,Cuautitlán Izcalli,15025,15|cuautitlan izcalli,15121,both
+15.0,33.0,Donato Guerra,15033,15|donato guerra,15032,both
+15.0,34.0,Ecatepec de Morelos,15034,15|ecatepec de morelos,15033,both
+15.0,35.0,Ecatzingo,15035,15|ecatzingo,15034,both
+15.0,65.0,El Oro,15065,15|el oro,15064,both
+15.0,36.0,Huehuetoca,15036,15|huehuetoca,15035,both
+15.0,37.0,Hueypoxtla,15037,15|hueypoxtla,15036,both
+15.0,38.0,Huixquilucan,15038,15|huixquilucan,15037,both
+15.0,39.0,Isidro Fabela,15039,15|isidro fabela,15038,both
+15.0,40.0,Ixtapaluca,15040,15|ixtapaluca,15039,both
+15.0,41.0,Ixtapan de la Sal,15041,15|ixtapan de la sal,15040,both
+15.0,42.0,Ixtapan del Oro,15042,15|ixtapan del oro,15041,both
+15.0,43.0,Ixtlahuaca,15043,15|ixtlahuaca,15042,both
+15.0,45.0,Jaltenco,15045,15|jaltenco,15044,both
+15.0,46.0,Jilotepec,15046,15|jilotepec,15045,both
+15.0,47.0,Jilotzingo,15047,15|jilotzingo,15046,both
+15.0,48.0,Jiquipilco,15048,15|jiquipilco,15047,both
+15.0,49.0,Jocotitlán,15049,15|jocotitlan,15048,both
+15.0,50.0,Joquicingo,15050,15|joquicingo,15049,both
+15.0,51.0,Juchitepec,15051,15|juchitepec,15050,both
+15.0,71.0,La Paz,15071,15|la paz,15070,both
+15.0,52.0,Lerma,15052,15|lerma,15051,both
+15.0,53.0,Malinalco,15053,15|malinalco,15052,both
+15.0,54.0,Melchor Ocampo,15054,15|melchor ocampo,15053,both
+15.0,55.0,Metepec,15055,15|metepec,15054,both
+15.0,56.0,Mexicaltzingo,15056,15|mexicaltzingo,15055,both
+15.0,57.0,Morelos,15057,15|morelos,15056,both
+15.0,58.0,Naucalpan de Juárez,15058,15|naucalpan de juarez,15057,both
+15.0,60.0,Nezahualcóyotl,15060,15|nezahualcoyotl,15058,both
+15.0,61.0,Nicolás Romero,15061,15|nicolas romero,15060,both
+15.0,62.0,Nopaltepec,15062,15|nopaltepec,15061,both
+15.0,63.0,Ocoyoacac,15063,15|ocoyoacac,15062,both
+15.0,64.0,Ocuilan,15064,15|ocuilan,15063,both
+15.0,66.0,Otumba,15066,15|otumba,15065,both
+15.0,67.0,Otzoloapan,15067,15|otzoloapan,15066,both
+15.0,68.0,Otzolotepec,15068,15|otzolotepec,15067,both
+15.0,69.0,Ozumba,15069,15|ozumba,15068,both
+15.0,70.0,Papalotla,15070,15|papalotla,15069,both
+15.0,72.0,Polotitlán,15072,15|polotitlan,15071,both
+15.0,73.0,Rayón,15073,15|rayon,15072,both
+15.0,74.0,San Antonio la Isla,15074,15|san antonio la isla,15073,both
+15.0,75.0,San Felipe del Progreso,15075,15|san felipe del progreso,15074,both
+15.0,76.0,San Martín de las Pirámides,15076,15|san martin de las piramides,15075,both
+15.0,77.0,San Mateo Atenco,15077,15|san mateo atenco,15076,both
+15.0,78.0,San Simón de Guerrero,15078,15|san simon de guerrero,15077,both
+15.0,79.0,Santo Tomás,15079,15|santo tomas,15078,both
+15.0,80.0,Soyaniquilpan de Juárez,15080,15|soyaniquilpan de juarez,15079,both
+15.0,81.0,Sultepec,15081,15|sultepec,15080,both
+15.0,82.0,Tecámac,15082,15|tecamac,15081,both
+15.0,83.0,Tejupilco,15083,15|tejupilco,15082,both
+15.0,84.0,Temamatla,15084,15|temamatla,15083,both
+15.0,85.0,Temascalapa,15085,15|temascalapa,15084,both
+15.0,86.0,Temascalcingo,15086,15|temascalcingo,15085,both
+15.0,87.0,Temascaltepec,15087,15|temascaltepec,15086,both
+15.0,88.0,Temoaya,15088,15|temoaya,15087,both
+15.0,89.0,Tenancingo,15089,15|tenancingo,15088,both
+15.0,90.0,Tenango del Aire,15090,15|tenango del aire,15089,both
+15.0,91.0,Tenango del Valle,15091,15|tenango del valle,15090,both
+15.0,92.0,Teoloyucan,15092,15|teoloyucan,15091,both
+15.0,93.0,Teotihuacán,15093,15|teotihuacan,15092,both
+15.0,94.0,Tepetlaoxtoc,15094,15|tepetlaoxtoc,15093,both
+15.0,95.0,Tepetlixpa,15095,15|tepetlixpa,15094,both
+15.0,96.0,Tepotzotlán,15096,15|tepotzotlan,15095,both
+15.0,97.0,Tequixquiac,15097,15|tequixquiac,15096,both
+15.0,98.0,Texcaltitlán,15098,15|texcaltitlan,15097,both
+15.0,99.0,Texcalyacac,15099,15|texcalyacac,15098,both
+15.0,100.0,Texcoco,15100,15|texcoco,15099,both
+15.0,101.0,Tezoyuca,15101,15|tezoyuca,15100,both
+15.0,102.0,Tianguistenco,15102,15|tianguistenco,15101,both
+15.0,103.0,Timilpan,15103,15|timilpan,15102,both
+15.0,104.0,Tlalmanalco,15104,15|tlalmanalco,15103,both
+15.0,105.0,Tlalnepantla de Baz,15105,15|tlalnepantla de baz,15104,both
+15.0,106.0,Tlatlaya,15106,15|tlatlaya,15105,both
+15.0,107.0,Toluca,15107,15|toluca,15106,both
+15.0,108.0,Tonatico,15108,15|tonatico,15107,both
+15.0,109.0,Tultepec,15109,15|tultepec,15108,both
+15.0,110.0,Tultitlán,15110,15|tultitlan,15109,both
+15.0,111.0,Valle de Bravo,15111,15|valle de bravo,15110,both
+15.0,112.0,Villa de Allende,15112,15|villa de allende,15111,both
+15.0,113.0,Villa del Carbón,15113,15|villa del carbon,15112,both
+15.0,114.0,Villa Guerrero,15114,15|villa guerrero,15113,both
+15.0,115.0,Villa Victoria,15115,15|villa victoria,15114,both
+15.0,44.0,Xalatlaco,15044,15|xalatlaco,15043,both
+15.0,116.0,Xonacatlán,15116,15|xonacatlan,15115,both
+15.0,117.0,Zacazonapan,15117,15|zacazonapan,15116,both
+15.0,118.0,Zacualpan,15118,15|zacualpan,15117,both
+15.0,119.0,Zinacantepec,15119,15|zinacantepec,15118,both
+15.0,120.0,Zumpahuacán,15120,15|zumpahuacan,15119,both
+15.0,121.0,Zumpango,15121,15|zumpango,15120,both
+16.0,75.0,Cojumatlán de Régules,16075,16|cojumatlan de regules,16074,both
+16.0,46.0,José Sixto Verduzco,16046,16|jose sixto verduzco,16113,both
+16.0,47.0,Juárez,16047,16|juarez,16046,both
+16.0,48.0,Jungapeo,16048,16|jungapeo,16047,both
+16.0,70.0,La Piedad,16070,16|la piedad,16069,both
+16.0,49.0,Lagunillas,16049,16|lagunillas,16048,both
+16.0,50.0,Lázaro Cárdenas,16050,16|lazaro cardenas,16052,both
+16.0,76.0,Los Reyes,16076,16|los reyes,16075,both
+16.0,51.0,Madero,16051,16|madero,16049,both
+16.0,52.0,Maravatío,16052,16|maravatio,16050,both
+16.0,53.0,Marcos Castellanos,16053,16|marcos castellanos,16051,both
+16.0,54.0,Morelia,16054,16|morelia,16053,both
+16.0,55.0,Morelos,16055,16|morelos,16054,both
+16.0,56.0,Múgica,16056,16|mugica,16055,both
+16.0,57.0,Nahuatzen,16057,16|nahuatzen,16056,both
+16.0,58.0,Nocupétaro,16058,16|nocupetaro,16057,both
+16.0,59.0,Nuevo Parangaricutiro,16059,16|nuevo parangaricutiro,16058,both
+16.0,60.0,Nuevo Urecho,16060,16|nuevo urecho,16059,both
+16.0,61.0,Numarán,16061,16|numaran,16060,both
+16.0,62.0,Ocampo,16062,16|ocampo,16061,both
+16.0,63.0,Pajacuarán,16063,16|pajacuaran,16062,both
+16.0,64.0,Panindícuaro,16064,16|panindicuaro,16063,both
+16.0,66.0,Paracho,16066,16|paracho,16065,both
+16.0,65.0,Parácuaro,16065,16|paracuaro,16064,both
+16.0,67.0,Pátzcuaro,16067,16|patzcuaro,16066,both
+16.0,68.0,Penjamillo,16068,16|penjamillo,16067,both
+16.0,69.0,Peribán,16069,16|periban,16068,both
+16.0,71.0,Purépero,16071,16|purepero,16070,both
+16.0,72.0,Puruándiro,16072,16|puruandiro,16071,both
+16.0,73.0,Queréndaro,16073,16|querendaro,16072,both
+16.0,74.0,Quiroga,16074,16|quiroga,16073,both
+16.0,77.0,Sahuayo,16077,16|sahuayo,16076,both
+16.0,80.0,Salvador Escalante,16080,16|salvador escalante,16079,both
+16.0,78.0,San Lucas,16078,16|san lucas,16077,both
+16.0,79.0,Santa Ana Maya,16079,16|santa ana maya,16078,both
+16.0,81.0,Senguio,16081,16|senguio,16080,both
+16.0,82.0,Susupuato,16082,16|susupuato,16081,both
+16.0,83.0,Tacámbaro,16083,16|tacambaro,16082,both
+16.0,84.0,Tancítaro,16084,16|tancitaro,16083,both
+16.0,85.0,Tangamandapio,16085,16|tangamandapio,16084,both
+16.0,86.0,Tangancícuaro,16086,16|tangancicuaro,16085,both
+16.0,87.0,Tanhuato,16087,16|tanhuato,16086,both
+16.0,88.0,Taretan,16088,16|taretan,16087,both
+16.0,89.0,Tarímbaro,16089,16|tarimbaro,16088,both
+16.0,90.0,Tepalcatepec,16090,16|tepalcatepec,16089,both
+16.0,91.0,Tingambato,16091,16|tingambato,16090,both
+16.0,92.0,Tingüindín,16092,16|tinguindin,16091,both
+16.0,93.0,Tiquicheo de Nicolás Romero,16093,16|tiquicheo de nicolas romero,16092,both
+16.0,94.0,Tlalpujahua,16094,16|tlalpujahua,16093,both
+16.0,95.0,Tlazazalca,16095,16|tlazazalca,16094,both
+16.0,96.0,Tocumbo,16096,16|tocumbo,16095,both
+16.0,97.0,Tumbiscatío,16097,16|tumbiscatio,16096,both
+16.0,98.0,Turicato,16098,16|turicato,16097,both
+16.0,99.0,Tuxpan,16099,16|tuxpan,16098,both
+16.0,100.0,Tuzantla,16100,16|tuzantla,16099,both
+16.0,101.0,Tzintzuntzan,16101,16|tzintzuntzan,16100,both
+16.0,102.0,Tzitzio,16102,16|tzitzio,16101,both
+16.0,103.0,Uruapan,16103,16|uruapan,16102,both
+16.0,104.0,Venustiano Carranza,16104,16|venustiano carranza,16103,both
+16.0,105.0,Villamar,16105,16|villamar,16104,both
+16.0,106.0,Vista Hermosa,16106,16|vista hermosa,16105,both
+16.0,107.0,Yurécuaro,16107,16|yurecuaro,16106,both
+16.0,108.0,Zacapu,16108,16|zacapu,16107,both
+16.0,109.0,Zamora,16109,16|zamora,16108,both
+16.0,110.0,Zináparo,16110,16|zinaparo,16109,both
+16.0,111.0,Zinapécuaro,16111,16|zinapecuaro,16110,both
+16.0,112.0,Ziracuaretiro,16112,16|ziracuaretiro,16111,both
+16.0,113.0,Zitácuaro,16113,16|zitacuaro,16112,both
+18.0,4.0,Bahía de Banderas,18004,18|bahia de banderas,18020,both
+18.0,5.0,Compostela,18005,18|compostela,18004,both
+18.0,6.0,Huajicori,18006,18|huajicori,18005,both
+18.0,7.0,Ixtlán del Río,18007,18|ixtlan del rio,18006,both
+18.0,8.0,Jala,18008,18|jala,18007,both
+18.0,20.0,La Yesca,18020,18|la yesca,18019,both
+18.0,19.0,Xalisco,18019,18|xalisco,18008,both
+19.0,28.0,Hidalgo,19028,19|hidalgo,19047,both
+19.0,29.0,Higueras,19029,19|higueras,19028,both
+19.0,30.0,Hualahuises,19030,19|hualahuises,19029,both
+19.0,31.0,Iturbide,19031,19|iturbide,19030,both
+19.0,32.0,Juárez,19032,19|juarez,19031,both
+19.0,33.0,Lampazos de Naranjo,19033,19|lampazos de naranjo,19032,both
+19.0,34.0,Linares,19034,19|linares,19033,both
+19.0,43.0,Los Ramones,19043,19|los ramones,19042,both
+19.0,35.0,Marín,19035,19|marin,19034,both
+19.0,36.0,Melchor Ocampo,19036,19|melchor ocampo,19035,both
+19.0,37.0,Mier y Noriega,19037,19|mier y noriega,19036,both
+19.0,38.0,Mina,19038,19|mina,19037,both
+19.0,39.0,Montemorelos,19039,19|montemorelos,19038,both
+19.0,40.0,Monterrey,19040,19|monterrey,19039,both
+19.0,41.0,Parás,19041,19|paras,19040,both
+19.0,42.0,Pesquería,19042,19|pesqueria,19041,both
+19.0,44.0,Rayones,19044,19|rayones,19043,both
+19.0,45.0,Sabinas Hidalgo,19045,19|sabinas hidalgo,19044,both
+19.0,46.0,Salinas Victoria,19046,19|salinas victoria,19045,both
+19.0,47.0,San Nicolás de los Garza,19047,19|san nicolas de los garza,19046,both
+1.0,11.0,El Llano,01011,1|el llano,01010,both
+1.0,10.0,San Francisco de los Romo,01010,1|san francisco de los romo,01011,both
+20.0,3.0,Ánimas Trujano,20003,20|animas trujano,20174,both
+20.0,4.0,Asunción Cacalotepec,20004,20|asuncion cacalotepec,20003,both
+20.0,5.0,Asunción Cuyotepeji,20005,20|asuncion cuyotepeji,20004,both
+20.0,6.0,Asunción Ixtaltepec,20006,20|asuncion ixtaltepec,20005,both
+20.0,7.0,Asunción Nochixtlán,20007,20|asuncion nochixtlan,20006,both
+20.0,8.0,Asunción Ocotlán,20008,20|asuncion ocotlan,20007,both
+20.0,9.0,Asunción Tlacolulita,20009,20|asuncion tlacolulita,20008,both
+20.0,10.0,Ayoquezco de Aldama,20010,20|ayoquezco de aldama,20398,both
+20.0,11.0,Ayotzintepec,20011,20|ayotzintepec,20009,both
+20.0,13.0,Calihualá,20013,20|calihuala,20011,both
+20.0,14.0,Candelaria Loxicha,20014,20|candelaria loxicha,20012,both
+20.0,559.0,Capulálpam de Méndez,20559,20|capulalpam de mendez,20247,both
+20.0,15.0,Chahuites,20015,20|chahuites,20025,both
+20.0,16.0,Chalcatongo de Hidalgo,20016,20|chalcatongo de hidalgo,20026,both
+20.0,187.0,Chiquihuitlán de Benito Juárez,20187,20|chiquihuitlan de benito juarez,20027,both
+20.0,17.0,Ciénega de Zimatlán,20017,20|cienega de zimatlan,20013,both
+20.0,41.0,Ciudad Ixtepec,20041,20|ciudad ixtepec,20014,both
+20.0,18.0,Coatecas Altas,20018,20|coatecas altas,20015,both
+20.0,19.0,Coicoyán de las Flores,20019,20|coicoyan de las flores,20016,both
+20.0,21.0,Concepción Buenavista,20021,20|concepcion buenavista,20018,both
+20.0,22.0,Concepción Pápalo,20022,20|concepcion papalo,20019,both
+20.0,23.0,Constancia del Rosario,20023,20|constancia del rosario,20020,both
+20.0,24.0,Cosolapa,20024,20|cosolapa,20021,both
+20.0,25.0,Cosoltepec,20025,20|cosoltepec,20022,both
+20.0,26.0,Cuilápam de Guerrero,20026,20|cuilapam de guerrero,20023,both
+20.0,27.0,Cuyamecalco Villa de Zaragoza,20027,20|cuyamecalco villa de zaragoza,20024,both
+20.0,12.0,El Barrio de la Soledad,20012,20|el barrio de la soledad,20010,both
+20.0,31.0,Fresnillo de Trujano,20031,20|fresnillo de trujano,20032,both
+20.0,32.0,Guadalupe de Ramírez,20032,20|guadalupe de ramirez,20034,both
+20.0,34.0,Guelatao de Juárez,20034,20|guelatao de juarez,20035,both
+20.0,35.0,Guevea de Humboldt,20035,20|guevea de humboldt,20036,both
+20.0,37.0,Heroica Ciudad de Huajuapan de León,20037,20|heroica ciudad de huajuapan de leon,20039,both
+20.0,553.0,Heroica Ciudad de Tlaxiaco,20553,20|heroica ciudad de tlaxiaco,20397,both
+20.0,121.0,Heroica Villa de San Blas Atempa,20121,20|heroica villa de san blas atempa,20124,both
+20.0,38.0,Huautepec,20038,20|huautepec,20040,both
+20.0,39.0,Huautla de Jiménez,20039,20|huautla de jimenez,20041,both
+20.0,40.0,Ixpantepec Nieves,20040,20|ixpantepec nieves,20065,both
+20.0,20.0,La Compañía,20020,20|la compania,20017,both
+20.0,68.0,La Pe,20068,20|la pe,20069,both
+20.0,73.0,La Reforma,20073,20|la reforma,20076,both
+20.0,47.0,Magdalena Mixtepec,20047,20|magdalena mixtepec,20048,both
+20.0,48.0,Magdalena Ocotlán,20048,20|magdalena ocotlan,20049,both
+20.0,49.0,Magdalena Peñasco,20049,20|magdalena penasco,20050,both
+20.0,50.0,Magdalena Teitipac,20050,20|magdalena teitipac,20051,both
+20.0,51.0,Magdalena Tequisistlán,20051,20|magdalena tequisistlan,20052,both
+20.0,52.0,Magdalena Tlacotepec,20052,20|magdalena tlacotepec,20053,both
+20.0,53.0,Magdalena Yodocono de Porfirio Díaz,20053,20|magdalena yodocono de porfirio diaz,20562,both
+20.0,36.0,Mesones Hidalgo,20036,20|mesones hidalgo,20037,both
+20.0,65.0,Nuevo Zoquiápam,20065,20|nuevo zoquiapam,20504,both
+20.0,66.0,Oaxaca de Juárez,20066,20|oaxaca de juarez,20067,both
+20.0,67.0,Ocotlán de Morelos,20067,20|ocotlan de morelos,20068,both
+20.0,69.0,Pinotepa de Don Luis,20069,20|pinotepa de don luis,20070,both
+20.0,70.0,Pluma Hidalgo,20070,20|pluma hidalgo,20071,both
+20.0,71.0,Putla Villa de Guerrero,20071,20|putla villa de guerrero,20073,both
+20.0,72.0,Reforma de Pineda,20072,20|reforma de pineda,20075,both
+20.0,74.0,Reyes Etla,20074,20|reyes etla,20077,both
+20.0,75.0,Rojas de Cuauhtémoc,20075,20|rojas de cuauhtemoc,20078,both
+20.0,76.0,Salina Cruz,20076,20|salina cruz,20079,both
+20.0,77.0,San Agustín Amatengo,20077,20|san agustin amatengo,20080,both
+20.0,78.0,San Agustín Atenango,20078,20|san agustin atenango,20081,both
+20.0,79.0,San Agustín Chayuco,20079,20|san agustin chayuco,20082,both
+20.0,80.0,San Agustín de las Juntas,20080,20|san agustin de las juntas,20083,both
+20.0,81.0,San Agustín Etla,20081,20|san agustin etla,20084,both
+20.0,82.0,San Agustín Loxicha,20082,20|san agustin loxicha,20085,both
+20.0,83.0,San Agustín Tlacotepec,20083,20|san agustin tlacotepec,20086,both
+20.0,84.0,San Agustín Yatareni,20084,20|san agustin yatareni,20087,both
+20.0,85.0,San Andrés Cabecera Nueva,20085,20|san andres cabecera nueva,20088,both
+20.0,86.0,San Andrés Dinicuiti,20086,20|san andres dinicuiti,20089,both
+20.0,87.0,San Andrés Huaxpaltepec,20087,20|san andres huaxpaltepec,20090,both
+20.0,88.0,San Andrés Huayápam,20088,20|san andres huayapam,20091,both
+20.0,89.0,San Andrés Ixtlahuaca,20089,20|san andres ixtlahuaca,20092,both
+20.0,90.0,San Andrés Lagunas,20090,20|san andres lagunas,20093,both
+20.0,91.0,San Andrés Nuxiño,20091,20|san andres nuxino,20094,both
+20.0,92.0,San Andrés Paxtlán,20092,20|san andres paxtlan,20095,both
+20.0,93.0,San Andrés Sinaxtla,20093,20|san andres sinaxtla,20096,both
+20.0,94.0,San Andrés Solaga,20094,20|san andres solaga,20097,both
+20.0,95.0,San Andrés Teotilálpam,20095,20|san andres teotilalpam,20098,both
+20.0,96.0,San Andrés Tepetlapa,20096,20|san andres tepetlapa,20099,both
+20.0,97.0,San Andrés Yaá,20097,20|san andres yaa,20100,both
+20.0,98.0,San Andrés Zabache,20098,20|san andres zabache,20101,both
+20.0,99.0,San Andrés Zautla,20099,20|san andres zautla,20102,both
+20.0,100.0,San Antonino Castillo Velasco,20100,20|san antonino castillo velasco,20103,both
+20.0,101.0,San Antonino el Alto,20101,20|san antonino el alto,20104,both
+20.0,102.0,San Antonino Monte Verde,20102,20|san antonino monte verde,20105,both
+20.0,103.0,San Antonio Acutla,20103,20|san antonio acutla,20106,both
+20.0,104.0,San Antonio de la Cal,20104,20|san antonio de la cal,20107,both
+20.0,105.0,San Antonio Huitepec,20105,20|san antonio huitepec,20108,both
+20.0,106.0,San Antonio Nanahuatípam,20106,20|san antonio nanahuatipam,20109,both
+20.0,107.0,San Antonio Sinicahua,20107,20|san antonio sinicahua,20110,both
+20.0,108.0,San Antonio Tepetlapa,20108,20|san antonio tepetlapa,20111,both
+20.0,109.0,San Baltazar Chichicápam,20109,20|san baltazar chichicapam,20112,both
+20.0,110.0,San Baltazar Loxicha,20110,20|san baltazar loxicha,20113,both
+20.0,111.0,San Baltazar Yatzachi el Bajo,20111,20|san baltazar yatzachi el bajo,20114,both
+20.0,112.0,San Bartolo Coyotepec,20112,20|san bartolo coyotepec,20115,both
+20.0,113.0,San Bartolo Soyaltepec,20113,20|san bartolo soyaltepec,20121,both
+20.0,114.0,San Bartolo Yautepec,20114,20|san bartolo yautepec,20122,both
+20.0,115.0,San Bartolomé Ayautla,20115,20|san bartolome ayautla,20116,both
+20.0,116.0,San Bartolomé Loxicha,20116,20|san bartolome loxicha,20117,both
+20.0,117.0,San Bartolomé Quialana,20117,20|san bartolome quialana,20118,both
+20.0,118.0,San Bartolomé Yucuañe,20118,20|san bartolome yucuane,20119,both
+20.0,119.0,San Bartolomé Zoogocho,20119,20|san bartolome zoogocho,20120,both
+20.0,120.0,San Bernardo Mixtepec,20120,20|san bernardo mixtepec,20123,both
+20.0,122.0,San Carlos Yautepec,20122,20|san carlos yautepec,20125,both
+20.0,123.0,San Cristóbal Amatlán,20123,20|san cristobal amatlan,20126,both
+20.0,124.0,San Cristóbal Amoltepec,20124,20|san cristobal amoltepec,20127,both
+20.0,125.0,San Cristóbal Lachirioag,20125,20|san cristobal lachirioag,20128,both
+20.0,126.0,San Cristóbal Suchixtlahuaca,20126,20|san cristobal suchixtlahuaca,20129,both
+20.0,127.0,San Dionisio del Mar,20127,20|san dionisio del mar,20130,both
+20.0,128.0,San Dionisio Ocotepec,20128,20|san dionisio ocotepec,20131,both
+20.0,129.0,San Dionisio Ocotlán,20129,20|san dionisio ocotlan,20132,both
+20.0,130.0,San Esteban Atatlahuca,20130,20|san esteban atatlahuca,20133,both
+20.0,131.0,San Felipe Jalapa de Díaz,20131,20|san felipe jalapa de diaz,20134,both
+20.0,132.0,San Felipe Tejalápam,20132,20|san felipe tejalapam,20135,both
+20.0,133.0,San Felipe Usila,20133,20|san felipe usila,20136,both
+20.0,134.0,San Francisco Cahuacuá,20134,20|san francisco cahuacua,20137,both
+20.0,135.0,San Francisco Cajonos,20135,20|san francisco cajonos,20138,both
+20.0,136.0,San Francisco Chapulapa,20136,20|san francisco chapulapa,20139,both
+20.0,137.0,San Francisco Chindúa,20137,20|san francisco chindua,20140,both
+20.0,138.0,San Francisco del Mar,20138,20|san francisco del mar,20141,both
+20.0,139.0,San Francisco Huehuetlán,20139,20|san francisco huehuetlan,20142,both
+20.0,140.0,San Francisco Ixhuatán,20140,20|san francisco ixhuatan,20143,both
+20.0,141.0,San Francisco Jaltepetongo,20141,20|san francisco jaltepetongo,20144,both
+20.0,142.0,San Francisco Lachigoló,20142,20|san francisco lachigolo,20145,both
+20.0,143.0,San Francisco Logueche,20143,20|san francisco logueche,20146,both
+20.0,144.0,San Francisco Nuxaño,20144,20|san francisco nuxano,20147,both
+20.0,145.0,San Francisco Ozolotepec,20145,20|san francisco ozolotepec,20148,both
+20.0,146.0,San Francisco Sola,20146,20|san francisco sola,20149,both
+20.0,147.0,San Francisco Telixtlahuaca,20147,20|san francisco telixtlahuaca,20150,both
+20.0,148.0,San Francisco Teopan,20148,20|san francisco teopan,20151,both
+20.0,149.0,San Francisco Tlapancingo,20149,20|san francisco tlapancingo,20152,both
+20.0,150.0,San Gabriel Mixtepec,20150,20|san gabriel mixtepec,20153,both
+20.0,151.0,San Ildefonso Amatlán,20151,20|san ildefonso amatlan,20154,both
+20.0,152.0,San Ildefonso Sola,20152,20|san ildefonso sola,20155,both
+20.0,153.0,San Ildefonso Villa Alta,20153,20|san ildefonso villa alta,20156,both
+20.0,154.0,San Jacinto Amilpas,20154,20|san jacinto amilpas,20157,both
+20.0,155.0,San Jacinto Tlacotepec,20155,20|san jacinto tlacotepec,20158,both
+20.0,156.0,San Jerónimo Coatlán,20156,20|san jeronimo coatlan,20159,both
+20.0,157.0,San Jerónimo Silacayoapilla,20157,20|san jeronimo silacayoapilla,20160,both
+20.0,158.0,San Jerónimo Sosola,20158,20|san jeronimo sosola,20161,both
+20.0,159.0,San Jerónimo Taviche,20159,20|san jeronimo taviche,20162,both
+20.0,160.0,San Jerónimo Tecóatl,20160,20|san jeronimo tecoatl,20163,both
+20.0,161.0,San Jerónimo Tlacochahuaya,20161,20|san jeronimo tlacochahuaya,20550,both
+20.0,162.0,San Jorge Nuchita,20162,20|san jorge nuchita,20164,both
+20.0,163.0,San José Ayuquila,20163,20|san jose ayuquila,20165,both
+20.0,164.0,San José Chiltepec,20164,20|san jose chiltepec,20166,both
+20.0,165.0,San José del Peñasco,20165,20|san jose del penasco,20167,both
+20.0,169.0,San José del Progreso,20169,20|san jose del progreso,20072,both
+20.0,166.0,San José Estancia Grande,20166,20|san jose estancia grande,20168,both
+20.0,167.0,San José Independencia,20167,20|san jose independencia,20169,both
+20.0,168.0,San José Lachiguiri,20168,20|san jose lachiguiri,20170,both
+20.0,170.0,San José Tenango,20170,20|san jose tenango,20171,both
+20.0,171.0,San Juan Achiutla,20171,20|san juan achiutla,20172,both
+20.0,172.0,San Juan Atepec,20172,20|san juan atepec,20173,both
+20.0,173.0,San Juan Bautista Atatlahuca,20173,20|san juan bautista atatlahuca,20175,both
+20.0,174.0,San Juan Bautista Coixtlahuaca,20174,20|san juan bautista coixtlahuaca,20176,both
+20.0,175.0,San Juan Bautista Cuicatlán,20175,20|san juan bautista cuicatlan,20177,both
+20.0,176.0,San Juan Bautista Guelache,20176,20|san juan bautista guelache,20178,both
+20.0,177.0,San Juan Bautista Jayacatlán,20177,20|san juan bautista jayacatlan,20179,both
+20.0,178.0,San Juan Bautista Lo de Soto,20178,20|san juan bautista lo de soto,20180,both
+20.0,179.0,San Juan Bautista Suchitepec,20179,20|san juan bautista suchitepec,20181,both
+20.0,180.0,San Juan Bautista Tlachichilco,20180,20|san juan bautista tlachichilco,20183,both
+20.0,181.0,San Juan Bautista Tlacoatzintepec,20181,20|san juan bautista tlacoatzintepec,20182,both
+20.0,182.0,San Juan Bautista Tuxtepec,20182,20|san juan bautista tuxtepec,20184,both
+20.0,183.0,San Juan Bautista Valle Nacional,20183,20|san juan bautista valle nacional,20559,both
+20.0,184.0,San Juan Cacahuatepec,20184,20|san juan cacahuatepec,20185,both
+20.0,185.0,San Juan Chicomezúchil,20185,20|san juan chicomezuchil,20191,both
+20.0,186.0,San Juan Chilateca,20186,20|san juan chilateca,20192,both
+20.0,188.0,San Juan Cieneguilla,20188,20|san juan cieneguilla,20186,both
+20.0,189.0,San Juan Coatzóspam,20189,20|san juan coatzospam,20187,both
+20.0,190.0,San Juan Colorado,20190,20|san juan colorado,20188,both
+20.0,191.0,San Juan Comaltepec,20191,20|san juan comaltepec,20189,both
+20.0,192.0,San Juan Cotzocón,20192,20|san juan cotzocon,20190,both
+20.0,193.0,San Juan de los Cués,20193,20|san juan de los cues,20206,both
+20.0,194.0,San Juan del Estado,20194,20|san juan del estado,20193,both
+20.0,195.0,San Juan del Río,20195,20|san juan del rio,20194,both
+20.0,196.0,San Juan Diuxi,20196,20|san juan diuxi,20195,both
+20.0,197.0,San Juan Evangelista Analco,20197,20|san juan evangelista analco,20196,both
+20.0,198.0,San Juan Guelavía,20198,20|san juan guelavia,20197,both
+20.0,199.0,San Juan Guichicovi,20199,20|san juan guichicovi,20198,both
+20.0,200.0,San Juan Ihualtepec,20200,20|san juan ihualtepec,20199,both
+20.0,201.0,San Juan Juquila Mixes,20201,20|san juan juquila mixes,20200,both
+20.0,202.0,San Juan Juquila Vijanos,20202,20|san juan juquila vijanos,20201,both
+20.0,203.0,San Juan Lachao,20203,20|san juan lachao,20202,both
+20.0,204.0,San Juan Lachigalla,20204,20|san juan lachigalla,20203,both
+20.0,205.0,San Juan Lajarcia,20205,20|san juan lajarcia,20204,both
+20.0,206.0,San Juan Lalana,20206,20|san juan lalana,20205,both
+20.0,247.0,San Mateo del Mar,20247,20|san mateo del mar,20248,both
+20.0,248.0,San Mateo Etlatongo,20248,20|san mateo etlatongo,20250,both
+20.0,249.0,San Mateo Nejápam,20249,20|san mateo nejapam,20251,both
+20.0,250.0,San Mateo Peñasco,20250,20|san mateo penasco,20252,both
+20.0,251.0,San Mateo Piñas,20251,20|san mateo pinas,20253,both
+20.0,252.0,San Mateo Río Hondo,20252,20|san mateo rio hondo,20254,both
+20.0,253.0,San Mateo Sindihui,20253,20|san mateo sindihui,20255,both
+20.0,254.0,San Mateo Tlapiltepec,20254,20|san mateo tlapiltepec,20256,both
+20.0,255.0,San Mateo Yoloxochitlán,20255,20|san mateo yoloxochitlan,20249,both
+20.0,567.0,San Mateo Yucutindoo,20567,20|san mateo yucutindoo,20566,both
+20.0,256.0,San Melchor Betaza,20256,20|san melchor betaza,20257,both
+20.0,257.0,San Miguel Achiutla,20257,20|san miguel achiutla,20258,both
+20.0,258.0,San Miguel Ahuehuetitlán,20258,20|san miguel ahuehuetitlan,20259,both
+20.0,259.0,San Miguel Aloápam,20259,20|san miguel aloapam,20260,both
+20.0,260.0,San Miguel Amatitlán,20260,20|san miguel amatitlan,20261,both
+20.0,261.0,San Miguel Amatlán,20261,20|san miguel amatlan,20262,both
+20.0,262.0,San Miguel Chicahua,20262,20|san miguel chicahua,20264,both
+20.0,263.0,San Miguel Chimalapa,20263,20|san miguel chimalapa,20265,both
+20.0,264.0,San Miguel Coatlán,20264,20|san miguel coatlan,20263,both
+20.0,265.0,San Miguel del Puerto,20265,20|san miguel del puerto,20266,both
+20.0,266.0,San Miguel del Río,20266,20|san miguel del rio,20267,both
+20.0,267.0,San Miguel Ejutla,20267,20|san miguel ejutla,20268,both
+20.0,268.0,San Miguel el Grande,20268,20|san miguel el grande,20269,both
+20.0,269.0,San Miguel Huautla,20269,20|san miguel huautla,20270,both
+20.0,270.0,San Miguel Mixtepec,20270,20|san miguel mixtepec,20271,both
+20.0,271.0,San Miguel Panixtlahuaca,20271,20|san miguel panixtlahuaca,20272,both
+20.0,272.0,San Miguel Peras,20272,20|san miguel peras,20273,both
+20.0,273.0,San Miguel Piedras,20273,20|san miguel piedras,20274,both
+20.0,274.0,San Miguel Quetzaltepec,20274,20|san miguel quetzaltepec,20275,both
+20.0,275.0,San Miguel Santa Flor,20275,20|san miguel santa flor,20276,both
+20.0,276.0,San Miguel Soyaltepec,20276,20|san miguel soyaltepec,20278,both
+20.0,277.0,San Miguel Suchixtepec,20277,20|san miguel suchixtepec,20279,both
+20.0,279.0,San Miguel Tecomatlán,20279,20|san miguel tecomatlan,20281,both
+20.0,280.0,San Miguel Tenango,20280,20|san miguel tenango,20282,both
+20.0,281.0,San Miguel Tequixtepec,20281,20|san miguel tequixtepec,20283,both
+20.0,282.0,San Miguel Tilquiápam,20282,20|san miguel tilquiapam,20284,both
+20.0,283.0,San Miguel Tlacamama,20283,20|san miguel tlacamama,20285,both
+20.0,284.0,San Miguel Tlacotepec,20284,20|san miguel tlacotepec,20286,both
+20.0,285.0,San Miguel Tulancingo,20285,20|san miguel tulancingo,20287,both
+20.0,286.0,San Miguel Yotao,20286,20|san miguel yotao,20288,both
+20.0,287.0,San Nicolás,20287,20|san nicolas,20289,both
+20.0,288.0,San Nicolás Hidalgo,20288,20|san nicolas hidalgo,20290,both
+20.0,289.0,San Pablo Coatlán,20289,20|san pablo coatlan,20291,both
+20.0,290.0,San Pablo Cuatro Venados,20290,20|san pablo cuatro venados,20292,both
+20.0,291.0,San Pablo Etla,20291,20|san pablo etla,20293,both
+20.0,292.0,San Pablo Huitzo,20292,20|san pablo huitzo,20294,both
+20.0,293.0,San Pablo Huixtepec,20293,20|san pablo huixtepec,20295,both
+20.0,294.0,San Pablo Macuiltianguis,20294,20|san pablo macuiltianguis,20296,both
+20.0,295.0,San Pablo Tijaltepec,20295,20|san pablo tijaltepec,20297,both
+20.0,296.0,San Pablo Villa de Mitla,20296,20|san pablo villa de mitla,20298,both
+20.0,297.0,San Pablo Yaganiza,20297,20|san pablo yaganiza,20299,both
+20.0,298.0,San Pedro Amuzgos,20298,20|san pedro amuzgos,20300,both
+20.0,299.0,San Pedro Apóstol,20299,20|san pedro apostol,20301,both
+20.0,300.0,San Pedro Atoyac,20300,20|san pedro atoyac,20302,both
+20.0,301.0,San Pedro Cajonos,20301,20|san pedro cajonos,20303,both
+20.0,303.0,San Pedro Comitancillo,20303,20|san pedro comitancillo,20305,both
+20.0,302.0,San Pedro Coxcaltepec Cántaros,20302,20|san pedro coxcaltepec cantaros,20304,both
+20.0,304.0,San Pedro el Alto,20304,20|san pedro el alto,20306,both
+20.0,305.0,San Pedro Huamelula,20305,20|san pedro huamelula,20307,both
+20.0,306.0,San Pedro Huilotepec,20306,20|san pedro huilotepec,20308,both
+20.0,307.0,San Pedro Ixcatlán,20307,20|san pedro ixcatlan,20309,both
+20.0,308.0,San Pedro Ixtlahuaca,20308,20|san pedro ixtlahuaca,20310,both
+20.0,309.0,San Pedro Jaltepetongo,20309,20|san pedro jaltepetongo,20311,both
+20.0,310.0,San Pedro Jicayán,20310,20|san pedro jicayan,20312,both
+20.0,311.0,San Pedro Jocotipac,20311,20|san pedro jocotipac,20313,both
+20.0,312.0,San Pedro Juchatengo,20312,20|san pedro juchatengo,20314,both
+20.0,313.0,San Pedro Mártir,20313,20|san pedro martir,20315,both
+20.0,314.0,San Pedro Mártir Quiechapa,20314,20|san pedro martir quiechapa,20316,both
+20.0,315.0,San Pedro Mártir Yucuxaco,20315,20|san pedro martir yucuxaco,20317,both
+20.0,318.0,San Pedro Molinos,20318,20|san pedro molinos,20320,both
+20.0,319.0,San Pedro Nopala,20319,20|san pedro nopala,20321,both
+20.0,320.0,San Pedro Ocopetatillo,20320,20|san pedro ocopetatillo,20322,both
+20.0,321.0,San Pedro Ocotepec,20321,20|san pedro ocotepec,20323,both
+20.0,322.0,San Pedro Pochutla,20322,20|san pedro pochutla,20324,both
+20.0,323.0,San Pedro Quiatoni,20323,20|san pedro quiatoni,20325,both
+20.0,324.0,San Pedro Sochiápam,20324,20|san pedro sochiapam,20326,both
+20.0,325.0,San Pedro Tapanatepec,20325,20|san pedro tapanatepec,20327,both
+20.0,326.0,San Pedro Taviche,20326,20|san pedro taviche,20328,both
+20.0,327.0,San Pedro Teozacoalco,20327,20|san pedro teozacoalco,20329,both
+20.0,328.0,San Pedro Teutila,20328,20|san pedro teutila,20330,both
+20.0,329.0,San Pedro Tidaá,20329,20|san pedro tidaa,20331,both
+20.0,330.0,San Pedro Topiltepec,20330,20|san pedro topiltepec,20332,both
+20.0,331.0,San Pedro Totolápam,20331,20|san pedro totolapam,20333,both
+20.0,333.0,San Pedro y San Pablo Ayutla,20333,20|san pedro y san pablo ayutla,20337,both
+20.0,334.0,San Pedro y San Pablo Teposcolula,20334,20|san pedro y san pablo teposcolula,20339,both
+20.0,335.0,San Pedro y San Pablo Tequixtepec,20335,20|san pedro y san pablo tequixtepec,20340,both
+20.0,336.0,San Pedro Yaneri,20336,20|san pedro yaneri,20335,both
+20.0,337.0,San Pedro Yólox,20337,20|san pedro yolox,20336,both
+20.0,338.0,San Pedro Yucunama,20338,20|san pedro yucunama,20341,both
+20.0,339.0,San Raymundo Jalpan,20339,20|san raymundo jalpan,20342,both
+20.0,340.0,San Sebastián Abasolo,20340,20|san sebastian abasolo,20343,both
+20.0,341.0,San Sebastián Coatlán,20341,20|san sebastian coatlan,20344,both
+20.0,342.0,San Sebastián Ixcapa,20342,20|san sebastian ixcapa,20345,both
+20.0,343.0,San Sebastián Nicananduta,20343,20|san sebastian nicananduta,20346,both
+20.0,344.0,San Sebastián Río Hondo,20344,20|san sebastian rio hondo,20347,both
+20.0,345.0,San Sebastián Tecomaxtlahuaca,20345,20|san sebastian tecomaxtlahuaca,20348,both
+20.0,346.0,San Sebastián Teitipac,20346,20|san sebastian teitipac,20349,both
+20.0,347.0,San Sebastián Tutla,20347,20|san sebastian tutla,20350,both
+20.0,348.0,San Simón Almolongas,20348,20|san simon almolongas,20351,both
+20.0,349.0,San Simón Zahuatlán,20349,20|san simon zahuatlan,20352,both
+20.0,350.0,San Vicente Coatlán,20350,20|san vicente coatlan,20534,both
+20.0,351.0,San Vicente Lachixío,20351,20|san vicente lachixio,20535,both
+20.0,352.0,San Vicente Nuñú,20352,20|san vicente nunu,20536,both
+20.0,370.0,Santa Catarina Quioquitani,20370,20|santa catarina quioquitani,20074,both
+20.0,371.0,Santa Catarina Tayata,20371,20|santa catarina tayata,20370,both
+20.0,372.0,Santa Catarina Ticuá,20372,20|santa catarina ticua,20371,both
+20.0,373.0,Santa Catarina Yosonotú,20373,20|santa catarina yosonotu,20372,both
+20.0,374.0,Santa Catarina Zapoquila,20374,20|santa catarina zapoquila,20373,both
+20.0,375.0,Santa Cruz Acatepec,20375,20|santa cruz acatepec,20374,both
+20.0,376.0,Santa Cruz Amilpas,20376,20|santa cruz amilpas,20375,both
+20.0,377.0,Santa Cruz de Bravo,20377,20|santa cruz de bravo,20376,both
+20.0,378.0,Santa Cruz Itundujia,20378,20|santa cruz itundujia,20377,both
+20.0,379.0,Santa Cruz Mixtepec,20379,20|santa cruz mixtepec,20378,both
+20.0,380.0,Santa Cruz Nundaco,20380,20|santa cruz nundaco,20379,both
+20.0,381.0,Santa Cruz Papalutla,20381,20|santa cruz papalutla,20380,both
+20.0,382.0,Santa Cruz Tacache de Mina,20382,20|santa cruz tacache de mina,20381,both
+20.0,383.0,Santa Cruz Tacahua,20383,20|santa cruz tacahua,20382,both
+20.0,384.0,Santa Cruz Tayata,20384,20|santa cruz tayata,20383,both
+20.0,385.0,Santa Cruz Xitla,20385,20|santa cruz xitla,20384,both
+20.0,386.0,Santa Cruz Xoxocotlán,20386,20|santa cruz xoxocotlan,20385,both
+20.0,387.0,Santa Cruz Zenzontepec,20387,20|santa cruz zenzontepec,20386,both
+20.0,388.0,Santa Gertrudis,20388,20|santa gertrudis,20387,both
+20.0,391.0,Santa Inés de Zaragoza,20391,20|santa ines de zaragoza,20569,both
+20.0,389.0,Santa Inés del Monte,20389,20|santa ines del monte,20388,both
+20.0,390.0,Santa Inés Yatzeche,20390,20|santa ines yatzeche,20389,both
+20.0,392.0,Santa Lucía del Camino,20392,20|santa lucia del camino,20390,both
+20.0,393.0,Santa Lucía Miahuatlán,20393,20|santa lucia miahuatlan,20391,both
+20.0,394.0,Santa Lucía Monteverde,20394,20|santa lucia monteverde,20392,both
+20.0,395.0,Santa Lucía Ocotlán,20395,20|santa lucia ocotlan,20393,both
+20.0,396.0,Santa Magdalena Jicotlán,20396,20|santa magdalena jicotlan,20047,both
+20.0,397.0,Santa María Alotepec,20397,20|santa maria alotepec,20394,both
+20.0,398.0,Santa María Apazco,20398,20|santa maria apazco,20395,both
+20.0,400.0,Santa María Atzompa,20400,20|santa maria atzompa,20399,both
+20.0,401.0,Santa María Camotlán,20401,20|santa maria camotlan,20400,both
+20.0,402.0,Santa María Chachoápam,20402,20|santa maria chachoapam,20404,both
+20.0,404.0,Santa María Chilchotla,20404,20|santa maria chilchotla,20406,both
+20.0,405.0,Santa María Chimalapa,20405,20|santa maria chimalapa,20407,both
+20.0,406.0,Santa María Colotepec,20406,20|santa maria colotepec,20401,both
+20.0,407.0,Santa María Cortijo,20407,20|santa maria cortijo,20402,both
+20.0,408.0,Santa María Coyotepec,20408,20|santa maria coyotepec,20403,both
+20.0,409.0,Santa María del Rosario,20409,20|santa maria del rosario,20408,both
+20.0,410.0,Santa María del Tule,20410,20|santa maria del tule,20409,both
+20.0,411.0,Santa María Ecatepec,20411,20|santa maria ecatepec,20410,both
+20.0,412.0,Santa María Guelacé,20412,20|santa maria guelace,20411,both
+20.0,413.0,Santa María Guienagati,20413,20|santa maria guienagati,20412,both
+20.0,414.0,Santa María Huatulco,20414,20|santa maria huatulco,20413,both
+20.0,415.0,Santa María Huazolotitlán,20415,20|santa maria huazolotitlan,20414,both
+20.0,416.0,Santa María Ipalapa,20416,20|santa maria ipalapa,20415,both
+20.0,417.0,Santa María Ixcatlán,20417,20|santa maria ixcatlan,20416,both
+20.0,418.0,Santa María Jacatepec,20418,20|santa maria jacatepec,20417,both
+20.0,419.0,Santa María Jalapa del Marqués,20419,20|santa maria jalapa del marques,20418,both
+20.0,420.0,Santa María Jaltianguis,20420,20|santa maria jaltianguis,20419,both
+20.0,399.0,Santa María la Asunción,20399,20|santa maria la asuncion,20396,both
+20.0,421.0,Santa María Lachixío,20421,20|santa maria lachixio,20420,both
+20.0,422.0,Santa María Mixtequilla,20422,20|santa maria mixtequilla,20421,both
+20.0,423.0,Santa María Nativitas,20423,20|santa maria nativitas,20422,both
+20.0,424.0,Santa María Nduayaco,20424,20|santa maria nduayaco,20423,both
+20.0,425.0,Santa María Ozolotepec,20425,20|santa maria ozolotepec,20424,both
+20.0,426.0,Santa María Pápalo,20426,20|santa maria papalo,20425,both
+20.0,428.0,Santa María Peñoles,20428,20|santa maria penoles,20426,both
+20.0,429.0,Santa María Quiegolani,20429,20|santa maria quiegolani,20428,both
+20.0,430.0,Santa María Sola,20430,20|santa maria sola,20429,both
+20.0,431.0,Santa María Tataltepec,20431,20|santa maria tataltepec,20430,both
+20.0,432.0,Santa María Tecomavaca,20432,20|santa maria tecomavaca,20431,both
+20.0,433.0,Santa María Temaxcalapa,20433,20|santa maria temaxcalapa,20432,both
+20.0,434.0,Santa María Temaxcaltepec,20434,20|santa maria temaxcaltepec,20433,both
+20.0,435.0,Santa María Teopoxco,20435,20|santa maria teopoxco,20434,both
+20.0,436.0,Santa María Tepantlali,20436,20|santa maria tepantlali,20435,both
+20.0,437.0,Santa María Texcatitlán,20437,20|santa maria texcatitlan,20436,both
+20.0,438.0,Santa María Tlahuitoltepec,20438,20|santa maria tlahuitoltepec,20437,both
+20.0,439.0,Santa María Tlalixtac,20439,20|santa maria tlalixtac,20438,both
+20.0,440.0,Santa María Tonameca,20440,20|santa maria tonameca,20439,both
+20.0,441.0,Santa María Totolapilla,20441,20|santa maria totolapilla,20440,both
+20.0,442.0,Santa María Xadani,20442,20|santa maria xadani,20441,both
+20.0,443.0,Santa María Yalina,20443,20|santa maria yalina,20442,both
+20.0,444.0,Santa María Yavesía,20444,20|santa maria yavesia,20443,both
+20.0,445.0,Santa María Yolotepec,20445,20|santa maria yolotepec,20444,both
+20.0,446.0,Santa María Yosoyúa,20446,20|santa maria yosoyua,20445,both
+20.0,447.0,Santa María Yucuhiti,20447,20|santa maria yucuhiti,20446,both
+20.0,448.0,Santa María Zacatepec,20448,20|santa maria zacatepec,20447,both
+20.0,449.0,Santa María Zaniza,20449,20|santa maria zaniza,20448,both
+20.0,450.0,Santa María Zoquitlán,20450,20|santa maria zoquitlan,20449,both
+20.0,451.0,Santiago Amoltepec,20451,20|santiago amoltepec,20450,both
+20.0,452.0,Santiago Apoala,20452,20|santiago apoala,20451,both
+20.0,453.0,Santiago Apóstol,20453,20|santiago apostol,20452,both
+20.0,454.0,Santiago Astata,20454,20|santiago astata,20453,both
+20.0,455.0,Santiago Atitlán,20455,20|santiago atitlan,20454,both
+20.0,456.0,Santiago Ayuquililla,20456,20|santiago ayuquililla,20455,both
+20.0,457.0,Santiago Cacaloxtepec,20457,20|santiago cacaloxtepec,20456,both
+20.0,458.0,Santiago Camotlán,20458,20|santiago camotlan,20457,both
+20.0,461.0,Santiago Comaltepec,20461,20|santiago comaltepec,20458,both
+20.0,462.0,Santiago del Río,20462,20|santiago del rio,20461,both
+20.0,463.0,Santiago Huajolotitlán,20463,20|santiago huajolotitlan,20462,both
+20.0,464.0,Santiago Huauclilla,20464,20|santiago huauclilla,20463,both
+20.0,465.0,Santiago Ihuitlán Plumas,20465,20|santiago ihuitlan plumas,20464,both
+20.0,466.0,Santiago Ixcuintepec,20466,20|santiago ixcuintepec,20465,both
+20.0,467.0,Santiago Ixtayutla,20467,20|santiago ixtayutla,20466,both
+20.0,468.0,Santiago Jamiltepec,20468,20|santiago jamiltepec,20467,both
+20.0,469.0,Santiago Jocotepec,20469,20|santiago jocotepec,20468,both
+20.0,470.0,Santiago Juxtlahuaca,20470,20|santiago juxtlahuaca,20469,both
+20.0,471.0,Santiago Lachiguiri,20471,20|santiago lachiguiri,20470,both
+20.0,472.0,Santiago Lalopa,20472,20|santiago lalopa,20471,both
+20.0,473.0,Santiago Laollaga,20473,20|santiago laollaga,20472,both
+20.0,474.0,Santiago Laxopa,20474,20|santiago laxopa,20473,both
+20.0,475.0,Santiago Llano Grande,20475,20|santiago llano grande,20474,both
+20.0,476.0,Santiago Matatlán,20476,20|santiago matatlan,20475,both
+20.0,477.0,Santiago Miltepec,20477,20|santiago miltepec,20476,both
+20.0,478.0,Santiago Minas,20478,20|santiago minas,20477,both
+20.0,479.0,Santiago Nacaltepec,20479,20|santiago nacaltepec,20478,both
+20.0,480.0,Santiago Nejapilla,20480,20|santiago nejapilla,20479,both
+20.0,481.0,Santiago Niltepec,20481,20|santiago niltepec,20066,both
+20.0,482.0,Santiago Nundiche,20482,20|santiago nundiche,20480,both
+20.0,483.0,Santiago Nuyoó,20483,20|santiago nuyoo,20481,both
+20.0,484.0,Santiago Pinotepa Nacional,20484,20|santiago pinotepa nacional,20482,both
+20.0,485.0,Santiago Suchilquitongo,20485,20|santiago suchilquitongo,20483,both
+20.0,486.0,Santiago Tamazola,20486,20|santiago tamazola,20484,both
+20.0,487.0,Santiago Tapextla,20487,20|santiago tapextla,20485,both
+20.0,488.0,Santiago Tenango,20488,20|santiago tenango,20487,both
+20.0,489.0,Santiago Tepetlapa,20489,20|santiago tepetlapa,20488,both
+20.0,490.0,Santiago Tetepec,20490,20|santiago tetepec,20489,both
+20.0,491.0,Santiago Texcalcingo,20491,20|santiago texcalcingo,20490,both
+20.0,492.0,Santiago Textitlán,20492,20|santiago textitlan,20491,both
+20.0,493.0,Santiago Tilantongo,20493,20|santiago tilantongo,20492,both
+20.0,494.0,Santiago Tillo,20494,20|santiago tillo,20493,both
+20.0,495.0,Santiago Tlazoyaltepec,20495,20|santiago tlazoyaltepec,20494,both
+20.0,496.0,Santiago Xanica,20496,20|santiago xanica,20495,both
+20.0,497.0,Santiago Xiacuí,20497,20|santiago xiacui,20496,both
+20.0,498.0,Santiago Yaitepec,20498,20|santiago yaitepec,20497,both
+20.0,499.0,Santiago Yaveo,20499,20|santiago yaveo,20498,both
+20.0,500.0,Santiago Yolomécatl,20500,20|santiago yolomecatl,20499,both
+20.0,501.0,Santiago Yosondúa,20501,20|santiago yosondua,20500,both
+20.0,502.0,Santiago Yucuyachi,20502,20|santiago yucuyachi,20501,both
+20.0,503.0,Santiago Zacatepec,20503,20|santiago zacatepec,20502,both
+20.0,504.0,Santiago Zoochila,20504,20|santiago zoochila,20503,both
+20.0,505.0,Santo Domingo Albarradas,20505,20|santo domingo albarradas,20506,both
+20.0,506.0,Santo Domingo Armenta,20506,20|santo domingo armenta,20507,both
+20.0,507.0,Santo Domingo Chihuitán,20507,20|santo domingo chihuitan,20508,both
+20.0,508.0,Santo Domingo de Morelos,20508,20|santo domingo de morelos,20509,both
+20.0,509.0,Santo Domingo Ingenio,20509,20|santo domingo ingenio,20505,both
+20.0,526.0,Santo Tomás Jalieza,20526,20|santo tomas jalieza,20530,both
+20.0,527.0,Santo Tomás Mazaltepec,20527,20|santo tomas mazaltepec,20531,both
+20.0,528.0,Santo Tomás Ocotepec,20528,20|santo tomas ocotepec,20532,both
+20.0,529.0,Santo Tomás Tamazulapan,20529,20|santo tomas tamazulapan,20533,both
+20.0,530.0,Santos Reyes Nopala,20530,20|santos reyes nopala,20526,both
+20.0,531.0,Santos Reyes Pápalo,20531,20|santos reyes papalo,20527,both
+20.0,532.0,Santos Reyes Tepejillo,20532,20|santos reyes tepejillo,20528,both
+20.0,533.0,Santos Reyes Yucuná,20533,20|santos reyes yucuna,20529,both
+20.0,534.0,Silacayoápam,20534,20|silacayoapam,20537,both
+20.0,535.0,Sitio de Xitlapehua,20535,20|sitio de xitlapehua,20538,both
+20.0,537.0,Soledad Etla,20537,20|soledad etla,20539,both
+20.0,540.0,Tamazulápam del Espíritu Santo,20540,20|tamazulapam del espiritu santo,20031,both
+20.0,538.0,Taniche,20538,20|taniche,20542,both
+20.0,542.0,Tataltepec de Valdés,20542,20|tataltepec de valdes,20543,both
+20.0,550.0,Tlacolula de Matamoros,20550,20|tlacolula de matamoros,20551,both
+20.0,551.0,Tlacotepec Plumas,20551,20|tlacotepec plumas,20552,both
+20.0,552.0,Tlalixtac de Cabrera,20552,20|tlalixtac de cabrera,20553,both
+20.0,403.0,Villa de Chilapa de Díaz,20403,20|villa de chilapa de diaz,20405,both
+20.0,560.0,Villa de Etla,20560,20|villa de etla,20338,both
+20.0,539.0,Villa de Tamazulápam del Progreso,20539,20|villa de tamazulapam del progreso,20540,both
+20.0,332.0,Villa de Tututepec,20332,20|villa de tututepec,20334,both
+20.0,566.0,Villa de Zaachila,20566,20|villa de zaachila,20565,both
+20.0,561.0,Villa Díaz Ordaz,20561,20|villa diaz ordaz,20560,both
+20.0,562.0,Villa Hidalgo Yalalag,20562,20|villa hidalgo yalalag,20038,both
+20.0,536.0,Villa Sola de Vega,20536,20|villa sola de vega,20277,both
+20.0,278.0,Villa Talea de Castro,20278,20|villa talea de castro,20280,both
+20.0,543.0,Villa Tejúpam de la Unión,20543,20|villa tejupam de la union,20486,both
+20.0,563.0,Yaxe,20563,20|yaxe,20561,both
+20.0,564.0,Yogana,20564,20|yogana,20563,both
+20.0,565.0,Yutanduchi de Guerrero,20565,20|yutanduchi de guerrero,20564,both
+20.0,568.0,Zapotitlán Lagunas,20568,20|zapotitlan lagunas,20567,both
+20.0,569.0,Zapotitlán Palmas,20569,20|zapotitlan palmas,20568,both
+21.0,82.0,Atlequizayan,21082,21|atlequizayan,21080,both
+21.0,29.0,Cañada Morelos,21029,21|canada morelos,21099,both
+21.0,30.0,Caxhuacan,21030,21|caxhuacan,21029,both
+21.0,46.0,Chalchicomula de Sesma,21046,21|chalchicomula de sesma,21045,both
+21.0,47.0,Chapulco,21047,21|chapulco,21046,both
+21.0,48.0,Chiautla,21048,21|chiautla,21047,both
+21.0,49.0,Chiautzingo,21049,21|chiautzingo,21048,both
+21.0,51.0,Chichiquila,21051,21|chichiquila,21050,both
+21.0,50.0,Chiconcuautla,21050,21|chiconcuautla,21049,both
+21.0,52.0,Chietla,21052,21|chietla,21051,both
+21.0,53.0,Chigmecatitlán,21053,21|chigmecatitlan,21052,both
+21.0,54.0,Chignahuapan,21054,21|chignahuapan,21053,both
+21.0,55.0,Chignautla,21055,21|chignautla,21054,both
+21.0,56.0,Chila,21056,21|chila,21055,both
+21.0,57.0,Chila de la Sal,21057,21|chila de la sal,21056,both
+21.0,59.0,Chilchotla,21059,21|chilchotla,21058,both
+21.0,60.0,Chinantla,21060,21|chinantla,21059,both
+21.0,31.0,Coatepec,21031,21|coatepec,21030,both
+21.0,32.0,Coatzingo,21032,21|coatzingo,21031,both
+21.0,33.0,Cohetzala,21033,21|cohetzala,21032,both
+21.0,34.0,Cohuecan,21034,21|cohuecan,21033,both
+21.0,35.0,Coronango,21035,21|coronango,21034,both
+21.0,36.0,Coxcatlán,21036,21|coxcatlan,21035,both
+21.0,37.0,Coyomeapan,21037,21|coyomeapan,21036,both
+21.0,38.0,Coyotepec,21038,21|coyotepec,21037,both
+21.0,39.0,Cuapiaxtla de Madero,21039,21|cuapiaxtla de madero,21038,both
+21.0,40.0,Cuautempan,21040,21|cuautempan,21039,both
+21.0,41.0,Cuautinchán,21041,21|cuautinchan,21040,both
+21.0,42.0,Cuautlancingo,21042,21|cuautlancingo,21041,both
+21.0,43.0,Cuayuca de Andrade,21043,21|cuayuca de andrade,21042,both
+21.0,44.0,Cuetzalan del Progreso,21044,21|cuetzalan del progreso,21043,both
+21.0,45.0,Cuyoaco,21045,21|cuyoaco,21044,both
+21.0,61.0,Domingo Arenas,21061,21|domingo arenas,21060,both
+21.0,62.0,Eloxochitlán,21062,21|eloxochitlan,21061,both
+21.0,63.0,Epatlán,21063,21|epatlan,21062,both
+21.0,64.0,Esperanza,21064,21|esperanza,21063,both
+21.0,65.0,Francisco Z. Mena,21065,21|francisco z. mena,21064,both
+21.0,66.0,General Felipe Ángeles,21066,21|general felipe angeles,21065,both
+21.0,67.0,Guadalupe,21067,21|guadalupe,21066,both
+21.0,68.0,Guadalupe Victoria,21068,21|guadalupe victoria,21067,both
+21.0,69.0,Hermenegildo Galeana,21069,21|hermenegildo galeana,21068,both
+21.0,58.0,Honey,21058,21|honey,21057,both
+21.0,70.0,Huaquechula,21070,21|huaquechula,21069,both
+21.0,71.0,Huatlatlauca,21071,21|huatlatlauca,21070,both
+21.0,72.0,Huauchinango,21072,21|huauchinango,21071,both
+21.0,73.0,Huehuetla,21073,21|huehuetla,21072,both
+21.0,74.0,Huehuetlán el Chico,21074,21|huehuetlan el chico,21073,both
+21.0,75.0,Huehuetlán el Grande,21075,21|huehuetlan el grande,21150,both
+21.0,76.0,Huejotzingo,21076,21|huejotzingo,21074,both
+21.0,77.0,Hueyapan,21077,21|hueyapan,21075,both
+21.0,78.0,Hueytamalco,21078,21|hueytamalco,21076,both
+21.0,79.0,Hueytlalpan,21079,21|hueytlalpan,21077,both
+21.0,80.0,Huitzilan de Serdán,21080,21|huitzilan de serdan,21078,both
+21.0,81.0,Huitziltepec,21081,21|huitziltepec,21079,both
+21.0,83.0,Ixcamilpa de Guerrero,21083,21|ixcamilpa de guerrero,21081,both
+21.0,84.0,Ixcaquixtla,21084,21|ixcaquixtla,21082,both
+21.0,85.0,Ixtacamaxtitlán,21085,21|ixtacamaxtitlan,21083,both
+21.0,86.0,Ixtepec,21086,21|ixtepec,21084,both
+21.0,87.0,Izúcar de Matamoros,21087,21|izucar de matamoros,21085,both
+21.0,88.0,Jalpan,21088,21|jalpan,21086,both
+21.0,89.0,Jolalpan,21089,21|jolalpan,21087,both
+21.0,90.0,Jonotla,21090,21|jonotla,21088,both
+21.0,91.0,Jopala,21091,21|jopala,21089,both
+21.0,92.0,Juan C. Bonilla,21092,21|juan c. bonilla,21090,both
+21.0,93.0,Juan Galindo,21093,21|juan galindo,21091,both
+21.0,94.0,Juan N. Méndez,21094,21|juan n. mendez,21092,both
+21.0,97.0,La Magdalena Tlatlauquitepec,21097,21|la magdalena tlatlauquitepec,21095,both
+21.0,95.0,Lafragua,21095,21|lafragua,21093,both
+21.0,96.0,Libres,21096,21|libres,21094,both
+21.0,119.0,Los Reyes de Juárez,21119,21|los reyes de juarez,21118,both
+21.0,98.0,Mazapiltepec de Juárez,21098,21|mazapiltepec de juarez,21096,both
+21.0,99.0,Mixtla,21099,21|mixtla,21097,both
+21.0,100.0,Molcaxac,21100,21|molcaxac,21098,both
+21.0,101.0,Naupan,21101,21|naupan,21100,both
+21.0,102.0,Nauzontla,21102,21|nauzontla,21101,both
+21.0,103.0,Nealtican,21103,21|nealtican,21102,both
+21.0,104.0,Nicolás Bravo,21104,21|nicolas bravo,21103,both
+21.0,105.0,Nopalucan,21105,21|nopalucan,21104,both
+21.0,106.0,Ocotepec,21106,21|ocotepec,21105,both
+21.0,107.0,Ocoyucan,21107,21|ocoyucan,21106,both
+21.0,108.0,Olintla,21108,21|olintla,21107,both
+21.0,109.0,Oriental,21109,21|oriental,21108,both
+21.0,110.0,Pahuatlán,21110,21|pahuatlan,21109,both
+21.0,111.0,Palmar de Bravo,21111,21|palmar de bravo,21110,both
+21.0,112.0,Pantepec,21112,21|pantepec,21111,both
+21.0,113.0,Petlalcingo,21113,21|petlalcingo,21112,both
+21.0,114.0,Piaxtla,21114,21|piaxtla,21113,both
+21.0,115.0,Puebla,21115,21|puebla,21114,both
+21.0,116.0,Quecholac,21116,21|quecholac,21115,both
+21.0,117.0,Quimixtlán,21117,21|quimixtlan,21116,both
+21.0,118.0,Rafael Lara Grajales,21118,21|rafael lara grajales,21117,both
+21.0,120.0,San Andrés Cholula,21120,21|san andres cholula,21119,both
+21.0,121.0,San Antonio Cañada,21121,21|san antonio canada,21120,both
+21.0,122.0,San Diego la Mesa Tochimiltzingo,21122,21|san diego la mesa tochimiltzingo,21121,both
+21.0,123.0,San Felipe Teotlalcingo,21123,21|san felipe teotlalcingo,21122,both
+21.0,124.0,San Felipe Tepatlán,21124,21|san felipe tepatlan,21123,both
+21.0,125.0,San Gabriel Chilac,21125,21|san gabriel chilac,21124,both
+21.0,126.0,San Gregorio Atzompa,21126,21|san gregorio atzompa,21125,both
+21.0,127.0,San Jerónimo Tecuanipan,21127,21|san jeronimo tecuanipan,21126,both
+21.0,128.0,San Jerónimo Xayacatlán,21128,21|san jeronimo xayacatlan,21127,both
+21.0,129.0,San José Chiapa,21129,21|san jose chiapa,21128,both
+21.0,130.0,San José Miahuatlán,21130,21|san jose miahuatlan,21129,both
+21.0,131.0,San Juan Atenco,21131,21|san juan atenco,21130,both
+21.0,132.0,San Juan Atzompa,21132,21|san juan atzompa,21131,both
+21.0,133.0,San Martín Texmelucan,21133,21|san martin texmelucan,21132,both
+21.0,134.0,San Martín Totoltepec,21134,21|san martin totoltepec,21133,both
+21.0,135.0,San Matías Tlalancaleca,21135,21|san matias tlalancaleca,21134,both
+21.0,136.0,San Miguel Ixitlán,21136,21|san miguel ixitlan,21135,both
+21.0,137.0,San Miguel Xoxtla,21137,21|san miguel xoxtla,21136,both
+21.0,138.0,San Nicolás Buenos Aires,21138,21|san nicolas buenos aires,21137,both
+21.0,139.0,San Nicolás de los Ranchos,21139,21|san nicolas de los ranchos,21138,both
+21.0,140.0,San Pablo Anicano,21140,21|san pablo anicano,21139,both
+21.0,141.0,San Pedro Cholula,21141,21|san pedro cholula,21140,both
+21.0,142.0,San Pedro Yeloixtlahuaca,21142,21|san pedro yeloixtlahuaca,21141,both
+21.0,143.0,San Salvador el Seco,21143,21|san salvador el seco,21142,both
+21.0,144.0,San Salvador el Verde,21144,21|san salvador el verde,21143,both
+21.0,145.0,San Salvador Huixcolotla,21145,21|san salvador huixcolotla,21144,both
+21.0,177.0,San Sebastián Tlacotepec,21177,21|san sebastian tlacotepec,21145,both
+21.0,150.0,Santo Tomás Hueyotlipan,21150,21|santo tomas hueyotlipan,21151,both
+21.0,151.0,Soltepec,21151,21|soltepec,21152,both
+21.0,152.0,Tecali de Herrera,21152,21|tecali de herrera,21153,both
+21.0,153.0,Tecamachalco,21153,21|tecamachalco,21154,both
+21.0,154.0,Tecomatlán,21154,21|tecomatlan,21155,both
+21.0,155.0,Tehuacán,21155,21|tehuacan,21156,both
+21.0,156.0,Tehuitzingo,21156,21|tehuitzingo,21157,both
+21.0,157.0,Tenampulco,21157,21|tenampulco,21158,both
+21.0,158.0,Teopantlán,21158,21|teopantlan,21159,both
+21.0,159.0,Teotlalco,21159,21|teotlalco,21160,both
+21.0,160.0,Tepanco de López,21160,21|tepanco de lopez,21161,both
+21.0,161.0,Tepango de Rodríguez,21161,21|tepango de rodriguez,21162,both
+21.0,162.0,Tepatlaxco de Hidalgo,21162,21|tepatlaxco de hidalgo,21163,both
+21.0,163.0,Tepeaca,21163,21|tepeaca,21164,both
+21.0,164.0,Tepemaxalco,21164,21|tepemaxalco,21165,both
+21.0,165.0,Tepeojuma,21165,21|tepeojuma,21166,both
+21.0,166.0,Tepetzintla,21166,21|tepetzintla,21167,both
+21.0,167.0,Tepexco,21167,21|tepexco,21168,both
+21.0,168.0,Tepexi de Rodríguez,21168,21|tepexi de rodriguez,21169,both
+21.0,169.0,Tepeyahualco,21169,21|tepeyahualco,21170,both
+21.0,170.0,Tepeyahualco de Cuauhtémoc,21170,21|tepeyahualco de cuauhtemoc,21171,both
+21.0,171.0,Tetela de Ocampo,21171,21|tetela de ocampo,21172,both
+21.0,172.0,Teteles de Avila Castillo,21172,21|teteles de avila castillo,21173,both
+21.0,173.0,Teziutlán,21173,21|teziutlan,21174,both
+21.0,174.0,Tianguismanalco,21174,21|tianguismanalco,21175,both
+21.0,175.0,Tilapa,21175,21|tilapa,21176,both
+21.0,176.0,Tlacotepec de Benito Juárez,21176,21|tlacotepec de benito juarez,21177,both
+22.0,2.0,Arroyo Seco,22002,22|arroyo seco,22003,both
+22.0,3.0,Cadereyta de Montes,22003,22|cadereyta de montes,22004,both
+22.0,4.0,Colón,22004,22|colon,22005,both
+22.0,5.0,Corregidora,22005,22|corregidora,22006,both
+22.0,10.0,El Marqués,22010,22|el marques,22011,both
+22.0,6.0,Ezequiel Montes,22006,22|ezequiel montes,22007,both
+22.0,7.0,Huimilpan,22007,22|huimilpan,22008,both
+22.0,8.0,Jalpan de Serra,22008,22|jalpan de serra,22009,both
+22.0,9.0,Landa de Matamoros,22009,22|landa de matamoros,22010,both
+22.0,11.0,Pedro Escobedo,22011,22|pedro escobedo,22012,both
+22.0,12.0,Peñamiller,22012,22|penamiller,22013,both
+22.0,13.0,Pinal de Amoles,22013,22|pinal de amoles,22002,both
+23.0,1.0,Benito Juárez,23001,23|benito juarez,23005,both
+23.0,2.0,Cozumel,23002,23|cozumel,23001,both
+23.0,3.0,Felipe Carrillo Puerto,23003,23|felipe carrillo puerto,23002,both
+23.0,4.0,Isla Mujeres,23004,23|isla mujeres,23003,both
+23.0,5.0,José María Morelos,23005,23|jose maria morelos,23006,both
+23.0,6.0,Lázaro Cárdenas,23006,23|lazaro cardenas,23007,both
+23.0,7.0,Othón P. Blanco,23007,23|othon p. blanco,23004,both
+24.0,54.0,Axtla de Terrazas,24054,24|axtla de terrazas,24053,both
+24.0,57.0,El Naranjo,24057,24|el naranjo,24058,both
+24.0,58.0,Matlapa,24058,24|matlapa,24057,both
+24.0,31.0,San Vicente Tancuayalab,24031,24|san vicente tancuayalab,24034,both
+24.0,32.0,Santa Catarina,24032,24|santa catarina,24031,both
+24.0,33.0,Santa María del Río,24033,24|santa maria del rio,24032,both
+24.0,34.0,Santo Domingo,24034,24|santo domingo,24033,both
+24.0,46.0,Villa de Arista,24046,24|villa de arista,24056,both
+24.0,47.0,Villa de Arriaga,24047,24|villa de arriaga,24046,both
+24.0,48.0,Villa de Guadalupe,24048,24|villa de guadalupe,24047,both
+24.0,49.0,Villa de la Paz,24049,24|villa de la paz,24048,both
+24.0,50.0,Villa de Ramos,24050,24|villa de ramos,24049,both
+24.0,51.0,Villa de Reyes,24051,24|villa de reyes,24050,both
+24.0,52.0,Villa Hidalgo,24052,24|villa hidalgo,24051,both
+24.0,53.0,Villa Juárez,24053,24|villa juarez,24052,both
+24.0,55.0,Xilitla,24055,24|xilitla,24054,both
+24.0,56.0,Zaragoza,24056,24|zaragoza,24055,both
+26.0,62.0,Alamos,26062,26|alamos,26003,both
+26.0,3.0,Altar,26003,26|altar,26004,both
+26.0,4.0,Arivechi,26004,26|arivechi,26005,both
+26.0,5.0,Arizpe,26005,26|arizpe,26006,both
+26.0,6.0,Atil,26006,26|atil,26007,both
+26.0,7.0,Bacadéhuachi,26007,26|bacadehuachi,26008,both
+26.0,8.0,Bacanora,26008,26|bacanora,26009,both
+26.0,9.0,Bacerac,26009,26|bacerac,26010,both
+26.0,10.0,Bacoachi,26010,26|bacoachi,26011,both
+26.0,58.0,Bácum,26058,26|bacum,26012,both
+26.0,11.0,Banámichi,26011,26|banamichi,26013,both
+26.0,12.0,Baviácora,26012,26|baviacora,26014,both
+26.0,13.0,Bavispe,26013,26|bavispe,26015,both
+26.0,14.0,Benjamín Hill,26014,26|benjamin hill,26016,both
+26.0,46.0,Caborca,26046,26|caborca,26017,both
+26.0,59.0,Cajeme,26059,26|cajeme,26018,both
+26.0,15.0,Cananea,26015,26|cananea,26019,both
+26.0,47.0,Carbó,26047,26|carbo,26020,both
+26.0,16.0,Cucurpe,26016,26|cucurpe,26022,both
+26.0,17.0,Cumpas,26017,26|cumpas,26023,both
+26.0,18.0,Divisaderos,26018,26|divisaderos,26024,both
+26.0,60.0,Empalme,26060,26|empalme,26025,both
+26.0,63.0,Etchojoa,26063,26|etchojoa,26026,both
+26.0,19.0,Fronteras,26019,26|fronteras,26027,both
+26.0,20.0,Granados,26020,26|granados,26028,both
+26.0,61.0,Guaymas,26061,26|guaymas,26029,both
+26.0,49.0,Hermosillo,26049,26|hermosillo,26030,both
+26.0,21.0,Huachinera,26021,26|huachinera,26031,both
+26.0,22.0,Huásabas,26022,26|huasabas,26032,both
+26.0,64.0,Huatabampo,26064,26|huatabampo,26033,both
+26.0,23.0,Huépac,26023,26|huepac,26034,both
+26.0,24.0,Imuris,26024,26|imuris,26035,both
+26.0,48.0,La Colorada,26048,26|la colorada,26021,both
+26.0,25.0,Magdalena,26025,26|magdalena,26036,both
+26.0,50.0,Mazatán,26050,26|mazatan,26037,both
+26.0,26.0,Moctezuma,26026,26|moctezuma,26038,both
+26.0,27.0,Naco,26027,26|naco,26039,both
+26.0,28.0,Nácori Chico,26028,26|nacori chico,26040,both
+26.0,29.0,Nacozari de García,26029,26|nacozari de garcia,26041,both
+26.0,65.0,Navojoa,26065,26|navojoa,26042,both
+26.0,30.0,Nogales,26030,26|nogales,26043,both
+26.0,66.0,Onavas,26066,26|onavas,26044,both
+26.0,51.0,Opodepe,26051,26|opodepe,26045,both
+26.0,31.0,Oquitoa,26031,26|oquitoa,26046,both
+26.0,52.0,Pitiquito,26052,26|pitiquito,26047,both
+26.0,53.0,Puerto Peñasco,26053,26|puerto penasco,26048,both
+26.0,67.0,Quiriego,26067,26|quiriego,26049,both
+26.0,54.0,Rayón,26054,26|rayon,26050,both
+26.0,68.0,Rosario,26068,26|rosario,26051,both
+26.0,32.0,Sahuaripa,26032,26|sahuaripa,26052,both
+26.0,33.0,San Felipe de Jesús,26033,26|san felipe de jesus,26053,both
+26.0,34.0,San Javier,26034,26|san javier,26054,both
+26.0,35.0,San Pedro de la Cueva,26035,26|san pedro de la cueva,26057,both
+26.0,36.0,Santa Ana,26036,26|santa ana,26058,both
+26.0,37.0,Santa Cruz,26037,26|santa cruz,26059,both
+26.0,38.0,Sáric,26038,26|saric,26060,both
+26.0,39.0,Soyopa,26039,26|soyopa,26061,both
+26.0,40.0,Suaqui Grande,26040,26|suaqui grande,26062,both
+26.0,41.0,Tepache,26041,26|tepache,26063,both
+26.0,42.0,Trincheras,26042,26|trincheras,26064,both
+26.0,43.0,Tubutama,26043,26|tubutama,26065,both
+26.0,57.0,Ures,26057,26|ures,26066,both
+26.0,44.0,Villa Hidalgo,26044,26|villa hidalgo,26067,both
+26.0,45.0,Villa Pesqueira,26045,26|villa pesqueira,26068,both
+29.0,3.0,Apizaco,29003,29|apizaco,29005,both
+29.0,4.0,Atlangatepec,29004,29|atlangatepec,29003,both
+29.0,5.0,Atltzayanca,29005,29|atltzayanca,29004,both
+29.0,60.0,Benito Juárez,29060,29|benito juarez,29045,both
+29.0,54.0,Emiliano Zapata,29054,29|emiliano zapata,29046,both
+29.0,52.0,La Magdalena Tlaltelulco,29052,29|la magdalena tlaltelulco,29048,both
+29.0,55.0,Lázaro Cárdenas,29055,29|lazaro cardenas,29047,both
+29.0,53.0,San Damián Texóloc,29053,29|san damian texoloc,29049,both
+29.0,51.0,San Francisco Tetlanohcan,29051,29|san francisco tetlanohcan,29050,both
+29.0,56.0,San Jerónimo Zacualpan,29056,29|san jeronimo zacualpan,29051,both
+29.0,50.0,San José Teacalco,29050,29|san jose teacalco,29052,both
+29.0,47.0,San Juan Huactzinco,29047,29|san juan huactzinco,29053,both
+29.0,59.0,San Lorenzo Axocomanitla,29059,29|san lorenzo axocomanitla,29054,both
+29.0,57.0,San Lucas Tecopilco,29057,29|san lucas tecopilco,29055,both
+29.0,58.0,Santa Ana Nopalucan,29058,29|santa ana nopalucan,29056,both
+29.0,45.0,Santa Apolonia Teacalco,29045,29|santa apolonia teacalco,29057,both
+29.0,48.0,Santa Catarina Ayometla,29048,29|santa catarina ayometla,29058,both
+29.0,46.0,Santa Cruz Quilehtla,29046,29|santa cruz quilehtla,29059,both
+29.0,49.0,Santa Isabel Xiloxoxtla,29049,29|santa isabel xiloxoxtla,29060,both
+30.0,206.0,Agua Dulce,30206,30|agua dulce,30204,both
+30.0,8.0,Álamo Temapache,30008,30|alamo temapache,30160,both
+30.0,9.0,Alpatláhuac,30009,30|alpatlahuac,30008,both
+30.0,10.0,Alto Lucero de Gutiérrez Barrios,30010,30|alto lucero de gutierrez barrios,30009,both
+30.0,11.0,Altotonga,30011,30|altotonga,30010,both
+30.0,12.0,Alvarado,30012,30|alvarado,30011,both
+30.0,13.0,Amatitlán,30013,30|amatitlan,30012,both
+30.0,16.0,Angel R. Cabada,30016,30|angel r. cabada,30015,both
+30.0,18.0,Apazapan,30018,30|apazapan,30017,both
+30.0,19.0,Aquila,30019,30|aquila,30018,both
+30.0,20.0,Astacinga,30020,30|astacinga,30019,both
+30.0,21.0,Atlahuilco,30021,30|atlahuilco,30020,both
+30.0,22.0,Atoyac,30022,30|atoyac,30021,both
+30.0,23.0,Atzacan,30023,30|atzacan,30022,both
+30.0,24.0,Atzalan,30024,30|atzalan,30023,both
+30.0,26.0,Ayahualulco,30026,30|ayahualulco,30025,both
+30.0,27.0,Banderilla,30027,30|banderilla,30026,both
+30.0,28.0,Benito Juárez,30028,30|benito juarez,30027,both
+30.0,29.0,Boca del Río,30029,30|boca del rio,30028,both
+30.0,30.0,Calcahualco,30030,30|calcahualco,30029,both
+30.0,31.0,Camerino Z. Mendoza,30031,30|camerino z. mendoza,30030,both
+30.0,32.0,Carrillo Puerto,30032,30|carrillo puerto,30031,both
+30.0,33.0,Castillo de Teayo,30033,30|castillo de teayo,30157,both
+30.0,34.0,Catemaco,30034,30|catemaco,30032,both
+30.0,35.0,Cazones de Herrera,30035,30|cazones de herrera,30033,both
+30.0,36.0,Cerro Azul,30036,30|cerro azul,30034,both
+30.0,56.0,Chacaltianguis,30056,30|chacaltianguis,30054,both
+30.0,57.0,Chalma,30057,30|chalma,30055,both
+30.0,58.0,Chiconamel,30058,30|chiconamel,30056,both
+30.0,59.0,Chiconquiaco,30059,30|chiconquiaco,30057,both
+30.0,60.0,Chicontepec,30060,30|chicontepec,30058,both
+30.0,61.0,Chinameca,30061,30|chinameca,30059,both
+30.0,62.0,Chinampa de Gorostiza,30062,30|chinampa de gorostiza,30060,both
+30.0,64.0,Chocamán,30064,30|chocaman,30062,both
+30.0,65.0,Chontla,30065,30|chontla,30063,both
+30.0,66.0,Chumatlán,30066,30|chumatlan,30064,both
+30.0,37.0,Citlaltépetl,30037,30|citlaltepetl,30035,both
+30.0,38.0,Coacoatzintla,30038,30|coacoatzintla,30036,both
+30.0,39.0,Coahuitlán,30039,30|coahuitlan,30037,both
+30.0,40.0,Coatepec,30040,30|coatepec,30038,both
+30.0,41.0,Coatzacoalcos,30041,30|coatzacoalcos,30039,both
+30.0,42.0,Coatzintla,30042,30|coatzintla,30040,both
+30.0,43.0,Coetzala,30043,30|coetzala,30041,both
+30.0,44.0,Colipa,30044,30|colipa,30042,both
+30.0,45.0,Comapa,30045,30|comapa,30043,both
+30.0,46.0,Córdoba,30046,30|cordoba,30044,both
+30.0,48.0,Cosautlán de Carvajal,30048,30|cosautlan de carvajal,30046,both
+30.0,49.0,Coscomatepec,30049,30|coscomatepec,30047,both
+30.0,50.0,Cosoleacaque,30050,30|cosoleacaque,30048,both
+30.0,51.0,Cotaxtla,30051,30|cotaxtla,30049,both
+30.0,52.0,Coxquihui,30052,30|coxquihui,30050,both
+30.0,53.0,Coyutla,30053,30|coyutla,30051,both
+30.0,54.0,Cuichapa,30054,30|cuichapa,30052,both
+30.0,55.0,Cuitláhuac,30055,30|cuitlahuac,30053,both
+30.0,207.0,El Higo,30207,30|el higo,30205,both
+30.0,67.0,Emiliano Zapata,30067,30|emiliano zapata,30065,both
+30.0,68.0,Espinal,30068,30|espinal,30066,both
+30.0,69.0,Filomeno Mata,30069,30|filomeno mata,30067,both
+30.0,70.0,Fortín,30070,30|fortin,30068,both
+30.0,71.0,Gutiérrez Zamora,30071,30|gutierrez zamora,30069,both
+30.0,72.0,Hidalgotitlán,30072,30|hidalgotitlan,30070,both
+30.0,73.0,Huatusco,30073,30|huatusco,30071,both
+30.0,74.0,Huayacocotla,30074,30|huayacocotla,30072,both
+30.0,75.0,Hueyapan de Ocampo,30075,30|hueyapan de ocampo,30073,both
+30.0,76.0,Huiloapan de Cuauhtémoc,30076,30|huiloapan de cuauhtemoc,30074,both
+30.0,77.0,Ignacio de la Llave,30077,30|ignacio de la llave,30075,both
+30.0,78.0,Ilamatlán,30078,30|ilamatlan,30076,both
+30.0,79.0,Isla,30079,30|isla,30077,both
+30.0,80.0,Ixcatepec,30080,30|ixcatepec,30078,both
+30.0,81.0,Ixhuacán de los Reyes,30081,30|ixhuacan de los reyes,30079,both
+30.0,82.0,Ixhuatlán de Madero,30082,30|ixhuatlan de madero,30083,both
+30.0,83.0,Ixhuatlán del Café,30083,30|ixhuatlan del cafe,30080,both
+30.0,84.0,Ixhuatlán del Sureste,30084,30|ixhuatlan del sureste,30082,both
+30.0,85.0,Ixhuatlancillo,30085,30|ixhuatlancillo,30081,both
+30.0,86.0,Ixmatlahuacan,30086,30|ixmatlahuacan,30084,both
+30.0,87.0,Ixtaczoquitlán,30087,30|ixtaczoquitlan,30085,both
+30.0,88.0,Jalacingo,30088,30|jalacingo,30086,both
+30.0,90.0,Jalcomulco,30090,30|jalcomulco,30088,both
+30.0,91.0,Jáltipan,30091,30|jaltipan,30089,both
+30.0,92.0,Jamapa,30092,30|jamapa,30090,both
+30.0,93.0,Jesús Carranza,30093,30|jesus carranza,30091,both
+30.0,94.0,Jilotepec,30094,30|jilotepec,30093,both
+30.0,168.0,José Azueta,30168,30|jose azueta,30169,both
+30.0,95.0,Juan Rodríguez Clara,30095,30|juan rodriguez clara,30094,both
+30.0,96.0,Juchique de Ferrer,30096,30|juchique de ferrer,30095,both
+30.0,17.0,La Antigua,30017,30|la antigua,30016,both
+30.0,128.0,La Perla,30128,30|la perla,30127,both
+30.0,97.0,Landero y Coss,30097,30|landero y coss,30096,both
+30.0,63.0,Las Choapas,30063,30|las choapas,30061,both
+30.0,108.0,Las Minas,30108,30|las minas,30107,both
+30.0,137.0,Las Vigas de Ramírez,30137,30|las vigas de ramirez,30132,both
+30.0,98.0,Lerdo de Tejada,30098,30|lerdo de tejada,30097,both
+30.0,138.0,Los Reyes,30138,30|los reyes,30137,both
+30.0,99.0,Magdalena,30099,30|magdalena,30098,both
+30.0,100.0,Maltrata,30100,30|maltrata,30099,both
+30.0,101.0,Manlio Fabio Altamirano,30101,30|manlio fabio altamirano,30100,both
+30.0,102.0,Mariano Escobedo,30102,30|mariano escobedo,30101,both
+30.0,103.0,Martínez de la Torre,30103,30|martinez de la torre,30102,both
+30.0,104.0,Mecatlán,30104,30|mecatlan,30103,both
+30.0,105.0,Mecayapan,30105,30|mecayapan,30104,both
+30.0,106.0,Medellín de Bravo,30106,30|medellin de bravo,30105,both
+30.0,107.0,Miahuatlán,30107,30|miahuatlan,30106,both
+30.0,109.0,Minatitlán,30109,30|minatitlan,30108,both
+30.0,110.0,Misantla,30110,30|misantla,30109,both
+30.0,111.0,Mixtla de Altamirano,30111,30|mixtla de altamirano,30110,both
+30.0,112.0,Moloacán,30112,30|moloacan,30111,both
+30.0,205.0,Nanchital de Lázaro Cárdenas del Río,30205,30|nanchital de lazaro cardenas del rio,30206,both
+30.0,113.0,Naolinco,30113,30|naolinco,30112,both
+30.0,114.0,Naranjal,30114,30|naranjal,30113,both
+30.0,15.0,Naranjos Amatlán,30015,30|naranjos amatlan,30013,both
+30.0,115.0,Nautla,30115,30|nautla,30114,both
+30.0,116.0,Nogales,30116,30|nogales,30115,both
+30.0,117.0,Oluta,30117,30|oluta,30116,both
+30.0,118.0,Omealca,30118,30|omealca,30117,both
+30.0,119.0,Orizaba,30119,30|orizaba,30118,both
+30.0,120.0,Otatitlán,30120,30|otatitlan,30119,both
+30.0,121.0,Oteapan,30121,30|oteapan,30120,both
+30.0,122.0,Ozuluama de Mascareñas,30122,30|ozuluama de mascarenas,30121,both
+30.0,123.0,Pajapan,30123,30|pajapan,30122,both
+30.0,124.0,Pánuco,30124,30|panuco,30123,both
+30.0,125.0,Papantla,30125,30|papantla,30124,both
+30.0,127.0,Paso de Ovejas,30127,30|paso de ovejas,30126,both
+30.0,126.0,Paso del Macho,30126,30|paso del macho,30125,both
+30.0,129.0,Perote,30129,30|perote,30128,both
+30.0,130.0,Platón Sánchez,30130,30|platon sanchez,30129,both
+30.0,131.0,Playa Vicente,30131,30|playa vicente,30130,both
+30.0,132.0,Poza Rica de Hidalgo,30132,30|poza rica de hidalgo,30131,both
+30.0,139.0,Río Blanco,30139,30|rio blanco,30138,both
+30.0,140.0,Saltabarranca,30140,30|saltabarranca,30139,both
+30.0,141.0,San Andrés Tenejapan,30141,30|san andres tenejapan,30140,both
+30.0,142.0,San Andrés Tuxtla,30142,30|san andres tuxtla,30141,both
+30.0,143.0,San Juan Evangelista,30143,30|san juan evangelista,30142,both
+30.0,144.0,Santiago Tuxtla,30144,30|santiago tuxtla,30143,both
+30.0,145.0,Sayula de Alemán,30145,30|sayula de aleman,30144,both
+30.0,147.0,Sochiapa,30147,30|sochiapa,30146,both
+30.0,146.0,Soconusco,30146,30|soconusco,30145,both
+30.0,148.0,Soledad Atzompa,30148,30|soledad atzompa,30147,both
+30.0,149.0,Soledad de Doblado,30149,30|soledad de doblado,30148,both
+30.0,150.0,Soteapan,30150,30|soteapan,30149,both
+30.0,151.0,Tamalín,30151,30|tamalin,30150,both
+30.0,152.0,Tamiahua,30152,30|tamiahua,30151,both
+30.0,153.0,Tampico Alto,30153,30|tampico alto,30152,both
+30.0,154.0,Tancoco,30154,30|tancoco,30153,both
+30.0,155.0,Tantima,30155,30|tantima,30154,both
+30.0,156.0,Tantoyuca,30156,30|tantoyuca,30155,both
+30.0,210.0,Tatahuicapan de Juárez,30210,30|tatahuicapan de juarez,30209,both
+30.0,157.0,Tatatila,30157,30|tatatila,30156,both
+30.0,160.0,Tempoal,30160,30|tempoal,30161,both
+30.0,161.0,Tenampa,30161,30|tenampa,30162,both
+30.0,162.0,Tenochtitlán,30162,30|tenochtitlan,30163,both
+30.0,163.0,Teocelo,30163,30|teocelo,30164,both
+30.0,164.0,Tepatlaxco,30164,30|tepatlaxco,30165,both
+30.0,165.0,Tepetlán,30165,30|tepetlan,30166,both
+30.0,166.0,Tepetzintla,30166,30|tepetzintla,30167,both
+30.0,167.0,Tequila,30167,30|tequila,30168,both
+30.0,169.0,Texcatepec,30169,30|texcatepec,30170,both
+30.0,170.0,Texhuacán,30170,30|texhuacan,30171,both
+30.0,171.0,Texistepec,30171,30|texistepec,30172,both
+30.0,172.0,Tezonapa,30172,30|tezonapa,30173,both
+30.0,173.0,Tierra Blanca,30173,30|tierra blanca,30174,both
+30.0,174.0,Tihuatlán,30174,30|tihuatlan,30175,both
+30.0,179.0,Tlachichilco,30179,30|tlachichilco,30180,both
+30.0,175.0,Tlacojalpan,30175,30|tlacojalpan,30176,both
+30.0,176.0,Tlacolulan,30176,30|tlacolulan,30177,both
+30.0,177.0,Tlacotalpan,30177,30|tlacotalpan,30178,both
+30.0,178.0,Tlacotepec de Mejía,30178,30|tlacotepec de mejia,30179,both
+30.0,180.0,Tlalixcoyan,30180,30|tlalixcoyan,30181,both
+30.0,181.0,Tlalnelhuayocan,30181,30|tlalnelhuayocan,30182,both
+30.0,25.0,Tlaltetela,30025,30|tlaltetela,30024,both
+30.0,182.0,Tlapacoyan,30182,30|tlapacoyan,30183,both
+30.0,183.0,Tlaquilpa,30183,30|tlaquilpa,30184,both
+30.0,184.0,Tlilapan,30184,30|tlilapan,30185,both
+30.0,185.0,Tomatlán,30185,30|tomatlan,30186,both
+30.0,186.0,Tonayán,30186,30|tonayan,30187,both
+30.0,187.0,Totutla,30187,30|totutla,30188,both
+30.0,204.0,Tres Valles,30204,30|tres valles,30207,both
+30.0,188.0,Tuxpan,30188,30|tuxpan,30189,both
+30.0,189.0,Tuxtilla,30189,30|tuxtilla,30190,both
+30.0,190.0,Ursulo Galván,30190,30|ursulo galvan,30191,both
+30.0,209.0,Uxpanapa,30209,30|uxpanapa,30210,both
+30.0,191.0,Vega de Alatorre,30191,30|vega de alatorre,30192,both
+30.0,192.0,Veracruz,30192,30|veracruz,30193,both
+30.0,193.0,Villa Aldama,30193,30|villa aldama,30194,both
+30.0,89.0,Xalapa,30089,30|xalapa,30087,both
+30.0,194.0,Xico,30194,30|xico,30092,both
+3.0,5.0,Loreto,03005,3|loreto,03009,both
+3.0,4.0,Los Cabos,03004,3|los cabos,03008,both
+4.0,11.0,Calakmul,04011,4|calakmul,04010,both
+4.0,2.0,Calkiní,04002,4|calkini,04001,both
+4.0,1.0,Campeche,04001,4|campeche,04002,both
+4.0,10.0,Candelaria,04010,4|candelaria,04011,both
+4.0,12.0,Dzitbalché,04012,4|dzitbalche,04013,both
+4.0,13.0,Seybaplaya,04013,4|seybaplaya,04012,both
+6.0,6.0,Armería,06006,6|armeria,06001,both
+6.0,1.0,Colima,06001,6|colima,06002,both
+6.0,2.0,Comala,06002,6|comala,06003,both
+6.0,3.0,Coquimatlán,06003,6|coquimatlan,06004,both
+6.0,4.0,Cuauhtémoc,06004,6|cuauhtemoc,06005,both
+6.0,7.0,Ixtlahuacán,06007,6|ixtlahuacan,06006,both
+6.0,8.0,Manzanillo,06008,6|manzanillo,06007,both
+6.0,9.0,Minatitlán,06009,6|minatitlan,06008,both
+6.0,10.0,Tecomán,06010,6|tecoman,06009,both
+6.0,5.0,Villa de Álvarez,06005,6|villa de alvarez,06010,both
+7.0,112.0,Aldama,07112,7|aldama,07113,both
+7.0,113.0,Benemérito de las Américas,07113,7|benemerito de las americas,07114,both
+7.0,119.0,Capitán Luis Ángel Vidal,07119,7|capitan luis angel vidal,07120,both
+7.0,121.0,El Parral,07121,7|el parral,07122,both
+7.0,122.0,Emiliano Zapata,07122,7|emiliano zapata,07123,both
+7.0,124.0,Honduras de la Sierra,07124,7|honduras de la sierra,07125,both
+7.0,38.0,Huitiupán,07038,7|huitiupan,07039,both
+7.0,39.0,Huixtán,07039,7|huixtan,07038,both
+7.0,74.0,Las Rosas,07074,7|las rosas,07075,both
+7.0,114.0,Maravilla Tenejapa,07114,7|maravilla tenejapa,07115,both
+7.0,115.0,Marqués de Comillas,07115,7|marques de comillas,07116,both
+7.0,123.0,Mezcalapa,07123,7|mezcalapa,07124,both
+7.0,116.0,Montecristo de Guerrero,07116,7|montecristo de guerrero,07117,both
+7.0,71.0,Pueblo Nuevo Solistahuacán,07071,7|pueblo nuevo solistahuacan,07072,both
+7.0,72.0,Rayón,07072,7|rayon,07073,both
+7.0,73.0,Reforma,07073,7|reforma,07074,both
+7.0,120.0,Rincón Chamula San Pedro,07120,7|rincon chamula san pedro,07121,both
+7.0,75.0,Sabanilla,07075,7|sabanilla,07076,both
+7.0,76.0,Salto de Agua,07076,7|salto de agua,07077,both
+7.0,117.0,San Andrés Duraznal,07117,7|san andres duraznal,07118,both
+7.0,77.0,San Cristóbal de las Casas,07077,7|san cristobal de las casas,07078,both
+7.0,78.0,San Fernando,07078,7|san fernando,07079,both
+7.0,79.0,San Juan Cancuc,07079,7|san juan cancuc,07112,both
+7.0,80.0,San Lucas,07080,7|san lucas,07110,both
+7.0,118.0,Santiago El Pinar,07118,7|santiago el pinar,07119,both
+7.0,81.0,Siltepec,07081,7|siltepec,07080,both
+7.0,82.0,Simojovel,07082,7|simojovel,07081,both
+7.0,83.0,Sitalá,07083,7|sitala,07082,both
+7.0,84.0,Socoltenango,07084,7|socoltenango,07083,both
+7.0,85.0,Solosuchiapa,07085,7|solosuchiapa,07084,both
+7.0,86.0,Soyaló,07086,7|soyalo,07085,both
+7.0,87.0,Suchiapa,07087,7|suchiapa,07086,both
+7.0,88.0,Suchiate,07088,7|suchiate,07087,both
+7.0,89.0,Sunuapa,07089,7|sunuapa,07088,both
+7.0,90.0,Tapachula,07090,7|tapachula,07089,both
+7.0,91.0,Tapalapa,07091,7|tapalapa,07090,both
+7.0,92.0,Tapilula,07092,7|tapilula,07091,both
+7.0,93.0,Tecpatán,07093,7|tecpatan,07092,both
+7.0,94.0,Tenejapa,07094,7|tenejapa,07093,both
+7.0,95.0,Teopisca,07095,7|teopisca,07094,both
+7.0,101.0,Tuxtla Chico,07101,7|tuxtla chico,07102,both
+7.0,102.0,Tuxtla Gutiérrez,07102,7|tuxtla gutierrez,07101,both
+7.0,107.0,Villa Comaltitlán,07107,7|villa comaltitlan,07071,both
+7.0,108.0,Villa Corzo,07108,7|villa corzo,07107,both
+7.0,109.0,Villaflores,07109,7|villaflores,07108,both
+7.0,110.0,Yajalón,07110,7|yajalon,07109,both
