@@ -6,7 +6,7 @@ Todos los campos de los archivos del INE están disponibles para el análisis y 
 
 El contexto del reto, los entregables y la explicación de los datos están en [docs/reto_y_datos.md](docs/reto_y_datos.md). El plan de trabajo por fases está en [docs/PLAN.md](docs/PLAN.md). Si acabas de llegar al equipo, léelos en ese orden.
 
-Las fases 1 a 3 ya tienen sus entregables; la validación externa de la Fase 2 coincide en las 192 combinaciones estado–elección del tablero del INE ([evidencia](docs/reports/reporte_validacion_ine.md)). La Fase 4 tiene análisis reproducibles para las diez preguntas y un [reporte único](docs/EDA/reporte_eda.md). Las definiciones de la Fase 5 siguen pendientes antes de modelar; la Fase 6 de mapas debe avanzar en paralelo.
+Las fases 1 a 3 ya tienen sus entregables; la validación externa de la Fase 2 coincide en las 192 combinaciones estado–elección del tablero del INE ([evidencia](docs/reports/reporte_validacion_ine.md)). La Fase 4 tiene análisis reproducibles para las diez preguntas y un [reporte único](docs/EDA/reporte_eda.md). Azael aprobó el 29/10/2026 los valores de la Fase 5 para modelar, y las intervenciones van como las propuso Diego. La Fase 7 ya genera las predicciones; siguen pendientes los mapas y el semáforo.
 
 ## Cómo empezar
 
@@ -30,6 +30,23 @@ jupyter lab ai/notebooks/00_exploracion_inicial.ipynb
 ```
 
 Con el entorno activado, el comando es `python` en Mac, Linux y Windows.
+
+### Entrenar el modelo (Fase 7)
+
+Requiere las tres tablas canónicas `.parquet` de `data/processed/`, producidas por Fase 3. En macOS instala OpenMP una sola vez con `brew install libomp` ([instrucciones de LightGBM](https://pypi.org/project/lightgbm/4.7.0/)).
+
+```bash
+python ai/src/models/fase7.py
+python -m unittest discover -s ai/tests -v
+```
+
+`--sin-censo` elimina el bloque candidato ECEG de la selección y de todos los ajustes; `--minimo 500` configura el mínimo de personas con respuesta para entrenar. Las 2,477 predicciones se conservan aun para municipios con pocos casos. La corrida completa tarda unos minutos; los resultados anteriores se conservan mientras se calcula y valida la nueva corrida.
+
+El modelo aprende la distancia de cada municipio al país. La selección de columnas, ajustes y árboles usa solo 2015/2018; las pruebas decisivas predicen 2021 por tiempo y dejando estados completos fuera. Si falla cualquiera de las cuatro comparaciones de error simple/ponderado, se publica repetir la última intermedia. El supuesto nacional de 2027 es el de 2021 (48.16% redondeado); el reporte incluye escenarios ±5 puntos y rangos municipales del 80% que no cuentan el error del nivel del país.
+
+**Resultado:** el modelo usa 39 columnas de historial y de la lista nominal; ni las del EDA ni las del censo mejoraron la selección. En 2021 el error simple/pesado baja de 12.40/8.46 a **9.31/6.19 puntos**; dejando estados fuera, a **10.27/6.34**. LightGBM gana en las dos pruebas y se publica. En la comprobación adicional de 2024 pierde frente a repetir la presidencial anterior (6.47 contra 5.70 puntos); esa prueba no decide.
+
+Las salidas están en `ai/artifacts/`: `predicciones_2027.parquet` y `.csv` copian las columnas originales, llenan `abstencion_objetivo` y agregan abstención, participación, rangos, razones y marcas de calidad. `modelo_2027.txt` guarda el candidato; `modelo_config.json` registra versiones, columnas, parámetros, rango y huellas SHA256. También se guardan selección, pruebas, sensibilidades, explicaciones y escenarios nacionales. El [reporte del modelo](docs/reports/reporte_modelo.md) se genera leyendo esos archivos. Las tablas de `data/processed/` no se modifican y no se ejecuta Fase 8.
 
 **Si `python3 --version` muestra 3.9 o 3.10** (es lo normal en un Mac sin configurar), instala una versión nueva (`brew install python@3.12`) y crea el entorno con ella: `python3.12 -m venv .venv`.
 
@@ -131,7 +148,7 @@ Evita una normalización masiva de los datos: esta excepción permite conservar 
 | `ai/src/scenarios/` | Escenarios, semáforo y brecha intermedia vs presidencial | 8 |
 | `ai/artifacts/` | Modelo guardado, métricas y predicciones | 7 |
 | `backend/app/` | API FastAPI (opcional) que **solo lee** `data/processed/` | fase final |
-| `frontend/` | Interfaz con los cuatro mapas (opcional) | fase final |
+| `frontend/` | Interfaz con los dos mapas, sin y con intervención (opcional) | fase final |
 | `docs/reports/` | Reportes de calidad, consistencia, validación y diccionario de datos | 1–3 |
 | `docs/EDA/` | `reporte_eda.md`, gráficas y resultados por pregunta | 4 |
 | `docs/deliverables/` | Reporte metodológico (PDF), presentación y cartas firmadas | — |

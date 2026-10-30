@@ -2,11 +2,11 @@
 
 Este plan dice qué hacemos en cada fase, qué sale de ahí y cuándo se puede pasar a la siguiente. Si la condición no se cumple, nos quedamos en esa fase.
 
-**Objetivo definido:** predecir mediante regresión la tasa de abstención por municipio. **Ya definimos que una zona del proyecto es un municipio.** Todos los campos de los archivos del CCPC del INE están disponibles para el análisis y la preparación de variables. Como fuentes externas sociodemográficas se incorporan los ECEG 2010 y 2020 del INEGI; no se usan los Censos Económicos porque sus datos abiertos disponibles son solo nacionales. Toda fuente externa debe ser anterior a la elección objetivo. Los registros por sección son el insumo para construir los agregados municipales. Siguen pendientes las demás definiciones y la aprobación de la Fase 5 para modelar.
+**Objetivo definido:** predecir mediante regresión la tasa de abstención por municipio. **Ya definimos que una zona del proyecto es un municipio.** Todos los campos de los archivos del CCPC del INE están disponibles para el análisis y la preparación de variables. Los ECEG 2010 y 2020 del INEGI están preparados como bloque candidato, pendiente de decisión del equipo; no se usan los Censos Económicos. Toda fuente externa debe ser anterior a la elección objetivo. Los registros por sección son el insumo para construir los agregados municipales. Azael aprobó el 29/10/2026 los valores de la Fase 5 para modelar y que las intervenciones vayan como las propuso Diego; el equipo todavía puede cambiarlos. El semáforo sigue pendiente.
 
 **Fuentes externas:** los ECEG (Entorno para la Construcción de Escenarios Geoelectorales) del INEGI se agregan de sección a municipio y se unen por `EDOCVE` + `MPIOCVE`. Para cada fila se usa el censo más reciente anterior a la elección objetivo: 2010 para 2015 y 2018; 2020 para 2021, 2024 y 2027. Los municipios creados después del censo quedan sin dato y se marcan; no se imputan en este paso. El detalle está en `docs/reports/reporte_externos.md`.
 
-**Estado al 24 de octubre de 2026:** fases 1 a 3 implementadas. La Fase 2 queda cerrada tras validar las 192 combinaciones estado–elección contra el tablero del INE, sin diferencias en los conteos. Evidencia en [reporte_validacion_ine.md](reports/reporte_validacion_ine.md). **Trabajo inmediato:** Fase 4 (análisis exploratorio), avanzando en paralelo la cartografía de la Fase 6. Las decisiones de la Fase 5 siguen pendientes antes de modelar.
+**Estado al 29 de octubre de 2026:** fases 1 a 4 implementadas y Fase 7 completada con las definiciones aprobadas abajo. La Fase 2 validó las 192 combinaciones estado–elección contra el tablero del INE, sin diferencias en los conteos ([evidencia](reports/reporte_validacion_ine.md)). Siguen pendientes la cartografía de la Fase 6 y el semáforo de la Fase 8.
 
 | Fase | Qué hacemos | Qué sale de ahí |
 |---|---|---|
@@ -120,21 +120,34 @@ Tablas: **base** = `municipio_eleccion` y **entrenamiento** = `tabla_municipios_
 
 ### Fase 5. Definiciones (decide el equipo)
 
+**Aprobación para modelar (29/10/2026).** Azael aprobó estos valores de la propuesta de Diego para modelar; el equipo todavía puede cambiarlos. Las intervenciones también van como las propuso Diego, en dos mapas: sin y con intervención. Siguen pendientes el semáforo y el uso definitivo del ECEG.
+
+| Definición | Regla aprobada para Fase 7 |
+|---|---|
+| Elección objetivo | Intermedia de 2027; regresión municipal de NV / (SV + NV) |
+| Mínimo de conocidos | 500 en la respuesta de entrenamiento; sensibilidad con 100 y 1,000. Se predicen todos los municipios. `--minimo` cambia el filtro de entrenamiento |
+| NS | Fuera del denominador. Sensibilidades con máximo 10%/20% y NS como no voto. Más de 50% en 2024 se marca como baja confianza |
+| 2012 | Se conserva sin rellenar huecos; sensibilidad con historial sin 2012 |
+| Sin respuesta | Se excluye del entrenamiento; no se inventa una observación real |
+| Historial rearmado e incompleto | Se incluye, se marca y se evalúa por separado |
+| Validación | Selección solo en 2015/2018, prueba temporal en 2021 y prueba adicional dejando estados completos fuera |
+| ECEG | Bloque candidato; solo se retiene si mejora la selección previa a 2021. Pendiente de decisión del equipo; `--sin-censo` lo excluye |
+| Modelo y pesos | Un LightGBM de distancia municipal al país, sin pesos al entrenar; comparación exclusiva contra repetir la última elección del mismo tipo |
+| Nivel nacional 2027 | Supuesto: tasa nacional de 2021 (48.16% redondeado), con escenarios de ±5 puntos |
+
 Con lo que mostró el análisis exploratorio, el equipo decide y lo deja por escrito:
 
 - **Zona:** municipio para el modelo, los escenarios, el semáforo, los mapas y el reporte, acordado por el equipo. La sección se conserva como insumo de agregación y validación.
-- **Datos:** todos los campos de los archivos del CCPC del INE están disponibles para el análisis y la preparación de variables. Se añaden como fuentes externas los ECEG 2010 y 2020 del INEGI, eligiendo para cada fila el censo más reciente anterior a la elección objetivo. No se usan los Censos Económicos porque los datos abiertos disponibles son solo nacionales. Falta evaluar la selección y representación de predictores después del EDA.
+- **Datos:** todos los campos del CCPC están disponibles. Los ECEG 2010 y 2020 son un bloque candidato temporalmente anterior a cada objetivo, pendiente de decisión del equipo. No se usan los Censos Económicos. Fase 7 evalúa los bloques sin usar 2021 para seleccionarlos.
 - **Objetivo del modelo:** regresión de la tasa de abstención municipal, ya definido. La tasa se calcula desde los conteos sumados por municipio. La clasificación del riesgo se construye a partir de la predicción; sus niveles y cortes se deciden en el semáforo.
-- **Elección objetivo:** propuesta, la intermedia de 2027.
+- **Elección objetivo:** aprobada, la intermedia de 2027.
 - **Semáforo:** cuántos colores y dónde va cada corte (por nivel de abstención o por orden de los municipios). Se fija con el escenario sin intervención y es el mismo para todas las intervenciones.
-- **Intervenciones:** de 3 a 4, una por grupo (por ejemplo, jóvenes, hombres, zonas rurales o personas de 60 o más). Para cada una se decide qué acción es, a quién va, dónde se aplica y cuánto efecto se supone (por ejemplo, convencer al 10% de los que no iban a votar). La pregunta 4 del EDA dice qué grupos conviene elegir.
-- **Mínimo de casos conocidos por municipio** para tomarlo en cuenta.
-- **Municipios sin historial, con cambios territoriales o sin dato:** cómo tratarlos y cómo evaluar la cobertura de sus secciones.
-- **Los no especificados:** propuesta, dejarlos fuera (como el INE) y probar qué pasa si no. Incluye qué hacer con 2012, según lo que salga de la Fase 2.
+- **Intervenciones:** definido, van como las propuso Diego en `docs/EDA/Fase 5/fase5.md`: tres por separado (jóvenes de 18 a 34, hombres y zonas rurales), solo en los municipios rojos del escenario sin intervención y con un efecto supuesto de 10% (se prueban también 5% y 15%). Se ven en dos mapas: sin y con intervención.
+- **Mínimo de casos, historial, ausencia de respuesta, NS y 2012:** aprobados para modelar según la tabla anterior. Las marcas se conservan en la salida; la representación final en el mapa se decide en Fase 8.
 
 **Qué sale:** las definiciones y sus motivos quedan en esta fase del plan y en la sección 7 de `reto_y_datos.md`, manteniendo ambos documentos sincronizados.
 
-**Se pasa cuando:** el equipo lo aprueba. **No se modela antes de esto.**
+**Se pasa cuando:** el equipo lo aprueba. La solicitud de implementación aprueba las reglas anteriores y habilita Fase 7; los cortes del semáforo y las intervenciones requieren su definición antes de Fase 8.
 
 ---
 
@@ -203,12 +216,12 @@ Cada una calcula `(abst_municipal_última − abst_país_última) −
 conocidas del mismo tipo, siempre anteriores al objetivo. Sin dos antecedentes queda
 vacía. La tasa nacional es `suma(NV) / suma(SV + NV)`, calculada sobre todas las
 secciones antes de reconstruir territorios; no es un promedio de tasas municipales.
-Estas variantes siguen pendientes de validación predictiva en la Fase 7.
+En la Fase 7 estas columnas se probaron juntas, sin `n_presidenciales_previas_sin_2012`, que delata el año de la foto. No mejoraron la selección y quedaron fuera del modelo. La sensibilidad sin 2012 se reporta por separado.
 
 **Cómo, paso a paso:**
 
 1. **Punto de partida:** predecir que cada municipio repite su última elección del mismo tipo (para 2027, `abst_ultima_intermedia`). Cualquier modelo tiene que ganarle.
-2. **Un solo modelo:** un modelo de regresión potente, de los que aprenden con ejemplos que ya traen la respuesta (aprendizaje supervisado). Cuál exactamente se propone al empezar esta fase.
+2. **Un solo modelo:** LightGBM, que junta muchos árboles de decisión. Aprende cuánto se separa cada municipio del país. Las columnas y los ajustes se eligen solo con las fotos de 2015 y 2018, y quedan fijos antes de probar 2021. Los datos del censo (ECEG) entran solo si mejoran esa elección. No entran el año ni los conteos de elecciones previas, porque delatan de qué foto es cada fila.
 3. **Prueba en el pasado (la que más pesa):** se entrena solo con las fotos de 2015 y 2018 y se predice la de 2021, que es intermedia como 2027. Luego se compara con lo que de verdad pasó.
 4. **Prueba por estados:** se dejan fuera estados completos al entrenar y luego se predicen, para ver si funciona en zonas que no vio.
 5. **Modelo final:** si pasa las dos pruebas, se entrena con todas las fotos (2015 a 2024) y se llena `tabla_municipios_2027`.
@@ -224,6 +237,22 @@ Estas variantes siguen pendientes de validación predictiva en la Fase 7.
 **Limitación que hay que declarar:** solo hay seis elecciones y el nivel del país en las intermedias cambia mucho. Probablemente el modelo atine mejor al orden de los municipios que al porcentaje exacto.
 
 **Qué sale:** el modelo guardado, los resultados de las pruebas y `tabla_municipios_2027` con la abstención predicha y su rango (en `ai/artifacts/`).
+
+**Cómo correrlo:** `python ai/src/models/fase7.py`. Tarda unos minutos. En Mac puede pedir `brew install libomp`. Las pruebas se corren con `python -m unittest discover -s ai/tests -v`.
+
+**Nivel del país:** el modelo no adivina el nivel nacional de 2027. Se supone igual al de 2021 (48.16%), y el reporte muestra qué pasa si es 5 puntos mayor o menor. Los municipios se ajustan para que, juntos, den ese nivel. Al probar 2021 se supuso el nivel de 2015, porque era lo que se sabía antes de esa elección. Si el modelo no ganara, se publicaría el punto de partida tal cual.
+
+**Rango:** sale de cuánto se equivocó el modelo con cada municipio en 2021, sin contar lo que falló el supuesto del nivel del país. Ese margen se suma a la predicción de 2027.
+
+**Explicación:** para cada municipio se guardan las tres columnas que más mueven su predicción. Todo el detalle técnico está en [reporte_modelo.md](reports/reporte_modelo.md), que se genera con el mismo script. Las tablas de `data/processed/` no se modifican.
+
+**Resultado (29/10/2026):** el modelo usa 39 columnas de historial y de la lista nominal; ni las del EDA ni las del censo mejoraron la selección.
+- **2021:** se equivoca 9.31 puntos en promedio (6.19 pesando por personas), contra 12.40 (8.46) de repetir la intermedia anterior.
+- **Dejando estados fuera:** 10.27 (6.34) contra 12.40 (8.46).
+- **Semáforo:** pone en rojo al 75% de los municipios que de verdad fueron rojos en 2021; el punto de partida, al 52%.
+- **2024, que no decide:** repetir la presidencial anterior le gana al modelo (5.70 contra 6.47 puntos).
+
+Gana las dos pruebas que deciden, así que se publican sus 2,477 predicciones. Detalle en [reporte_modelo.md](reports/reporte_modelo.md).
 
 **Se pasa cuando:** el modelo le gana al punto de partida en las dos pruebas. Si no, se dice así y se usa el punto de partida.
 

@@ -1,0 +1,40 @@
+﻿columna,descripcion,aporte_absoluto_medio_pts,aporte_medio_pts,correlacion_valor_aporte,direccion
+abst_ultima_presidencial,Abstención de la última presidencial antes de la elección que se predice,3.8016778199016255,1.2075355400538454,0.941358478643323,valores altos suben
+abst_ultima_presidencial_vs_pais,La última presidencial menos la del país en esa elección,3.237023338245934,0.1796296894055817,0.9890004530778904,valores altos suben
+es_intermedia,Si la elección objetivo es intermedia,1.8603657021856952,-1.8603657021856952,,relación no monotónica
+abst_prom_presidenciales,Promedio de la abstención de todas las presidenciales anteriores,1.5456711232372242,0.2777357897571235,0.9680044169865454,valores altos suben
+abst_ultima_intermedia_vs_pais,La última intermedia menos la del país en esa elección (positivo = se abstiene más que el país),0.8676457246384738,-0.35228213450546697,0.8990047076659805,valores altos suben
+abst_18_24_ui,Abstención de las personas de 18 a 24 años,0.712561457047185,-0.4804397318040144,0.8875328801293083,valores altos suben
+cambio_intermedias,Cuánto cambió entre las dos últimas intermedias (positivo = subió). Vacío si solo hay una,0.43326370064339925,0.2851951017340229,-0.21419103206380713,valores altos bajan
+pct_35_44,Parte de la lista de 35 a 44 años,0.3850142764567773,-0.22060085181777428,0.7804791927477719,valores altos suben
+secciones_ultima,Secciones que tiene,0.26110816804362025,-0.005308665249356083,0.07284554834084535,valores altos suben
+abst_35_44_ui,Abstención de las personas de 35 a 44 años,0.19265467146787404,0.11055003812707452,-0.6980668096435273,valores altos bajan
+conocidos_ultima,Personas con dato (SV + NV) en la última elección,0.18909785612456048,0.0147224335309893,0.43439161418628824,valores altos suben
+abst_prom_intermedias,Promedio de la abstención de todas las intermedias anteriores,0.1870396663101696,-0.1180550209682941,0.7685990988724039,valores altos suben
+abst_mujeres_ui,Abstención de las mujeres,0.18541703139268817,-0.1309967597329718,0.7812577135057508,valores altos suben
+ln_ultima,Personas registradas para votar,0.17253258047125214,0.018645351049950687,0.5932160327116603,valores altos suben
+abst_ultima_intermedia,Abstención de la última intermedia antes de la elección que se predice,0.16977508771675687,-0.1123112104004175,0.7625730897233264,valores altos suben
+brecha_intermedia_presidencial,Cuánto más se abstiene en intermedias que en presidenciales (promedio de intermedias menos promedio de presidenciales),0.16856616369312305,0.11495177759044826,-0.3991335648473441,valores altos bajan
+pct_60_mas,Parte de la lista de 60 o más años,0.1673519388261722,-0.09451336238643203,-0.7007379604085034,valores altos bajan
+pct_45_59,Parte de la lista de 45 a 59 años,0.162042242289081,0.10137065076410214,0.4409549195536795,valores altos suben
+pct_mujeres,Parte de la lista que son mujeres,0.13803285996527923,0.01833541827990796,0.8850619517767718,valores altos suben
+abst_60_mas_ui,Abstención de las personas de 60 o más años,0.13518125998283595,0.08329041890272912,-0.6272632745818989,valores altos bajan
+pct_rural,Parte de la lista en secciones rurales,0.09808876740145006,0.00928524357420412,-0.7836888641298435,valores altos bajan
+pct_ns_prom,"Lo mismo, en promedio de todas las elecciones anteriores",0.09360320744710787,0.051111359025365975,0.6431226049164874,valores altos suben
+pct_25_34,Parte de la lista de 25 a 34 años,0.09268032992945056,-0.02749592151619721,0.646459914426656,valores altos suben
+pct_18_24,Parte de la lista de 18 a 24 años,0.0843796674983738,0.04412180412083366,-0.7478909688545127,valores altos bajan
+abst_rural_ui,Abstención en las secciones rurales,0.07116538248250667,-0.011201154380550983,0.0728662198198645,valores altos suben
+abst_25_34_ui,Abstención de las personas de 25 a 34 años,0.06752180737932337,0.014839531433553686,0.037785157086253664,relación no monotónica
+abst_45_59_ui,Abstención de las personas de 45 a 59 años,0.053904776601688596,-0.025807541757465857,0.2653087809172784,valores altos suben
+pct_ns_ultima,"Parte de la lista sin saber si votó, en la última elección",0.05288511749373504,-0.0002430718896490403,-0.6408810310189111,valores altos bajan
+pct_urbana,Parte de la lista en secciones urbanas,0.05208669356018154,-0.0016863991033335278,-0.25623537749270836,valores altos bajan
+abst_urbana_ui,Abstención en las secciones urbanas,0.04976574862133388,0.007303480422090434,-0.33500490642635306,valores altos bajan
+abst_mixta_ui,Abstención en las secciones mixtas,0.040551155319716994,0.01670373539813721,-0.23916747789582457,valores altos bajan
+pct_hueco_2012,Parte de su lista de 2009 en secciones que faltan en 2012,0.03166315970940571,0.0035308560601751957,-0.647140248764695,valores altos bajan
+abst_hombres_ui,Abstención de los hombres,0.0316417569673328,0.014725442966691038,-0.06192010077703181,valores altos bajan
+edad_promedio,Edad promedio de la lista,0.029529073449028276,-0.012885858123741828,-0.19840790421301618,valores altos bajan
+pct_mixta,Parte de la lista en secciones mixtas,0.015789084780242376,-0.0010731427134609384,0.3436550234393324,valores altos suben
+n_del,Cuántos distritos locales toca,0.0035919106276552223,-0.0009178329950904,-0.619092395455053,valores altos bajan
+historial_rearmado,`True` si su historial se recalculó porque ganó o perdió secciones,0.0,0.0,,relación no monotónica
+historial_incompleto,`True` si alguna sección de su pasado no se pudo asignar,0.0,0.0,,relación no monotónica
+n_def,Cuántos distritos federales toca,0.0,0.0,,relación no monotónica

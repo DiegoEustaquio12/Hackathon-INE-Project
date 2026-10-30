@@ -1,0 +1,234 @@
+{
+  "ajuste_centrado": 0.0067680326425170745,
+  "ancho_rango_medio_pts": 20.098653985975723,
+  "arboles": 172,
+  "artefactos_sha256": {
+    "escenarios_nivel.csv": "2b80b0001f5f00996de498972d82a1cbb716f26f5b60dbc22b9f8a412a3f4674",
+    "explicacion_global.csv": "a371b970a0eafe97be74e84c6a2c9ee13f9156d4d6f25a16267e122def5f0657",
+    "modelo_2027.txt": "4d3febc980814caac216bc1c28c147e9e532ab9bf8218b209dedbf26c7ae064d",
+    "predicciones_2027.csv": "ab9ce36d8d66207bb9dda1a83076b0befbd66e375378bf214e5098b03aad8bbd",
+    "predicciones_2027.parquet": "e88bcc9548519df2954599ee5f13dcf325a9f68966d374f0ccf3a864e5858c09",
+    "predicciones_pruebas.csv": "5c3b6eaf97da2e4c3befcffca07dd29bd1c0432cf37a3a8c1b0d5b7970f4a410",
+    "seleccion_columnas.csv": "41a32fbe4feeaa8ddc3997ccef98882b8b701a3f2c73b827bf272ceaaf1cc398",
+    "seleccion_congelada.json": "d9a6bf2ee68693ddcb5111093d95b5a4afa18dd6fb5c50cf6aff545a75ffb9c1",
+    "sensibilidades.csv": "027ba3b36acff339a15f55711b60027a39074cc926689d926ef8ed0231c4058a",
+    "validacion.csv": "f66a8b33b66e321e04c48acbe6c322a612ade0307ba420c998533357606aff56"
+  },
+  "base_shap": -0.056057075199041954,
+  "bloque": "A",
+  "calidad_por_foto": [
+    {
+      "foto": 2015,
+      "incompletos": 0,
+      "incompletos_evaluables": 0,
+      "rearmados": 0,
+      "rearmados_evaluables": 0
+    },
+    {
+      "foto": 2018,
+      "incompletos": 0,
+      "incompletos_evaluables": 0,
+      "rearmados": 0,
+      "rearmados_evaluables": 0
+    },
+    {
+      "foto": 2021,
+      "incompletos": 6,
+      "incompletos_evaluables": 5,
+      "rearmados": 23,
+      "rearmados_evaluables": 21
+    },
+    {
+      "foto": 2024,
+      "incompletos": 11,
+      "incompletos_evaluables": 11,
+      "rearmados": 46,
+      "rearmados_evaluables": 46
+    }
+  ],
+  "cobertura_rango_pct": 79.98372660699756,
+  "codigo_sha256": {
+    "ai/src/models/datos_modelo.py": "dc5e579c267408f47259a172c2706892876a14c2c06521669fa0368b9c399f76",
+    "ai/src/models/explicacion.py": "cb932fccb303cf57292428a058066fdf4706518cba34acaafc0c7123cddef4bc",
+    "ai/src/models/fase7.py": "041616837e743ff6fe86f75d82d2a712985c64bbaa4614ec8f037c0dc07ade31",
+    "ai/src/models/validacion.py": "e100414b699c02f1bd8ec4e52063e9f763e171ee9e7664098ffdd87ef44f49ae"
+  },
+  "columnas": [
+    "abst_ultima_intermedia",
+    "abst_prom_intermedias",
+    "cambio_intermedias",
+    "abst_ultima_intermedia_vs_pais",
+    "abst_ultima_presidencial",
+    "abst_prom_presidenciales",
+    "abst_ultima_presidencial_vs_pais",
+    "brecha_intermedia_presidencial",
+    "abst_18_24_ui",
+    "abst_25_34_ui",
+    "abst_35_44_ui",
+    "abst_45_59_ui",
+    "abst_60_mas_ui",
+    "abst_mujeres_ui",
+    "abst_hombres_ui",
+    "abst_urbana_ui",
+    "abst_mixta_ui",
+    "abst_rural_ui",
+    "ln_ultima",
+    "secciones_ultima",
+    "pct_18_24",
+    "pct_25_34",
+    "pct_35_44",
+    "pct_45_59",
+    "pct_60_mas",
+    "pct_mujeres",
+    "pct_urbana",
+    "pct_mixta",
+    "pct_rural",
+    "edad_promedio",
+    "pct_ns_ultima",
+    "pct_ns_prom",
+    "conocidos_ultima",
+    "pct_hueco_2012",
+    "historial_rearmado",
+    "historial_incompleto",
+    "n_def",
+    "n_del",
+    "es_intermedia"
+  ],
+  "decisiones": {
+    "censo": "candidato pendiente de decisión del equipo",
+    "conservar_2012": true,
+    "ns": "fuera",
+    "rearmados": "incluir y evaluar aparte",
+    "respuestas_ausentes": "excluir"
+  },
+  "filas_por_foto": [
+    {
+      "entrenables": 2364,
+      "filas": 2458,
+      "foto": 2015,
+      "sin_respuesta": 30
+    },
+    {
+      "entrenables": 2378,
+      "filas": 2463,
+      "foto": 2018,
+      "sin_respuesta": 13
+    },
+    {
+      "entrenables": 2394,
+      "filas": 2468,
+      "foto": 2021,
+      "sin_respuesta": 10
+    },
+    {
+      "entrenables": 2395,
+      "filas": 2477,
+      "foto": 2024,
+      "sin_respuesta": 12
+    }
+  ],
+  "fotos_seleccion": [
+    2015,
+    2018
+  ],
+  "fuentes_sha256": {
+    "data/processed/municipio_eleccion.parquet": "3cc748d1fc5606f431e2b805b08a4a44f7d3cc4d9aa7845bbc70ef32e84160c1",
+    "data/processed/tabla_municipios_2027.parquet": "be4e3c075b9a78e9d580e9e6e31a94d3f42e4f03ed7c4a5227e726c186fa0bff",
+    "data/processed/tabla_municipios_entrenamiento.parquet": "15e7319aa4ca8e644695737f996a7fd6c7da0049e15133d1dc147ce25f25ab93"
+  },
+  "gana": true,
+  "media_publicada": 0.4816202445326881,
+  "metodo": "modelo",
+  "minimo": 500,
+  "nacionales": [
+    {
+      "abstencion_pct": 55.939216887572265,
+      "eleccion": 2009
+    },
+    {
+      "abstencion_pct": 37.91703613594625,
+      "eleccion": 2012
+    },
+    {
+      "abstencion_pct": 52.92644023443535,
+      "eleccion": 2015
+    },
+    {
+      "abstencion_pct": 37.63489658575247,
+      "eleccion": 2018
+    },
+    {
+      "abstencion_pct": 48.16202445326881,
+      "eleccion": 2021
+    },
+    {
+      "abstencion_pct": 40.32997055563274,
+      "eleccion": 2024
+    }
+  ],
+  "nivel_pais_supuesto": 0.48162024453268815,
+  "parametros": {
+    "min_data_in_leaf": 50,
+    "num_leaves": 31,
+    "objective": "regression_l1"
+  },
+  "parametros_fijos": {
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "bagging_seed": 2027,
+    "data_random_seed": 2027,
+    "deterministic": true,
+    "feature_fraction": 0.8,
+    "feature_fraction_seed": 2027,
+    "force_row_wise": true,
+    "learning_rate": 0.03,
+    "metric": "l1",
+    "num_threads": 4,
+    "seed": 2027,
+    "verbosity": -1
+  },
+  "plataforma": "macOS-26.3.1-arm64-arm-64bit",
+  "python": "3.12.13",
+  "rango": {
+    "cortes": [
+      4467.0,
+      15828.0
+    ],
+    "error_nacional": -0.04764415781166531,
+    "grupos": [
+      {
+        "grupo": 0,
+        "margen_max": 0.1142400444561499,
+        "margen_min": -0.1179059043546821,
+        "n": 819,
+        "q10": -0.1179059043546821,
+        "q90": 0.1142400444561499
+      },
+      {
+        "grupo": 1,
+        "margen_max": 0.06846008414904377,
+        "margen_min": -0.15842370232088157,
+        "n": 819,
+        "q10": -0.15842370232088157,
+        "q90": 0.06846008414904377
+      },
+      {
+        "grupo": 2,
+        "margen_max": 0.05486784190616442,
+        "margen_min": -0.09578020680045965,
+        "n": 820,
+        "q10": -0.09578020680045965,
+        "q90": 0.05486784190616442
+      }
+    ]
+  },
+  "sin_censo": false,
+  "versiones": {
+    "lightgbm": "4.7.0",
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "pyarrow": "25.0.1",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1"
+  }
+}

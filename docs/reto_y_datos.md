@@ -8,9 +8,9 @@ Este documento explica qué nos pide el reto, cómo vamos a resolverlo y, sobre 
 
 **Problema.** El INE tiene recursos limitados para promover la participación en las elecciones. El reto pide anticipar en qué zonas del país podría bajar la participación, para decidir dónde actuar primero.
 
-**Herramienta que vamos a hacer.** Un modelo de regresión que usa los datos del CCPC del INE de 2009 a 2024 para predecir la **tasa de abstención por municipio** en una elección futura. A partir de esa predicción se clasifica el riesgo con un semáforo, en dos escenarios (sin intervención y con una intervención hipotética). **Ya definimos que una zona del proyecto es un municipio. Todos los campos de los archivos del INE están disponibles para el análisis y la preparación de variables. Como fuentes externas sociodemográficas se incorporan los ECEG 2010 y 2020 del INEGI; los Censos Económicos no se usan porque sus datos abiertos son solo nacionales.** Las demás definiciones y la aprobación para modelar siguen pendientes.
+**Herramienta que vamos a hacer.** Un modelo de regresión que usa los datos del CCPC del INE de 2009 a 2024 para predecir la **tasa de abstención por municipio** en una elección futura. A partir de esa predicción se clasifica el riesgo con un semáforo, en dos escenarios (sin intervención y con una intervención hipotética). **Ya definimos que una zona del proyecto es un municipio. Todos los campos de los archivos del INE están disponibles para el análisis y la preparación de variables. Como fuentes externas sociodemográficas se incorporan los ECEG 2010 y 2020 del INEGI; los Censos Económicos no se usan porque sus datos abiertos son solo nacionales.** Las definiciones necesarias para modelar se aprobaron al solicitar la implementación de Fase 7; semáforo e intervenciones siguen pendientes.
 
-**Estado actual (24/10/2026).** Las fases 1 a 3 ya cuentan con carga limpia, catálogo de consistencia y tablas municipales. La comparación externa de la Fase 2 quedó validada para los 32 estados en las seis elecciones, sin diferencias en los conteos ([reporte](reports/reporte_validacion_ine.md)). El siguiente trabajo es la Fase 4 de análisis exploratorio, con mapas en paralelo y las decisiones de la Fase 5 pendientes antes de modelar.
+**Estado actual (29/10/2026).** Las fases 1 a 4 son reproducibles. Azael aprobó los valores de la sección 7 para modelar, y el modelo de la Fase 7 le gana a repetir la última elección del mismo tipo. El reporte y las predicciones están en `docs/reports/reporte_modelo.md` y `ai/artifacts/`. Siguen pendientes la cartografía y el semáforo.
 
 **Quién la usaría.** Las áreas del INE que planean y reparten recursos de capacitación electoral y educación cívica, como la DECEyEC y las juntas locales y distritales (por confirmar).
 
@@ -26,7 +26,7 @@ Flujo: **Datos → Modelo → Escenarios → Semáforo → Mapas → Recomendaci
 |---|---|
 | **Datos** | Una tabla donde cada fila es un municipio en una elección, construida a partir de todos los campos disponibles en los archivos del INE: conteos, historial, edad, sexo, tipo de sección, información territorial y demás campos |
 | **Modelo** | Predice mediante regresión la tasa de abstención de cada municipio |
-| **Escenarios** | Dos corridas del mismo modelo. La primera sigue las tendencias históricas (sin intervención adicional). La segunda aplica un supuesto de intervención: una acción hipotética del INE y el efecto que suponemos que tendría. Antes de simular hay que definir a quién va dirigida, dónde se aplica y qué efecto se espera |
+| **Escenarios** | Salen de una sola predicción del modelo. Sin intervención es la predicción tal cual, que sigue las tendencias históricas. Con intervención es esa misma predicción más el efecto que suponemos que tendría una acción hipotética del INE; el modelo no se vuelve a correr. Antes de calcularlo hay que definir a quién va dirigida, dónde se aplica y qué efecto se espera |
 | **Semáforo** | Clasifica cada zona por nivel de riesgo. Los cortes se fijan una vez con el escenario sin intervención y se usan iguales en el escenario con intervención, para que los colores sean comparables |
 | **Mapas** | Muestran los resultados de cada escenario |
 | **Recomendaciones** | Qué zonas priorizar y qué acción tomar, a partir de los mapas |
@@ -39,12 +39,10 @@ Flujo: **Datos → Modelo → Escenarios → Semáforo → Mapas → Recomendaci
 |---|---|---|---|---|
 | 1 | Sin intervención | Riesgo de abstención por zona en la elección objetivo, si las tendencias siguen igual | Semáforo | Obligatorio |
 | 2 | Con intervención | El mismo mapa, aplicando el supuesto de intervención hipotética | Semáforo (mismos cortes que el mapa 1) | Obligatorio |
-| 3 | Diferencia entre escenarios | Cuánto cambia el riesgo de cada zona al intervenir, para ver dónde rinde más la acción | Escala de cambio | Propuesta del equipo |
-| 4 | Brecha intermedia vs presidencial | Diferencia de abstención por zona entre elecciones intermedias y presidenciales, para ver qué zonas se desentienden más cuando no hay presidente en juego | Escala de diferencia | Propuesta del equipo |
 
-Solo los mapas 1 y 2 los exige la convocatoria. Los mapas 3 y 4 se agregan si el modelo y los datos quedan sólidos.
+Son dos mapas, los que pide la convocatoria. Al picarle a un municipio se abre una ventana con sus datos. Ahí se ve la **diferencia entre los dos escenarios** (cuántos puntos sube la participación al intervenir) y la brecha intermedia vs presidencial; no son mapas aparte.
 
-En esta primera versión, la zona de los cuatro mapas es el municipio.
+En esta primera versión, la zona de los dos mapas es el municipio.
 
 ## 4. Qué tenemos que entregar
 
@@ -141,7 +139,7 @@ Fíjense que **`NS` se deja fuera** del cálculo.
 **No es voto nulo.** Es gente de la lista de la que **no se sabe si votó o no**, por ejemplo porque el cuadernillo (el cuaderno de la lista nominal donde se marca quién votó) no tenía marcas, no se pudo capturar o faltaba una página. Es un dato faltante.
 
 - Estos datos **no dicen por quién votó la gente ni si el voto fue nulo**. Solo dicen si fue a votar o no.
-- **Decisión propuesta: excluir `NS`**, igual que el INE. Más adelante probamos cuánto cambian los resultados si lo contamos como "no votó".
+- **Decisión aprobada para modelar: excluir `NS`**, igual que el INE. Más adelante probamos cuánto cambian los resultados si lo contamos como "no votó".
 - Cuidado: el porcentaje de `NS` cambia mucho entre estados. En 2021 va de 1.4% en Colima a 12.7% en Chihuahua. Por eso la participación no es igual de confiable en todos lados.
 - **Hay secciones donde no se sabe de nadie si votó.** Ahí la participación es desconocida (no es cero). En 2024 son unas 2,100 secciones.
 - **2012 casi no tiene `NS`** (0.2%) y su lista nominal es menor que la de 2009. Un [manual del INE](https://www.ine.mx/wp-content/uploads/2019/12/DECEyEC-manualConteosCensales.pdf) explica que en 2012 se excluyeron los cuadernillos no disponibles, a diferencia de las otras elecciones. En la Fase 2 se evalúa cómo afecta esto a las comparaciones entre años.
@@ -230,26 +228,35 @@ El cruce forma parte de las tablas canónicas `tabla_municipios_entrenamiento` y
 - [x] Que los seis años tengan las mismas columnas. *Sí.*
 - [x] Ver si hay un diccionario de datos dentro de los `.zip`. *Sí, uno por año.*
 - [x] Confirmar el código de `SEXO` en 2024 contra el tablero. *El código `2` corresponde a no binario; son 105 personas.*
-- [x] Saber qué municipios se pueden comparar entre elecciones y revisar los cambios de sus secciones (Fase 2). *El catálogo y el reporte documentan 46 municipios con cambios territoriales y 254 secciones que cambian de municipio; la decisión sobre su historial reconstruido sigue en la Fase 5.*
+- [x] Saber qué municipios se pueden comparar entre elecciones y revisar los cambios de sus secciones (Fase 2). *El catálogo y el reporte documentan 46 municipios con cambios territoriales y 254 secciones que cambian de municipio; su historial reconstruido se conserva y se evalúa por separado en Fase 7.*
 - [x] Contrastar con el tablero la participación de Aguascalientes con ambos sexos juntos. *Coincide en 2021 y 2024.*
-- [x] Averiguar por qué 2012 casi no tiene `NS`. *El INE documenta que se excluyeron cuadernillos no disponibles. La Fase 2 identificó 1,048 secciones ausentes que reaparecen en 2015; en 66 municipios representan más del 10% de su lista. Su uso en el historial se decidirá con el EDA.*
+- [x] Averiguar por qué 2012 casi no tiene `NS`. *El INE documenta que se excluyeron cuadernillos no disponibles. La Fase 2 identificó 1,048 secciones ausentes que reaparecen en 2015; en 66 municipios representan más del 10% de su lista. Se conserva en el historial y se evalúa una variante sin 2012 en Fase 7.*
 - [ ] Conseguir contornos municipales, verificar su correspondencia con los datos y confirmar con el INE que se pueden usar.
 
 ---
 
-## 7. Pendiente por decidir
+## 7. Definiciones aprobadas y pendientes
 
-La zona municipal, el objetivo de regresión de la tasa de abstención, la disponibilidad de todos los campos de los archivos del INE y el uso de los ECEG 2010 y 2020 como fuentes externas sociodemográficas ya están definidos. Las demás decisiones las tomamos después de entender los datos, en la Fase 5 del [plan](PLAN.md). Las definiciones y sus motivos se documentan aquí y en esa fase; si una cambia aquí, se cambia también allá.
+**Aprobación para modelar (29/10/2026).** Azael aprobó estos valores de la propuesta de Diego para modelar; el equipo todavía puede cambiarlos. Las intervenciones también van como las propuso Diego, en dos mapas: sin y con intervención. Siguen pendientes el semáforo y el uso definitivo del ECEG.
 
-1. **¿Qué es una "zona"?** Definido: municipio para el modelo, los escenarios, el semáforo, los mapas y el reporte. Las secciones se conservan como insumo de agregación y validación.
-2. **¿Qué predice el modelo?** Definido: la tasa de abstención municipal mediante regresión. A partir de esa predicción se clasifica el riesgo; falta decidir los niveles y cortes del semáforo.
-3. **Elección objetivo.** Candidata natural: la intermedia de 2027.
-4. **Cuántos niveles tiene el semáforo y dónde van los cortes** (por nivel de abstención o por orden de los municipios). Son los mismos para todas las intervenciones.
-5. **Las intervenciones hipotéticas:** pueden ser varias, una por grupo (por ejemplo, jóvenes, personas mayores, mujeres u hombres, o secciones rurales). Para cada una: a quién se dirige, dónde se aplica y qué efecto se supone.
-6. **Tratamiento de `NS`:** propuesta de excluirlo, y probar cuánto cambia el resultado si no se excluye.
-7. **Datos:** definido, todos los campos de los archivos del CCPC del INE están disponibles para el análisis y la preparación de variables. Se incorporan como fuentes externas sociodemográficas los ECEG 2010 y 2020 del INEGI, con la regla de usar el censo más reciente anterior a la elección objetivo. No se usan los Censos Económicos (datos abiertos solo nacionales) ni fuentes de marginación. La representación y selección de predictores se evalúa después del EDA. La cartografía municipal se solicita al INE como soporte de los mapas; su uso y entrega están por confirmar.
-8. **Municipios sin historial, con cambios territoriales o sin dato:** cómo tratarlos y cómo evaluar la cobertura de sus secciones, incluidas las nuevas de 2024.
-9. **Mínimo de casos conocidos por municipio** para tomarlo en cuenta.
+| Definición | Regla aprobada para Fase 7 |
+|---|---|
+| Elección objetivo | Intermedia de 2027; regresión municipal de NV / (SV + NV) |
+| Mínimo de conocidos | 500 en la respuesta de entrenamiento; sensibilidad con 100 y 1,000. Se predicen todos los municipios. `--minimo` cambia el filtro de entrenamiento |
+| NS | Fuera del denominador. Sensibilidades con máximo 10%/20% y NS como no voto. Más de 50% en 2024 se marca como baja confianza |
+| 2012 | Se conserva sin rellenar huecos; sensibilidad con historial sin 2012 |
+| Sin respuesta | Se excluye del entrenamiento; no se inventa una observación real |
+| Historial rearmado e incompleto | Se incluye, se marca y se evalúa por separado |
+| Validación | Selección solo en 2015/2018, prueba temporal en 2021 y prueba adicional dejando estados completos fuera |
+| ECEG | Bloque candidato; solo se retiene si mejora la selección previa a 2021. Pendiente de decisión del equipo; `--sin-censo` lo excluye |
+| Modelo y pesos | Un LightGBM de distancia municipal al país, sin pesos al entrenar; comparación exclusiva contra repetir la última elección del mismo tipo |
+| Nivel nacional 2027 | Supuesto: tasa nacional de 2021 (48.16% redondeado), con escenarios de ±5 puntos |
+
+**Intervenciones:** van como las propuso Diego en `docs/EDA/Fase 5/fase5.md`: tres por separado (jóvenes de 18 a 34, hombres y zonas rurales), solo en los municipios rojos del escenario sin intervención y con un efecto supuesto de 10% (se prueban también 5% y 15%). Se ven en dos mapas: sin y con intervención.
+
+**Pendiente para Fase 8:** número de colores y cortes del semáforo. Los cortes se fijarán una sola vez con el escenario sin intervención y se conservarán para todos los escenarios. Los terciles del reporte del modelo solo son un diagnóstico de validación.
+
+**Datos y mapa:** todos los campos del CCPC siguen disponibles y se conservan. El ECEG 2010/2020 ya preparado se prueba como bloque candidato, sin añadir otras fuentes externas; su adopción sigue pendiente del equipo. La cartografía y su entrega requieren confirmación con el INE y revisión de equivalencias territoriales. Las definiciones se mantienen sincronizadas con Fase 5 de [PLAN.md](PLAN.md).
 
 ---
 
@@ -269,7 +276,7 @@ La zona municipal, el objetivo de regresión de la tasa de abstención, la dispo
 - **Abstención:** que una persona de la lista nominal no vote.
 - **Regresión:** modelo que predice un valor numérico; en este proyecto, la tasa de abstención de cada municipio.
 - **Etapas de vida:** los grupos de edad que usa el INE: 18 a 24, 25 a 34, 35 a 44, 45 a 59 y 60 o más.
-- **Escenario:** una corrida del modelo bajo ciertos supuestos (por ejemplo, con o sin intervención).
+- **Escenario:** el resultado de la predicción bajo ciertos supuestos. Sin intervención es la predicción del modelo tal cual; con intervención es esa misma predicción más el efecto supuesto.
 - **Semáforo:** clasificación de las zonas en niveles de riesgo (por ejemplo verde, amarillo y rojo).
 - **Reseccionamiento:** cuando el INE divide o redibuja secciones, por ejemplo porque crecieron mucho. Por eso el número de secciones cambia entre elecciones.
 - **Redistritación:** cuando el INE redibuja los distritos electorales. La última fue en 2023 y se usó en 2024.
@@ -280,6 +287,11 @@ La zona municipal, el objetivo de regresión de la tasa de abstención, la dispo
 - **Intervención hipotética:** una acción supuesta del INE (por ejemplo, una campaña de promoción de participación en municipios priorizados). Su efecto no se puede medir con estos datos, así que lo declaramos como supuesto.
 
 ### Términos del análisis
+
+- **LightGBM:** modelo de árboles que aprende corrigiendo errores de árboles anteriores. En Fase 7 estima la distancia municipal al país.
+- **Distancia contra el país:** abstención del municipio menos la nacional de esa elección. Para 2027 se suma a un nivel nacional supuesto; no es una predicción del nivel nacional.
+- **Aporte de una columna (TreeSHAP):** cuántos puntos suma o resta una variable a la salida del modelo, junto con una base. Explica asociaciones del modelo, no efectos causales de una intervención.
+- **Rango empírico nominal del 80%:** margen que sale de cuánto se equivocó el modelo con cada municipio en 2021, por tamaño de municipio, sin contar lo que falló el supuesto del nivel del país. Se suma a la predicción de 2027. No garantiza que 2027 caiga dentro: solo dice cuánto nos equivocamos en 2021. Lo que no sabemos del nivel del país va aparte, en escenarios de ±5 puntos.
 
 - **EDA (análisis exploratorio):** revisar los datos con preguntas y gráficas antes de modelar, para entender cómo se comportan.
 - **Polígono (contorno):** la forma de un territorio (por ejemplo, un municipio) en un mapa. SHP, GeoJSON y GPKG son formatos de archivo que guardan contornos.
@@ -301,7 +313,7 @@ Esta fase llega **solo después** de terminar todo lo de datos, análisis, model
 
 ### Qué se podría hacer
 
-Una página web que muestre los **cuatro mapas** de la sección 3, con su leyenda y una ventana con los datos de cada zona, y que permita cambiar de un mapa a otro. Conviene que los mapas 1 y 2 se puedan ver lado a lado, para comparar el antes y el después.
+Una página web que muestre los **dos mapas** de la sección 3, con su leyenda y una ventana con los datos de cada zona, y que permita cambiar de un mapa a otro. Conviene que se puedan ver lado a lado, para comparar el antes y el después.
 
 Tendría dos partes: un servidor que entrega los resultados ya calculados (backend, con FastAPI) y la página que pinta los mapas (frontend). La aplicación solo **muestra** resultados; no vuelve a correr el modelo.
 
@@ -321,8 +333,10 @@ Quien haga la aplicación puede avanzar con datos de ejemplo. La tabla de escena
 
 - Identificador de la zona (`EDOCVE` + `MPIOCVE`), estado y municipio
 - Marcas de calidad y comparabilidad de los datos de participación
-- Riesgo y semáforo sin intervención
-- Riesgo y semáforo con intervención
-- Diferencia entre ambos
+- Riesgo y semáforo sin intervención: la abstención predicha, su rango y la participación (100% menos la abstención)
+- Riesgo y semáforo con intervención, uno por cada intervención de la Fase 5
+- Diferencia entre ambos (cuántos puntos sube la participación al intervenir)
 - Brecha intermedia vs presidencial (abstención en intermedias menos abstención en presidenciales)
 - Lista nominal (para mostrar el tamaño de la zona)
+- Participación de cada elección de 2009 a 2024, total y por grupos de edad, sexo y tipo de sección
+- Lo que más pesa en la predicción: las columnas que más la suben o la bajan
