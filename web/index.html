@@ -5,212 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Riesgo de abstención por municipio</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<style>
-  * { box-sizing: border-box; }
-  body { margin: 0; font-family: system-ui, sans-serif; display: flex; flex-direction: column; height: 100vh; color: #222; }
-  header { padding: 8px 12px; background: #1f2d3d; color: #fff; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-  header h1 { font-size: 16px; margin: 0 12px 0 0; }
-  header button { border: 1px solid #5b6b7d; background: transparent; color: #fff; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
-  header button.activo { background: #fff; color: #1f2d3d; }
-  header button:disabled { opacity: .4; cursor: default; }
-  header label { font-size: 13px; margin-left: 8px; }
-  #aviso { background: #fff3cd; color: #664d03; padding: 4px 12px; font-size: 12px; }
-  #mapas { flex: 1; display: flex; min-height: 0; }
-  .mapa { flex: 1; position: relative; }
-  .mapa + .mapa { border-left: 2px solid #fff; }
-  .titulo-mapa { position: absolute; z-index: 800; top: 8px; left: 50px; background: rgba(255,255,255,.92); padding: 3px 8px; border-radius: 4px; font-size: 13px; font-weight: 600; }
-  #info { position: absolute; z-index: 900; top: 8px; right: 8px; width: 290px; max-height: calc(100% - 16px); overflow: hidden; background: rgba(255,255,255,.95); padding: 8px 10px; border-radius: 6px; font-size: 13px; box-shadow: 0 1px 4px rgba(0,0,0,.3); pointer-events: none; }
-  #info h3 { margin: 0 0 4px; font-size: 14px; }
-  #info td { padding: 1px 8px 1px 0; }
-  .leyenda { background: rgba(255,255,255,.95); padding: 6px 8px; border-radius: 6px; font-size: 12px; line-height: 1.5; box-shadow: 0 1px 4px rgba(0,0,0,.3); }
-  .leyenda i { display: inline-block; width: 14px; height: 14px; margin-right: 6px; vertical-align: -2px; border: 1px solid #999; }
-  #cargando { position: absolute; inset: 0; display: grid; place-items: center; background: #fff; z-index: 2000; font-size: 15px; }
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header>
   <h1>Riesgo de abstención por municipio</h1>
-  <button data-modo="sin" class="activo">1 · Sin intervención</button>
-  <button data-modo="con">2 · Con intervención</button>
-  <button data-modo="dif">3 · Diferencia</button>
-  <button data-modo="brecha">4 · Brecha interm. vs pres.</button>
-  <label><input type="checkbox" id="comparar"> Ver 1 y 2 lado a lado</label>
+  <div class="grupo">
+    <button data-modo="sin" class="activo">1 · Sin intervención</button>
+    <button data-modo="con">2 · Con intervención</button>
+    <button data-modo="dif">3 · Diferencia</button>
+    <button data-modo="brecha">4 · Brecha interm. vs pres.</button>
+  </div>
+  <div class="grupo">
+    <label>Intervención
+      <select id="sel-interv">
+        <option value="jovenes">Jóvenes (18–34)</option>
+        <option value="hombres">Hombres</option>
+        <option value="rural">Zonas rurales</option>
+      </select>
+    </label>
+    <label>Efecto supuesto
+      <select id="sel-efecto">
+        <option value="5">5%</option>
+        <option value="10" selected>10% (caso base)</option>
+        <option value="15">15%</option>
+      </select>
+    </label>
+    <label class="chk"><input type="checkbox" id="comparar"> Ver 1 y 2 lado a lado</label>
+  </div>
 </header>
 <div id="aviso"></div>
+<div id="resumen"></div>
 <div id="mapas">
-  <div class="mapa" id="contA"><div class="titulo-mapa" id="tituloA"></div><div id="mapaA" style="height:100%"></div></div>
-  <div class="mapa" id="contB" style="display:none"><div class="titulo-mapa" id="tituloB"></div><div id="mapaB" style="height:100%"></div></div>
+  <div class="mapa" id="contA"><div class="titulo-mapa" id="tituloA"></div><div id="mapaA"></div></div>
+  <div class="mapa" id="contB" hidden><div class="titulo-mapa" id="tituloB"></div><div id="mapaB"></div></div>
   <div id="info">Pasa el cursor sobre un municipio.</div>
   <div id="cargando">Cargando mapa…</div>
 </div>
-
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-const GRIS = '#cfcfcf';
-const SEMAFORO = { 1: '#2e9e5b', 2: '#f2c230', 3: '#d6453d' };
-const NOMBRE_SEM = { 1: 'Bajo', 2: 'Medio', 3: 'Alto' };
-const BRECHA_CORTES = [8, 12, 16, 20];
-const BRECHA_COLORES = ['#f2f0f7', '#cbc9e2', '#9e9ac8', '#756bb1', '#54278f'];
-
-const MODOS = {
-  sin:    { titulo: '1 · Sin intervención',              tipo: 'semaforo', get: d => d.sem_sin },
-  con:    { titulo: '2 · Con intervención',              tipo: 'semaforo', get: d => d.sem_con },
-  dif:    { titulo: '3 · Diferencia entre escenarios',   tipo: 'dif',      get: d => d.dif },
-  brecha: { titulo: '4 · Brecha intermedia vs presidencial', tipo: 'brecha', get: d => d.brecha },
-};
-
-let DATA, GEO, DIF_MAX = 1;
-
-function color(modo, d) {
-  if (!d) return GRIS;
-  const v = MODOS[modo].get(d);
-  if (v === null || v === undefined) return GRIS;
-  switch (MODOS[modo].tipo) {
-    case 'semaforo': return SEMAFORO[v];
-    case 'dif': {
-      if (v > 0.05) return '#d6604d';           // el riesgo sube
-      const r = -v / DIF_MAX;                    // fraccion de la mejora maxima
-      if (r < 0.02) return '#f0f0f0';            // sin cambio
-      if (r < 0.34) return '#bdd7e7';
-      if (r < 0.67) return '#6baed6';
-      return '#2171b5';
-    }
-    case 'brecha': {
-      let i = 0;
-      while (i < BRECHA_CORTES.length && v >= BRECHA_CORTES[i]) i++;
-      return BRECHA_COLORES[i];
-    }
-  }
-}
-
-function leyendaHtml(modo) {
-  const fila = (c, t) => `<div><i style="background:${c}"></i>${t}</div>`;
-  const tipo = MODOS[modo].tipo;
-  let h = `<b>${MODOS[modo].titulo}</b>`;
-  if (tipo === 'semaforo') {
-    const [c1, c2] = DATA.meta.cortes;
-    h += fila(SEMAFORO[3], `Alto (≥ ${c2} pts)`) + fila(SEMAFORO[2], `Medio (${c1}–${c2})`) + fila(SEMAFORO[1], `Bajo (< ${c1})`);
-  } else if (tipo === 'dif') {
-    const m = DIF_MAX.toFixed(1);
-    h += fila('#2171b5', `Baja mucho (hasta −${m} pts)`) + fila('#6baed6', 'Baja algo') + fila('#bdd7e7', 'Baja poco')
-       + fila('#f0f0f0', 'Sin cambio') + fila('#d6604d', 'Sube');
-  } else {
-    h += fila(BRECHA_COLORES[4], '≥ 20 pts') + fila(BRECHA_COLORES[3], '16–20') + fila(BRECHA_COLORES[2], '12–16')
-       + fila(BRECHA_COLORES[1], '8–12') + fila(BRECHA_COLORES[0], '< 8');
-  }
-  return h + fila(GRIS, 'Sin dato');
-}
-
-function crearMapa(divId, tituloId, modoInicial) {
-  const map = L.map(divId, { preferCanvas: true, zoomSnap: 0.25 }).setView([23.6, -102.5], 5);
-  const obj = { map, modo: modoInicial, tituloId };
-  obj.layer = L.geoJSON(GEO, {
-    style: f => ({ fillColor: color(obj.modo, DATA.municipios[f.properties.CVEGEO]), fillOpacity: 0.85, color: '#fff', weight: 0.3 }),
-    onEachFeature: (f, l) => {
-      l.on('mouseover', () => { l.setStyle({ weight: 2, color: '#000' }); mostrarInfo(f); });
-      l.on('mouseout', () => { obj.layer.resetStyle(l); });
-    },
-  }).addTo(map);
-  map.fitBounds(obj.layer.getBounds());
-  obj.leyenda = L.control({ position: 'bottomleft' });
-  obj.leyenda.onAdd = () => { const d = L.DomUtil.create('div', 'leyenda'); d.innerHTML = leyendaHtml(obj.modo); obj.div = d; return d; };
-  obj.leyenda.addTo(map);
-  document.getElementById(tituloId).textContent = MODOS[modoInicial].titulo;
-  return obj;
-}
-
-function ponerModo(obj, modo) {
-  obj.modo = modo;
-  obj.layer.eachLayer(l => obj.layer.resetStyle(l));
-  obj.div.innerHTML = leyendaHtml(modo);
-  document.getElementById(obj.tituloId).textContent = MODOS[modo].titulo;
-}
-
-function mostrarInfo(f) {
-  const d = DATA.municipios[f.properties.CVEGEO];
-  const el = document.getElementById('info');
-  if (!d) { el.innerHTML = `<h3>${f.properties.NOMGEO}</h3>Sin datos para este municipio.`; return; }
-  const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
-  const pts = v => (v == null ? '—' : v.toFixed(1) + '%');
-  const sem = s => (s ? NOMBRE_SEM[s] : '—');
-  const tieneCon = DATA.meta.tiene_con;
-  const dif = d.dif == null ? '—' : (d.dif > 0 ? '+' : '') + d.dif.toFixed(1) + ' pts';
-  const brecha = d.brecha == null ? '—' : d.brecha.toFixed(1) + ' pts';
-  const rango = d.min == null ? '' : `<div style="color:#666">Rango: ${d.min.toFixed(1)}% a ${d.max.toFixed(1)}%</div>`;
-  const filas = [
-    `<tr><td>Lista nominal</td><td>${d.ln == null ? '—' : d.ln.toLocaleString('es-MX')}</td></tr>`,
-    `<tr><td>Sin intervención</td><td>${pts(d.riesgo_sin)} · ${sem(d.sem_sin)}</td></tr>`,
-  ];
-  if (tieneCon) {
-    filas.push(`<tr><td>Con intervención</td><td>${pts(d.riesgo_con)} · ${sem(d.sem_con)}</td></tr>`);
-    filas.push(`<tr><td>Diferencia</td><td>${dif}</td></tr>`);
-  }
-  filas.push(`<tr><td>Brecha interm.–pres.</td><td>${brecha}</td></tr>`);
-  const razones = (d.razones || []).length
-    ? `<div style="margin-top:6px;color:#444"><b>Por qué:</b><ul style="margin:2px 0 0 16px;padding:0">${d.razones.map(r => `<li>${esc(r)}</li>`).join('')}</ul></div>` : '';
-  const avisos = (d.avisos || []).length
-    ? `<div style="margin-top:6px;color:#8a5a00">⚠ Dato frágil: ${d.avisos.map(esc).join(', ')}</div>` : '';
-  el.innerHTML = `<h3>${esc(d.nombre)}</h3><div style="color:#666;margin-bottom:4px">${esc(d.estado)}</div>
-    <table>${filas.join('')}</table>${rango}${razones}${avisos}`;
-}
-
-function sincronizar(a, b) {
-  let ocupado = false;
-  const seguir = (x, y) => x.on('move', () => {
-    if (ocupado) return;
-    ocupado = true;
-    y.setView(x.getCenter(), x.getZoom(), { animate: false });
-    ocupado = false;
-  });
-  seguir(a, b); seguir(b, a);
-}
-
-Promise.all([
-  fetch('municipios_web.geojson').then(r => r.json()),
-  fetch('escenarios.json').then(r => r.json()),
-]).then(([geo, datos]) => {
-  GEO = geo; DATA = datos;
-  DIF_MAX = Math.max(0.1, ...Object.values(DATA.municipios).map(d => (d.dif == null ? 0 : -d.dif)));
-  document.getElementById('aviso').textContent = DATA.meta.aviso;
-
-  const A = crearMapa('mapaA', 'tituloA', 'sin');
-  let B = null;
-  document.getElementById('cargando').remove();
-
-  const botones = [...document.querySelectorAll('header button')];
-  if (!DATA.meta.tiene_con) {
-    // sin escenario con intervencion no hay mapas 2 ni 3, ni comparacion lado a lado
-    const msg = 'Aún no hay escenario con intervención';
-    botones.forEach(b => { if (b.dataset.modo === 'con' || b.dataset.modo === 'dif') { b.disabled = true; b.title = msg; } });
-    const chk = document.getElementById('comparar');
-    chk.disabled = true;
-    chk.parentElement.title = msg;
-    chk.parentElement.style.opacity = '.4';
-  }
-  botones.forEach(b => b.addEventListener('click', () => {
-    botones.forEach(x => x.classList.toggle('activo', x === b));
-    ponerModo(A, b.dataset.modo);
-  }));
-
-  document.getElementById('comparar').addEventListener('change', e => {
-    const on = e.target.checked;
-    document.getElementById('contB').style.display = on ? 'block' : 'none';
-    botones.forEach(b => b.disabled = on);
-    if (on) {
-      ponerModo(A, 'sin');
-      if (!B) { B = crearMapa('mapaB', 'tituloB', 'con'); sincronizar(A.map, B.map); }
-      B.map.invalidateSize();
-      A.map.invalidateSize();
-      B.map.setView(A.map.getCenter(), A.map.getZoom(), { animate: false });
-    } else {
-      A.map.invalidateSize();
-      botones.forEach(x => x.classList.toggle('activo', x.dataset.modo === 'sin'));
-    }
-  });
-}).catch(err => {
-  document.getElementById('cargando').innerHTML =
-    'No se pudieron cargar los archivos.<br>Abre esta página con un servidor local (python3 -m http.server), no con doble clic.<br><small>' + err + '</small>';
-});
-</script>
+<script src="app.js"></script>
 </body>
 </html>

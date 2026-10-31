@@ -1,0 +1,44 @@
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; font-family: system-ui, sans-serif; display: flex; flex-direction: column; color: #222; }
+
+header { padding: 8px 12px; background: #1f2d3d; color: #fff; display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; }
+header h1 { font-size: 16px; margin: 0; }
+.grupo { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+header button { border: 1px solid #5b6b7d; background: transparent; color: #fff; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+header button.activo { background: #fff; color: #1f2d3d; }
+header button:disabled { opacity: .4; cursor: default; }
+header label { font-size: 13px; display: flex; align-items: center; gap: 6px; }
+header select { padding: 3px 4px; border-radius: 4px; border: 1px solid #5b6b7d; background: #fff; color: #1f2d3d; }
+header .chk { cursor: pointer; }
+
+#aviso { background: #fff3cd; color: #664d03; padding: 4px 12px; font-size: 12px; }
+
+#resumen { background: #e7f1fb; color: #0b3a66; padding: 4px 12px; font-size: 13px; }
+
+#mapas { flex: 1; display: flex; min-height: 0; position: relative; }
+.mapa { flex: 1; position: relative; }
+.mapa[hidden] { display: none; }
+.mapa + .mapa { border-left: 2px solid #fff; }
+.mapa > div:last-child { height: 100%; }
+.titulo-mapa { position: absolute; z-index: 800; top: 8px; left: 50px; max-width: calc(100% - 340px); background: rgba(255, 255, 255, .92); padding: 3px 8px; border-radius: 4px; font-size: 13px; font-weight: 600; }
+
+#info { position: absolute; z-index: 900; top: 8px; right: 8px; width: 290px; max-height: calc(100% - 16px); overflow: hidden; background: rgba(255, 255, 255, .95); padding: 8px 10px; border-radius: 6px; font-size: 13px; box-shadow: 0 1px 4px rgba(0, 0, 0, .3); pointer-events: none; }
+#info h3 { margin: 0 0 2px; font-size: 14px; }
+#info .sub { color: #666; margin-bottom: 4px; }
+#info table { border-collapse: collapse; }
+#info td { padding: 1px 8px 1px 0; vertical-align: top; }
+#info .nota { margin-top: 6px; color: #444; }
+#info .aviso-dato { margin-top: 6px; color: #8a5a00; }
+#info ul { margin: 2px 0 0 16px; padding: 0; }
+
+.leyenda { background: rgba(255, 255, 255, .95); padding: 6px 8px; border-radius: 6px; font-size: 12px; line-height: 1.5; box-shadow: 0 1px 4px rgba(0, 0, 0, .3); }
+.leyenda i { display: inline-block; width: 14px; height: 14px; margin-right: 6px; vertical-align: -2px; border: 1px solid #999; }
+.leyenda i.borde { background: #fff; border: 2px solid #000; }
+
+#cargando { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 16px; background: #fff; z-index: 2000; font-size: 15px; }
+
+@media (max-width: 700px) {
+  #info { width: 220px; font-size: 12px; }
+  .titulo-mapa { max-width: calc(100% - 260px); }
+}
