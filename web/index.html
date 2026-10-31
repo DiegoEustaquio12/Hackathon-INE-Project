@@ -19,7 +19,7 @@
   .mapa { flex: 1; position: relative; }
   .mapa + .mapa { border-left: 2px solid #fff; }
   .titulo-mapa { position: absolute; z-index: 800; top: 8px; left: 50px; background: rgba(255,255,255,.92); padding: 3px 8px; border-radius: 4px; font-size: 13px; font-weight: 600; }
-  #info { position: absolute; z-index: 900; top: 8px; right: 8px; width: 230px; background: rgba(255,255,255,.95); padding: 8px 10px; border-radius: 6px; font-size: 13px; box-shadow: 0 1px 4px rgba(0,0,0,.3); pointer-events: none; }
+  #info { position: absolute; z-index: 900; top: 8px; right: 8px; width: 290px; max-height: calc(100% - 16px); overflow: hidden; background: rgba(255,255,255,.95); padding: 8px 10px; border-radius: 6px; font-size: 13px; box-shadow: 0 1px 4px rgba(0,0,0,.3); pointer-events: none; }
   #info h3 { margin: 0 0 4px; font-size: 14px; }
   #info td { padding: 1px 8px 1px 0; }
   .leyenda { background: rgba(255,255,255,.95); padding: 6px 8px; border-radius: 6px; font-size: 12px; line-height: 1.5; box-shadow: 0 1px 4px rgba(0,0,0,.3); }
@@ -130,17 +130,28 @@ function mostrarInfo(f) {
   const d = DATA.municipios[f.properties.CVEGEO];
   const el = document.getElementById('info');
   if (!d) { el.innerHTML = `<h3>${f.properties.NOMGEO}</h3>Sin datos para este municipio.`; return; }
-  const pts = v => (v === null ? '—' : v.toFixed(1) + '%');
-  const dif = d.dif === null ? '—' : (d.dif > 0 ? '+' : '') + d.dif.toFixed(1) + ' pts';
-  const brecha = d.brecha === null ? '—' : d.brecha.toFixed(1) + ' pts';
-  el.innerHTML = `<h3>${d.nombre}</h3><div style="color:#666;margin-bottom:4px">${d.estado}</div>
-    <table>
-      <tr><td>Lista nominal</td><td>${d.ln === null ? '—' : d.ln.toLocaleString('es-MX')}</td></tr>
-      <tr><td>Sin intervención</td><td>${pts(d.riesgo_sin)} · ${NOMBRE_SEM[d.sem_sin]}</td></tr>
-      <tr><td>Con intervención</td><td>${pts(d.riesgo_con)} · ${NOMBRE_SEM[d.sem_con]}</td></tr>
-      <tr><td>Diferencia</td><td>${dif}</td></tr>
-      <tr><td>Brecha interm.–pres.</td><td>${brecha}</td></tr>
-    </table>`;
+  const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  const pts = v => (v == null ? '—' : v.toFixed(1) + '%');
+  const sem = s => (s ? NOMBRE_SEM[s] : '—');
+  const tieneCon = DATA.meta.tiene_con;
+  const dif = d.dif == null ? '—' : (d.dif > 0 ? '+' : '') + d.dif.toFixed(1) + ' pts';
+  const brecha = d.brecha == null ? '—' : d.brecha.toFixed(1) + ' pts';
+  const rango = d.min == null ? '' : `<div style="color:#666">Rango: ${d.min.toFixed(1)}% a ${d.max.toFixed(1)}%</div>`;
+  const filas = [
+    `<tr><td>Lista nominal</td><td>${d.ln == null ? '—' : d.ln.toLocaleString('es-MX')}</td></tr>`,
+    `<tr><td>Sin intervención</td><td>${pts(d.riesgo_sin)} · ${sem(d.sem_sin)}</td></tr>`,
+  ];
+  if (tieneCon) {
+    filas.push(`<tr><td>Con intervención</td><td>${pts(d.riesgo_con)} · ${sem(d.sem_con)}</td></tr>`);
+    filas.push(`<tr><td>Diferencia</td><td>${dif}</td></tr>`);
+  }
+  filas.push(`<tr><td>Brecha interm.–pres.</td><td>${brecha}</td></tr>`);
+  const razones = (d.razones || []).length
+    ? `<div style="margin-top:6px;color:#444"><b>Por qué:</b><ul style="margin:2px 0 0 16px;padding:0">${d.razones.map(r => `<li>${esc(r)}</li>`).join('')}</ul></div>` : '';
+  const avisos = (d.avisos || []).length
+    ? `<div style="margin-top:6px;color:#8a5a00">⚠ Dato frágil: ${d.avisos.map(esc).join(', ')}</div>` : '';
+  el.innerHTML = `<h3>${esc(d.nombre)}</h3><div style="color:#666;margin-bottom:4px">${esc(d.estado)}</div>
+    <table>${filas.join('')}</table>${rango}${razones}${avisos}`;
 }
 
 function sincronizar(a, b) {
@@ -156,10 +167,10 @@ function sincronizar(a, b) {
 
 Promise.all([
   fetch('municipios_web.geojson').then(r => r.json()),
-  fetch('escenarios_ejemplo.json').then(r => r.json()),
+  fetch('escenarios.json').then(r => r.json()),
 ]).then(([geo, datos]) => {
   GEO = geo; DATA = datos;
-  DIF_MAX = Math.max(0.1, ...Object.values(DATA.municipios).map(d => (d.dif === null ? 0 : -d.dif)));
+  DIF_MAX = Math.max(0.1, ...Object.values(DATA.municipios).map(d => (d.dif == null ? 0 : -d.dif)));
   document.getElementById('aviso').textContent = DATA.meta.aviso;
 
   const A = crearMapa('mapaA', 'tituloA', 'sin');
@@ -167,6 +178,15 @@ Promise.all([
   document.getElementById('cargando').remove();
 
   const botones = [...document.querySelectorAll('header button')];
+  if (!DATA.meta.tiene_con) {
+    // sin escenario con intervencion no hay mapas 2 ni 3, ni comparacion lado a lado
+    const msg = 'Aún no hay escenario con intervención';
+    botones.forEach(b => { if (b.dataset.modo === 'con' || b.dataset.modo === 'dif') { b.disabled = true; b.title = msg; } });
+    const chk = document.getElementById('comparar');
+    chk.disabled = true;
+    chk.parentElement.title = msg;
+    chk.parentElement.style.opacity = '.4';
+  }
   botones.forEach(b => b.addEventListener('click', () => {
     botones.forEach(x => x.classList.toggle('activo', x === b));
     ponerModo(A, b.dataset.modo);
