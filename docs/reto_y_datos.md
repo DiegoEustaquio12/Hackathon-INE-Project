@@ -8,9 +8,9 @@ Este documento explica qué nos pide el reto, cómo vamos a resolverlo y, sobre 
 
 **Problema.** El INE tiene recursos limitados para promover la participación en las elecciones. El reto pide anticipar en qué zonas del país podría bajar la participación, para decidir dónde actuar primero.
 
-**Herramienta que vamos a hacer.** Un modelo de regresión que usa los datos del CCPC del INE de 2009 a 2024 para predecir la **tasa de abstención por municipio** en una elección futura. A partir de esa predicción se clasifica el riesgo con un semáforo, en dos escenarios (sin intervención y con una intervención hipotética). **Ya definimos que una zona del proyecto es un municipio. Todos los campos de los archivos del INE están disponibles para el análisis y la preparación de variables. Como fuentes externas sociodemográficas se incorporan los ECEG 2010 y 2020 del INEGI; los Censos Económicos no se usan porque sus datos abiertos son solo nacionales.** Las definiciones necesarias para modelar se aprobaron al solicitar la implementación de Fase 7; semáforo e intervenciones siguen pendientes.
+**Herramienta que vamos a hacer.** Un modelo de regresión que usa los datos del CCPC del INE de 2009 a 2024 para predecir la **tasa de abstención por municipio** en una elección futura. A partir de esa predicción se clasifica el riesgo con un semáforo, en dos escenarios (sin intervención y con una intervención hipotética). **Ya definimos que una zona del proyecto es un municipio. Todos los campos de los archivos del INE están disponibles para el análisis y la preparación de variables. Como fuentes externas sociodemográficas se incorporan los ECEG 2010 y 2020 del INEGI; los Censos Económicos no se usan porque sus datos abiertos son solo nacionales.** Las definiciones necesarias para modelar se aprobaron al solicitar la implementación de Fase 7; los escenarios con intervención y el semáforo por terciles ya se implementaron en la Fase 8, y la ratificación del semáforo sigue pendiente.
 
-**Estado actual (30/10/2026).** Las fases 1 a 4 son reproducibles. Azael aprobó los valores de la sección 7 para modelar, y el modelo de la Fase 7 le gana a repetir la última elección del mismo tipo en 2021 y dejando estados fuera. La prueba secundaria de 2024 no decide y excede la tolerancia pre-registrada; el reporte recomienda evaluar una mezcla o un modelo más simple. El reporte y las predicciones están en `docs/reports/reporte_modelo.md` y `ai/artifacts/`. Siguen pendientes la cartografía y el semáforo.
+**Estado actual (30/10/2026).** Las fases 1 a 4 son reproducibles. Azael aprobó los valores de la sección 7 para modelar, y el modelo de la Fase 7 le gana a repetir la última elección del mismo tipo en 2021 y dejando estados fuera. La prueba secundaria de 2024 no decide y excede la tolerancia pre-registrada; el reporte recomienda evaluar una mezcla o un modelo más simple. La Fase 8 ya genera los escenarios con intervención sobre la predicción publicada, con el semáforo por terciles. El reporte y las predicciones están en `docs/reports/reporte_modelo.md`, los escenarios en `docs/reports/reporte_fase8.md` y los artefactos en `ai/artifacts/`. Siguen pendientes la cartografía y la ratificación del semáforo.
 
 **Quién la usaría.** Las áreas del INE que planean y reparten recursos de capacitación electoral y educación cívica, como la DECEyEC y las juntas locales y distritales (por confirmar).
 
@@ -237,7 +237,7 @@ El cruce forma parte de las tablas canónicas `tabla_municipios_entrenamiento` y
 
 ## 7. Definiciones aprobadas y pendientes
 
-**Aprobación para modelar (29/10/2026).** Azael aprobó estos valores de la propuesta de Diego para modelar; el equipo todavía puede cambiarlos. Las intervenciones también van como las propuso Diego, en dos mapas: sin y con intervención. Siguen pendientes el semáforo y el uso definitivo del ECEG.
+**Aprobación para modelar (29/10/2026).** Azael aprobó estos valores de la propuesta de Diego para modelar; el equipo todavía puede cambiarlos. Las intervenciones también van como las propuso Diego, en dos mapas: sin y con intervención. El semáforo por terciles se implementó en la Fase 8 y sigue pendiente de ratificación; el uso definitivo del ECEG sigue pendiente.
 
 | Definición | Regla aprobada para Fase 7 |
 |---|---|
@@ -253,9 +253,9 @@ El cruce forma parte de las tablas canónicas `tabla_municipios_entrenamiento` y
 | Modelo y pesos | Un LightGBM de distancia municipal al país, sin pesos al entrenar; comparación exclusiva contra repetir la última elección del mismo tipo |
 | Nivel nacional 2027 | Publicado: tasa nacional de 2021 (48.16% redondeado). Escenarios: ±5 puntos, tendencia de las intermedias y último cambio |
 
-**Intervenciones:** van como las propuso Diego en `docs/EDA/Fase 5/fase5.md`: tres por separado (jóvenes de 18 a 34, hombres y zonas rurales), solo en los municipios rojos del escenario sin intervención y con un efecto supuesto de 10% (se prueban también 5% y 15%). Se ven en dos mapas: sin y con intervención.
+**Intervenciones:** implementadas en la Fase 8 como las propuso Diego en `docs/EDA/Fase 5/fase5.md`: tres por separado (jóvenes de 18 a 34, hombres y zonas rurales), solo en los municipios rojos del escenario sin intervención y con un efecto supuesto de 10% (se prueban también 5% y 15%). Se ven en dos mapas: sin y con intervención.
 
-**Pendiente para Fase 8:** número de colores y cortes del semáforo. Los cortes se fijarán una sola vez con el escenario sin intervención y se conservarán para todos los escenarios. Los terciles del reporte del modelo solo son un diagnóstico de validación.
+**Semáforo implementado (Fase 8):** tres colores por orden, terciles de la abstención predicha sin intervención. Cortes actuales: rojo ≥ 49.318%, amarillo ≥ 36.933% y verde por debajo de ese corte; los 12 municipios sin personas con dato quedan en gris. Los cortes se fijan una sola vez y se conservan para todos los escenarios. La propuesta sigue pendiente de ratificación del equipo.
 
 **Datos y mapa:** todos los campos del CCPC siguen disponibles y se conservan. El ECEG 2010/2020 ya preparado se prueba como bloque candidato, sin añadir otras fuentes externas; su adopción sigue pendiente del equipo. La cartografía y su entrega requieren confirmación con el INE y revisión de equivalencias territoriales. Las definiciones se mantienen sincronizadas con Fase 5 de [PLAN.md](PLAN.md).
 
@@ -278,7 +278,7 @@ El cruce forma parte de las tablas canónicas `tabla_municipios_entrenamiento` y
 - **Regresión:** modelo que predice un valor numérico; en este proyecto, la tasa de abstención de cada municipio.
 - **Etapas de vida:** los grupos de edad que usa el INE: 18 a 24, 25 a 34, 35 a 44, 45 a 59 y 60 o más.
 - **Escenario:** el resultado de la predicción bajo ciertos supuestos. Sin intervención es la predicción del modelo tal cual; con intervención es esa misma predicción más el efecto supuesto.
-- **Semáforo:** clasificación de las zonas en niveles de riesgo (por ejemplo verde, amarillo y rojo).
+- **Semáforo:** clasificación de las zonas en niveles de riesgo (verde, amarillo y rojo; gris si no hay personas con dato). En la Fase 8 se usan terciles por orden de la abstención predicha.
 - **Reseccionamiento:** cuando el INE divide o redibuja secciones, por ejemplo porque crecieron mucho. Por eso el número de secciones cambia entre elecciones.
 - **Redistritación:** cuando el INE redibuja los distritos electorales. La última fue en 2023 y se usó en 2024.
 - **Casilla especial:** casilla para personas que el día de la elección están fuera de su sección. Sus votos no aparecen en el CCPC.
@@ -330,12 +330,12 @@ Si el tiempo no alcanza, hay una versión más sencilla: una página que lee los
 
 ### Cómo empezar sin frenar el análisis
 
-Quien haga la aplicación puede avanzar con datos de ejemplo. La tabla de escenarios es el acuerdo entre quien analiza y quien construye la interfaz. Sus columnas:
+Quien haga la aplicación puede avanzar con datos de ejemplo. La tabla de escenarios es el acuerdo entre quien analiza y quien construye la interfaz: `ai/artifacts/fase8/escenarios_municipio.parquet` (una fila por municipio) y `escenarios_detalle.csv` (una fila por municipio, intervención y efecto). Sus columnas:
 
 - Identificador de la zona (`EDOCVE` + `MPIOCVE`), estado y municipio
 - Marcas de calidad y comparabilidad de los datos de participación
 - Riesgo y semáforo sin intervención: la abstención predicha, su rango y la participación (100% menos la abstención)
-- Riesgo y semáforo con intervención, uno por cada intervención de la Fase 5
+- Riesgo y semáforo con intervención, uno por cada intervención de la Fase 5, con su reducción en puntos y el cambio de color
 - Diferencia entre ambos (cuántos puntos sube la participación al intervenir)
 - Brecha intermedia vs presidencial (abstención en intermedias menos abstención en presidenciales)
 - Lista nominal (para mostrar el tamaño de la zona)

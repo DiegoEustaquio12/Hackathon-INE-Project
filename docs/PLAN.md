@@ -2,11 +2,11 @@
 
 Este plan dice qué hacemos en cada fase, qué sale de ahí y cuándo se puede pasar a la siguiente. Si la condición no se cumple, nos quedamos en esa fase.
 
-**Objetivo definido:** predecir mediante regresión la tasa de abstención por municipio. **Ya definimos que una zona del proyecto es un municipio.** Todos los campos de los archivos del CCPC del INE están disponibles para el análisis y la preparación de variables. Los ECEG 2010 y 2020 del INEGI están preparados como bloque candidato, pendiente de decisión del equipo; no se usan los Censos Económicos. Toda fuente externa debe ser anterior a la elección objetivo. Los registros por sección son el insumo para construir los agregados municipales. Azael aprobó el 29/10/2026 los valores de la Fase 5 para modelar y que las intervenciones vayan como las propuso Diego; el equipo todavía puede cambiarlos. El semáforo sigue pendiente.
+**Objetivo definido:** predecir mediante regresión la tasa de abstención por municipio. **Ya definimos que una zona del proyecto es un municipio.** Todos los campos de los archivos del CCPC del INE están disponibles para el análisis y la preparación de variables. Los ECEG 2010 y 2020 del INEGI están preparados como bloque candidato, pendiente de decisión del equipo; no se usan los Censos Económicos. Toda fuente externa debe ser anterior a la elección objetivo. Los registros por sección son el insumo para construir los agregados municipales. Azael aprobó el 29/10/2026 los valores de la Fase 5 para modelar y que las intervenciones vayan como las propuso Diego; el equipo todavía puede cambiarlos. El semáforo se implementó en la Fase 8 como terciles por orden y sigue pendiente de ratificación.
 
 **Fuentes externas:** los ECEG (Entorno para la Construcción de Escenarios Geoelectorales) del INEGI se agregan de sección a municipio y se unen por `EDOCVE` + `MPIOCVE`. Para cada fila se usa el censo más reciente anterior a la elección objetivo: 2010 para 2015 y 2018; 2020 para 2021, 2024 y 2027. Los municipios creados después del censo quedan sin dato y se marcan; no se imputan en este paso. El detalle está en `docs/reports/reporte_externos.md`.
 
-**Estado al 29 de octubre de 2026:** fases 1 a 4 implementadas y Fase 7 completada con las definiciones aprobadas abajo. La Fase 2 validó las 192 combinaciones estado–elección contra el tablero del INE, sin diferencias en los conteos ([evidencia](reports/reporte_validacion_ine.md)). Siguen pendientes la cartografía de la Fase 6 y el semáforo de la Fase 8.
+**Estado al 30 de octubre de 2026:** fases 1 a 4 implementadas, Fase 7 completada con las definiciones aprobadas abajo y Fase 8 ejecutada con los escenarios con intervención. La Fase 2 validó las 192 combinaciones estado–elección contra el tablero del INE, sin diferencias en los conteos ([evidencia](reports/reporte_validacion_ine.md)). Sigue pendiente la cartografía de la Fase 6 y la ratificación del semáforo.
 
 | Fase | Qué hacemos | Qué sale de ahí |
 |---|---|---|
@@ -269,15 +269,18 @@ Gana las dos pruebas que deciden, así que se publican sus 2,477 predicciones. D
 
 Ejemplo: si una campaña convence al 10% de los jóvenes de 18 a 34 que no iban a votar, en Puebla la abstención baja unos 2.5 puntos (con sus datos de 2021).
 
-**Qué se hace:**
+**Qué se hizo (30/10/2026):**
 
-1. Poner a cada municipio su color del semáforo **sin intervención**.
-2. Calcular cada intervención de la Fase 5 sobre una copia de `tabla_municipios_2027`.
-3. Usar **los mismos cortes** del semáforo para ver qué municipios cambian de color.
-4. Probar tres tamaños de efecto (por ejemplo, 5%, 10% y 20%).
-5. Comparar: qué intervención saca más municipios del rojo y dónde rinde más cada una.
+1. Semáforo de tres colores por orden: terciles de la abstención predicha sin intervención. Cortes: rojo ≥ 49.318%, amarillo ≥ 36.933% y verde por debajo de ese corte. Los 12 municipios sin personas con dato quedan en gris.
+2. Cada intervención se aplicó sobre la predicción publicada, solo en los 821 municipios rojos y sin reentrenar el modelo.
+3. Los cortes se fijaron una vez y se reutilizaron para medir cambios de color.
+4. Se probaron efectos de 5%, 10% y 15%; el 10% es el primario.
+5. Al 10%, jóvenes saca 129 municipios del rojo (15.7%), hombres 173 (21.1%) y rural 105 (12.8%). La reducción media en rojos es 2.29, 2.77 y 1.40 puntos, respectivamente.
+6. Regla provisional de rural: 145 de los 821 rojos (17.7%) tienen más de la mitad de sus abstencionistas en secciones rurales, así que la intervención se conserva.
 
-**Se pasa cuando:** cada municipio tiene su abstención y su color sin intervención y con cada intervención.
+**Qué sale:** `ai/artifacts/fase8/escenarios_municipio.parquet` y `.csv` (una fila por municipio con las tres intervenciones al efecto primario), `escenarios_detalle.csv` (22,293 filas con los tres efectos), `resumen_intervenciones.csv` y `fase8_config.json`. El detalle está en [reporte_fase8.md](reports/reporte_fase8.md).
+
+**Se pasa cuando:** cada municipio tiene su abstención y su color sin intervención y con cada intervención. **Cumplido:** la corrida se valida con `python -m unittest ai/tests/test_fase8.py`.
 
 > **Importante:** el efecto de una intervención no se puede medir con estos datos. Es un supuesto, y así se dice en el reporte.
 

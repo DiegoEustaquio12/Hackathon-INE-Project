@@ -6,7 +6,7 @@ Todos los campos de los archivos del INE están disponibles para el análisis y 
 
 El contexto del reto, los entregables y la explicación de los datos están en [docs/reto_y_datos.md](docs/reto_y_datos.md). El plan de trabajo por fases está en [docs/PLAN.md](docs/PLAN.md). Si acabas de llegar al equipo, léelos en ese orden.
 
-Las fases 1 a 3 ya tienen sus entregables; la validación externa de la Fase 2 coincide en las 192 combinaciones estado–elección del tablero del INE ([evidencia](docs/reports/reporte_validacion_ine.md)). La Fase 4 tiene análisis reproducibles para las diez preguntas y un [reporte único](docs/EDA/reporte_eda.md). Azael aprobó el 29/10/2026 los valores de la Fase 5 para modelar, y las intervenciones van como las propuso Diego. La Fase 7 ya genera las predicciones; siguen pendientes los mapas y el semáforo.
+Las fases 1 a 3 ya tienen sus entregables; la validación externa de la Fase 2 coincide en las 192 combinaciones estado–elección del tablero del INE ([evidencia](docs/reports/reporte_validacion_ine.md)). La Fase 4 tiene análisis reproducibles para las diez preguntas y un [reporte único](docs/EDA/reporte_eda.md). Azael aprobó el 29/10/2026 los valores de la Fase 5 para modelar, y las intervenciones van como las propuso Diego. Las fases 7 y 8 ya generan las predicciones y los escenarios con intervención; siguen pendientes los mapas y la ratificación del semáforo.
 
 ## Cómo empezar
 
@@ -46,7 +46,22 @@ El modelo aprende la distancia de cada municipio al país. La selección de colu
 
 **Resultado:** el modelo usa 39 columnas de historial y de la lista nominal; ni las del EDA ni las del censo mejoraron la selección. Con la variante calibrada, en 2021 el error simple/pesado baja de 12.40/8.46 a **8.61/6.02 puntos**; dejando estados fuera, a **9.71/6.17**. LightGBM gana las dos pruebas y se publica. La calibración reduce el MAE simple de A y B; el ponderado queda prácticamente igual. La calibración final con las cuatro fotos expande la distancia (pendiente 1.083). En la comprobación secundaria de 2024 el modelo pierde frente a repetir la presidencial anterior (6.68 contra 5.70 puntos), por encima de la tolerancia de 0.3 puntos; el reporte recomienda evaluar una mezcla o un modelo más simple, sin cambiar automáticamente la adopción.
 
-Las salidas están en `ai/artifacts/`: `predicciones_2027.parquet` y `.csv` copian las columnas originales, llenan `abstencion_objetivo` y agregan abstención, participación, rangos, razones y marcas de calidad. `modelo_2027.txt` guarda el candidato; `modelo_config.json` registra versiones, columnas, parámetros, rango, calibración, nivel nacional y huellas SHA256. También se guardan selección, pruebas, sensibilidades, explicaciones, escenarios nacionales, predicciones fuera de fold, calibración e intervalos bootstrap. El [reporte del modelo](docs/reports/reporte_modelo.md) se genera leyendo esos archivos. Las tablas de `data/processed/` no se modifican y no se ejecuta Fase 8.
+Las salidas están en `ai/artifacts/`: `predicciones_2027.parquet` y `.csv` copian las columnas originales, llenan `abstencion_objetivo` y agregan abstención, participación, rangos, razones y marcas de calidad. `modelo_2027.txt` guarda el candidato; `modelo_config.json` registra versiones, columnas, parámetros, rango, calibración, nivel nacional y huellas SHA256. También se guardan selección, pruebas, sensibilidades, explicaciones, escenarios nacionales, predicciones fuera de fold, calibración e intervalos bootstrap. El [reporte del modelo](docs/reports/reporte_modelo.md) se genera leyendo esos archivos. Las tablas de `data/processed/` no se modifican; la Fase 7 no ejecuta la Fase 8, que es una corrida independiente.
+
+### Escenarios con intervención y semáforo (Fase 8)
+
+Requiere la predicción publicada de la Fase 7. No reentrena el modelo y no modifica `data/processed/`.
+
+```bash
+python ai/src/models/fase8.py
+python -m unittest ai/tests/test_fase8.py
+```
+
+El semáforo usa tres colores por orden: terciles de la abstención predicha sin intervención. Los cortes se fijan una vez y se reutilizan en todos los escenarios; los municipios sin personas con dato quedan en gris. Las intervenciones son jóvenes de 18 a 34, hombres y zonas rurales, se aplican solo en los municipios rojos y se prueban con efectos de 5%, 10% y 15%. `--efectos 0.05,0.10,0.15` y `--primario 0.10` permiten cambiarlos.
+
+Las salidas están en `ai/artifacts/fase8/`: `escenarios_municipio.parquet` y `.csv` (una fila por municipio con las tres intervenciones al efecto primario, sus colores y el cambio de color), `escenarios_detalle.csv` (22,293 filas con los tres efectos), `resumen_intervenciones.csv` y `fase8_config.json`. El [reporte de escenarios](docs/reports/reporte_fase8.md) se genera leyendo esos archivos.
+
+**Resultado:** 821 municipios rojos, 821 amarillos, 823 verdes y 12 en gris. Al 10%, hombres saca 173 municipios del rojo (21.1%), jóvenes 129 (15.7%) y rural 105 (12.8%). La reducción media en rojos es 2.77, 2.29 y 1.40 puntos. El efecto es un supuesto declarado: no se estima con estos datos y las intervenciones no se suman.
 
 **Si `python3 --version` muestra 3.9 o 3.10** (es lo normal en un Mac sin configurar), instala una versión nueva (`brew install python@3.12`) y crea el entorno con ella: `python3.12 -m venv .venv`.
 
