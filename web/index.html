@@ -3,46 +3,203 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Riesgo de abstención por municipio</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<title>Abstención 2027 por municipio</title>
+<meta name="description" content="Mapa de la abstención prevista para 2027 en cada municipio de México, sin y con una intervención hipotética.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231f2d3d'/%3E%3Ccircle cx='16' cy='8.5' r='4' fill='%23a51f2a'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23f2c230'/%3E%3Ccircle cx='16' cy='23.5' r='4' fill='%236dbaa0'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<a class="saltar" href="#buscar">Saltar al buscador</a>
+
 <header>
-  <h1>Riesgo de abstención por municipio</h1>
-  <div class="grupo">
-    <button data-modo="sin" class="activo">1 · Sin intervención</button>
-    <button data-modo="con">2 · Con intervención</button>
-    <button data-modo="dif">3 · Diferencia</button>
-    <button data-modo="brecha">4 · Brecha interm. vs pres.</button>
+  <div class="fila-cabeza">
+    <h1>Abstención 2027 <span class="solo-escritorio">por municipio</span></h1>
+
+    <div class="buscador" role="search">
+      <label for="buscar" class="solo-lector">Buscar municipio o estado</label>
+      <span class="lupa" aria-hidden="true">⌕</span>
+      <input id="buscar" type="search" autocomplete="off" spellcheck="false" placeholder="Buscar municipio o estado"
+        role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="resultados">
+      <kbd class="atajo solo-escritorio" aria-hidden="true">/</kbd>
+      <ul id="resultados" role="listbox" aria-label="Resultados" hidden></ul>
+    </div>
+
+    <div class="acciones-cabeza">
+      <button type="button" id="boton-lista" class="boton-cabeza" data-accion="alternar-panel" aria-pressed="false">Lista</button>
+      <button type="button" class="boton-cabeza redondo" data-accion="ayuda" title="Cómo leer el mapa (?)" aria-label="Ayuda">?</button>
+      <div class="menu">
+        <button type="button" class="boton-cabeza redondo" aria-haspopup="true" aria-expanded="false" aria-controls="menu-mas" aria-label="Más opciones" title="Compartir, descargar, presentar">⋯</button>
+        <ul id="menu-mas" class="menu-lista derecha" hidden>
+          <li><button type="button" data-accion="enlace">Copiar enlace</button></li>
+          <li><button type="button" data-accion="png">Descargar imagen del mapa</button></li>
+          <li><button type="button" data-accion="csv">Descargar datos (CSV)</button></li>
+          <li><button type="button" data-accion="imprimir">Imprimir</button></li>
+          <li><button type="button" data-accion="presentar">Modo presentación</button></li>
+        </ul>
+      </div>
+    </div>
   </div>
-  <div class="grupo">
+
+  <nav id="pestanas" class="pestanas" aria-label="Mapas">
+    <button type="button" data-tab="sin" aria-pressed="true">Sin intervención</button>
+    <button type="button" data-tab="con" aria-pressed="false">Con intervención</button>
+    <button type="button" data-tab="comparar" aria-pressed="false">Comparar</button>
+    <div class="menu">
+      <button type="button" id="boton-mas-mapas" aria-haspopup="true" aria-expanded="false" aria-controls="menu-mapas">Más mapas ▾</button>
+      <ul id="menu-mapas" class="menu-lista" hidden>
+        <li><button type="button" data-tab="dif">Cuánto baja con la intervención</button></li>
+        <li><button type="button" data-tab="brecha">Intermedia vs. presidencial</button></li>
+      </ul>
+    </div>
+    <button type="button" class="salir-presentacion" data-accion="presentar">Salir de la presentación</button>
+  </nav>
+</header>
+
+<!-- que representa el mapa activo -->
+<div id="que-muestra" class="que-muestra">
+  <p><b id="que-nombre"></b> <span id="que-texto"></span></p>
+  <div id="intervencion" class="intervencion" role="group" aria-label="Intervención">
     <label>Intervención
-      <select id="sel-interv">
+      <select id="sel-grupo">
         <option value="jovenes">Jóvenes (18–34)</option>
         <option value="hombres">Hombres</option>
         <option value="rural">Zonas rurales</option>
       </select>
     </label>
-    <label>Efecto supuesto
+    <label>Efecto
       <select id="sel-efecto">
         <option value="5">5%</option>
-        <option value="10" selected>10% (caso base)</option>
+        <option value="10">10%</option>
         <option value="15">15%</option>
       </select>
     </label>
-    <label class="chk"><input type="checkbox" id="comparar"> Ver 1 y 2 lado a lado</label>
+    <span class="supuesto">(efecto supuesto)</span>
+    <span id="total" class="total"></span>
   </div>
-</header>
-<div id="aviso"></div>
-<div id="resumen"></div>
-<div id="mapas">
-  <div class="mapa" id="contA"><div class="titulo-mapa" id="tituloA"></div><div id="mapaA"></div></div>
-  <div class="mapa" id="contB" hidden><div class="titulo-mapa" id="tituloB"></div><div id="mapaB"></div></div>
-  <div id="info">Pasa el cursor sobre un municipio.</div>
-  <div id="cargando">Cargando mapa…</div>
+  <div id="modo-comparar" class="segmentado claro solo-escritorio" role="group" aria-label="Forma de comparar">
+    <button type="button" data-comparar="cortina" aria-pressed="false">Cortina</button>
+    <button type="button" data-comparar="lado" aria-pressed="false">Lado a lado</button>
+  </div>
 </div>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="app.js"></script>
+
+<main id="principal">
+  <section id="area-mapa" aria-label="Mapa">
+    <div id="mapas">
+      <div class="mapa" id="contA"><div class="titulo-mapa" id="tituloA" hidden></div><div id="mapaA" class="lienzo"></div></div>
+      <div class="mapa" id="contB" hidden><div class="titulo-mapa" id="tituloB"></div><div id="mapaB" class="lienzo"></div></div>
+      <div id="cortina-barra" role="slider" tabindex="0" aria-label="Posición de la cortina" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" hidden>
+        <span class="asa" aria-hidden="true">⇆</span>
+      </div>
+      <aside id="leyenda" class="leyenda" aria-label="Leyenda">
+        <button type="button" id="leyenda-abrir" class="leyenda-abrir" aria-expanded="true" aria-controls="leyenda-cuerpo">Leyenda ▸</button>
+        <div id="leyenda-cuerpo"></div>
+      </aside>
+      <p id="pista" class="pista" hidden>Haz clic en un municipio o búscalo arriba</p>
+      <div id="cargando" role="status">
+        <div class="esqueleto" aria-hidden="true"></div>
+        <p>Cargando municipios…</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="lista" aria-labelledby="lista-titulo" hidden>
+    <div class="lista-cabeza">
+      <div>
+        <h2 id="lista-titulo"></h2>
+        <p id="lista-cuenta" class="nota"></p>
+      </div>
+      <button type="button" id="lista-csv" class="boton">Descargar CSV</button>
+    </div>
+    <div class="lista-filtros">
+      <label>Estado <select id="lista-edo"></select></label>
+      <label>Nombre <input id="lista-texto" type="search" autocomplete="off" placeholder="Filtrar por nombre"></label>
+      <label>Ordenar por <select id="lista-orden"></select></label>
+      <button type="button" id="lista-mas-filtros-boton" class="enlace" aria-expanded="false" aria-controls="lista-mas-filtros">Más filtros ▸</button>
+      <div id="lista-mas-filtros" class="lista-mas-filtros" hidden>
+        <div id="lista-cats" class="chips" role="group" aria-label="Colores visibles"></div>
+        <label class="chk"><input type="checkbox" id="lista-fragiles"> Solo datos poco confiables</label>
+      </div>
+    </div>
+    <p class="nota">Haz clic en un municipio para verlo en el mapa.</p>
+    <div class="tabla-envoltura"><table id="tabla"></table></div>
+    <p id="lista-vacia" class="vacio" hidden>Ningún municipio cumple estos filtros.
+      <button type="button" id="lista-quitar" class="enlace">Quitar filtros</button></p>
+    <button type="button" id="lista-mas" class="boton" hidden>Mostrar 50 más</button>
+  </section>
+
+  <aside id="ficha" aria-label="Ficha del municipio" hidden>
+    <button type="button" id="ficha-asa" class="ficha-asa solo-movil" aria-label="Agrandar o encoger la ficha"><span></span></button>
+    <div id="ficha-contenido"></div>
+  </aside>
+</main>
+
+<div id="anuncio" class="solo-lector" aria-live="polite"></div>
+<div id="resumen-vista" class="solo-lector" aria-live="polite"></div>
+<div id="toast" role="status" hidden></div>
+<div id="hoja-impresion" aria-hidden="true"></div>
+
+<!-- guia (se abre desde la ayuda) -->
+<div id="guia" hidden>
+  <div id="guia-hueco"></div>
+  <div id="guia-tarjeta" role="dialog" aria-modal="true" aria-labelledby="guia-titulo" aria-describedby="guia-texto">
+    <p id="guia-paso" class="nota"></p>
+    <h2 id="guia-titulo"></h2>
+    <p id="guia-texto"></p>
+    <div class="guia-botones">
+      <button type="button" id="guia-saltar" class="enlace">Saltar</button>
+      <button type="button" id="guia-siguiente" class="boton primario">Siguiente</button>
+    </div>
+  </div>
+</div>
+
+<!-- ayuda -->
+<dialog id="ayuda" aria-labelledby="ayuda-titulo">
+  <div class="dialogo-cabeza">
+    <h2 id="ayuda-titulo">Cómo leer el mapa</h2>
+    <button type="button" class="cerrar" data-cerrar aria-label="Cerrar ayuda">×</button>
+  </div>
+  <div class="dialogo-cuerpo">
+    <section>
+      <h3>Qué muestra</h3>
+      <p>Qué porcentaje de la lista nominal de cada municipio se espera que <b>no vote</b> en la elección intermedia de 2027. Es una predicción hecha con los datos del INE de 2009 a 2024.</p>
+      <ul>
+        <li><b>Colores:</b> cada color agrupa un tercio de los municipios. Rojo es el tercio con más abstención; verde, el de menos. El color compara al municipio con el resto del país.</li>
+        <li><b>Puntos:</b> la diferencia entre dos porcentajes. 1 punto = 1 de cada 100 personas de la lista nominal. Si la abstención pasa de 52% a 50%, baja 2 puntos.</li>
+        <li><b>Rango probable:</b> el valor real puede caer en cualquier parte de ese rango.</li>
+        <li><b>Intervención:</b> es hipotética. Solo se aplica en municipios en rojo y supone que una parte (5, 10 o 15%) de quienes no votan en el grupo elegido sí vota.</li>
+        <li><b>Datos poco confiables:</b> municipios con pocos casos, muchas personas sin dato de voto o sin datos del censo.</li>
+      </ul>
+    </section>
+    <section>
+      <h3>Atajos de teclado</h3>
+      <table class="atajos">
+        <tr><td><kbd>/</kbd></td><td>Buscar</td></tr>
+        <tr><td><kbd>1</kbd>–<kbd>4</kbd></td><td>Cambiar de mapa</td></tr>
+        <tr><td><kbd>C</kbd></td><td>Comparar</td></tr>
+        <tr><td><kbd>L</kbd></td><td>Mapa o lista</td></tr>
+        <tr><td><kbd>P</kbd></td><td>Modo presentación</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>Cerrar la ficha o salir</td></tr>
+      </table>
+    </section>
+    <section>
+      <h3>Glosario</h3>
+      <dl>
+        <dt>Lista nominal</dt><dd>Las personas con credencial para votar vigente que pueden votar.</dd>
+        <dt>Abstención</dt><dd>Que una persona de la lista nominal no vote.</dd>
+        <dt>Elección intermedia</dt><dd>Elección federal donde no se elige presidente (2009, 2015, 2021 y 2027).</dd>
+        <dt>Elección presidencial</dt><dd>Elección federal donde sí se elige presidente (2012, 2018 y 2024).</dd>
+      </dl>
+    </section>
+    <section>
+      <h3>Fuente</h3>
+      <p>Conteos Censales de Participación Ciudadana (CCPC) del INE, 2009–2024. Predicción y escenarios del equipo del Reto 2, Hackathon INE.</p>
+      <button type="button" id="ayuda-ver-guia" class="boton">Ver la guía</button>
+    </section>
+  </div>
+</dialog>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script type="module" src="app.js"></script>
 </body>
 </html>

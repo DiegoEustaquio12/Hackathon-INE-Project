@@ -86,12 +86,22 @@ python ai/src/eda/eda_p5.py
 
 La ejecución individual actualiza únicamente su sección del mismo reporte. Para ejecutar la pregunta 10 por separado, prepara primero el mapa con `python scripts/descargar_cartografia_eda.py`. Las figuras se guardan en `docs/EDA/`. Los comandos anteriores de las preguntas 1 a 3 siguen disponibles como entradas compatibles.
 
-### Backend (fase final, opcional)
+### Visor web de los mapas
 
-Tiene sus propias librerías, porque solo sirve resultados ya calculados y no entrena modelos:
+Es una página que solo muestra resultados ya calculados. Se abre con un servidor local (no con doble clic):
 
 ```bash
-pip install -r backend/requirements.txt
+cd web && python3 -m http.server 8000
+```
+
+Luego se abre `http://localhost:8000/` en el navegador. Si cambian las predicciones o los escenarios, se regeneran sus datos con el comando que trae `web/make_escenarios.py` al inicio.
+
+### Entregable del mapa de escenarios
+
+Genera en `docs/deliverables/mapa_escenarios/` el mapa (GPKG y GeoJSON), las comparaciones en PDF y PNG y la base de datos (CSV y XLSX). Necesita los polígonos del INEGI en `data/external/mun22gw_c/`:
+
+```bash
+python ai/src/geo/entregable_mapa.py
 ```
 
 ## Saltos de línea y Git
@@ -126,13 +136,12 @@ Evita una normalización masiva de los datos: esta excepción permite conservar 
 | `ai/notebooks/` | Exploración interactiva de los datos | 4 |
 | `ai/src/eda/` | Un script por pregunta (`eda_p1.py` … `eda_p10.py`) | 4 |
 | `ai/src/data_prep/` | Carga, limpieza, consistencia entre años, tabla de análisis | 1–3 |
-| `ai/src/geo/` | Unión de polígonos con la tabla por estado y municipio | 6 |
+| `ai/src/geo/` | Unión de polígonos con los escenarios y generación del entregable del mapa | 6 |
 | `ai/src/models/` | Entrenamiento, validación y explicación | 7 |
 | `ai/src/scenarios/` | Escenarios, semáforo y brecha intermedia vs presidencial | 8 |
 | `ai/artifacts/` | Modelo guardado, métricas y predicciones | 7 |
-| `backend/app/` | API FastAPI (opcional) que **solo lee** `data/processed/` | fase final |
-| `frontend/` | Interfaz con los cuatro mapas (opcional) | fase final |
+| `web/` | Visor web de los mapas (HTML, CSS y JavaScript sin servidor propio) y los datos que dibuja | fase final |
 | `docs/reports/` | Reportes de calidad, consistencia, validación y diccionario de datos | 1–3 |
 | `docs/EDA/` | `reporte_eda.md`, gráficas y resultados por pregunta | 4 |
-| `docs/deliverables/` | Reporte metodológico (PDF), presentación y cartas firmadas | — |
+| `docs/deliverables/` | Entregables: mapa de escenarios con su base de datos (`mapa_escenarios/`), reporte metodológico, presentación y cartas firmadas | — |
 | `scripts/` | Utilidades del repo, como la descarga de datos | — |

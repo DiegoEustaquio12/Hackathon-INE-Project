@@ -1,0 +1,24 @@
+Verificación del entregable · 31/10/2026
+Municipios con datos: 2,477 | con polígono: 2,475 | sin polígono: Eldorado (Sinaloa), Juan José Ríos (Sinaloa)
+San Pedro Mixtepec, claves confirmadas con el polígono (INE -> INEGI): 20316 -> 20318, 20317 -> 20319
+Semáforo sin intervención: rojo 821, amarillo 821, verde 823, sin_clasificar 12
+Cortes: amarillo 36.93% | rojo 49.32% (terciles del escenario sin intervención)
+Con intervención Jóvenes (18–34) (10%): rojo 692, amarillo 950, verde 823, sin_clasificar 12 | cambian de color 129 | ≈ 1,215,274 personas más votarían (igual al visor)
+Con intervención Hombres (10%): rojo 648, amarillo 994, verde 823, sin_clasificar 12 | cambian de color 173 | ≈ 1,403,475 personas más votarían (igual al visor)
+Con intervención Zonas rurales (10%): rojo 716, amarillo 926, verde 823, sin_clasificar 12 | cambian de color 105 | ≈ 358,755 personas más votarían (igual al visor)
+Capas del GPKG: escenarios_detalle, estados, layer_styles, mapa_1_sin_intervencion, mapa_2_con_hombres, mapa_2_con_jovenes, mapa_2_con_rural | estilos: 5 | CRS EPSG:4326 | geometrías válidas
+Relectura GPKG, GeoJSON y XLSX: filas y 20 municipios al azar × 5 campos coinciden
+Archivos:
+  GUIA_DEL_ENTREGABLE.md: 0.0 MB
+  base_datos_escenarios.xlsx: 2.0 MB
+  base_modelo_2027.csv: 1.6 MB
+  base_modelo_entrenamiento.csv: 6.4 MB
+  comparacion_sin_con.pdf: 4.9 MB
+  comparacion_sin_con_hombres.png: 0.8 MB
+  comparacion_sin_con_jovenes.png: 0.7 MB
+  comparacion_sin_con_rural.png: 0.7 MB
+  diccionario_datos.csv: 0.0 MB
+  escenarios_detalle.csv: 2.3 MB
+  escenarios_municipios.csv: 1.1 MB
+  escenarios_municipios.geojson: 12.3 MB
+  mapa_escenarios.gpkg: 39.5 MB

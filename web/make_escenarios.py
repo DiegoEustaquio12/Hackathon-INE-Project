@@ -2,7 +2,7 @@
 
 Uso:
     python3 make_escenarios.py escenarios_municipio.csv escenarios_detalle.csv \
-        predicciones_2027.parquet equivalencias_municipios.csv escenarios.json
+        ../ai/artifacts/predicciones_2027.csv equivalencias_municipios.csv escenarios.json
 
 De cada archivo toma:
   - escenarios_municipio.csv : prediccion sin intervencion, rango, banderas de calidad, color y cortes del semaforo
@@ -32,7 +32,7 @@ def leer(ruta):
     """CSV o parquet segun la extension (parquet necesita pyarrow)."""
     if ruta.lower().endswith((".parquet", ".pq")):
         return pd.read_parquet(ruta)
-    return pd.read_csv(ruta)
+    return pd.read_csv(ruta, encoding="utf-8-sig")  # algunos CSV traen BOM
 
 
 def clave_ine(df):

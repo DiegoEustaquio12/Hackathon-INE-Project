@@ -1,220 +1,173 @@
-'use strict';
+// punto de entrada: carga los datos, arma la pagina y vuelve a dibujar todo con cada cambio de estado
+import { datos, estado, cambiar, alCambiar, leerURL, escribirURL, recalcular } from './js/estado.js';
+import { VISTAS, QUE_COMPARAR } from './js/textos.js';
+import { esc, esMovil, almacen, $, $$ } from './js/util.js';
+import { mapas, crearMapa, refrescarMapas, aplicarComparacion, prepararCortina, verTodo, zoomMunicipio, cerrarEtiquetas } from './js/mapa.js';
+import { dibujarLeyenda, prepararLeyenda } from './js/leyenda.js';
+import { dibujarFicha, prepararFicha, totalNacional } from './js/ficha.js';
+import { prepararBuscador, recordar } from './js/buscador.js';
+import { dibujarLista, prepararLista } from './js/lista.js';
+import { ACCIONES } from './js/exportar.js';
+import { prepararGuia, abrirAyuda, cerrarGuia } from './js/guia.js';
 
-// ---------- constantes ----------
-const GRIS = '#cfcfcf';
-const COLOR_SEM = { 0: GRIS, 1: '#2e9e5b', 2: '#f2c230', 3: '#d6453d' };
-const NOMBRE_SEM = { 0: 'Sin clasificar', 1: 'Bajo', 2: 'Medio', 3: 'Alto' };
-const BRECHA_COLORES = ['#f2f0f7', '#cbc9e2', '#9e9ac8', '#756bb1', '#54278f'];
-const DIF_COLORES = ['#f0f0f0', '#bdd7e7', '#6baed6', '#2171b5'];
-const INTERV = { jovenes: 'Jóvenes (18–34)', hombres: 'Hombres', rural: 'Zonas rurales' };
-const INTERV_IDX = { jovenes: 0, hombres: 1, rural: 2 };
+const CLAVE_PISTA = 'abstencion2027.pistaVista';
+const pestanaActiva = () => (estado.comparar ? 'comparar' : estado.vista);
 
-// ---------- estado ----------
-let DATA, GEO;
-const sel = { interv: 'jovenes', efecto: '10' };
-let difCortes = [0, 0];
-const mapas = [];
+// ---------- dibujo de controles ----------
+function dibujarControles() {
+  const activa = pestanaActiva();
+  for (const b of $$('[data-tab]')) b.setAttribute('aria-pressed', String(b.dataset.tab === activa));
+  const mas = $('#boton-mas-mapas');
+  const enMas = activa === 'dif' || activa === 'brecha';
+  mas.classList.toggle('activo', enMas);
+  mas.textContent = enMas ? `${VISTAS[activa].corto} ▾` : 'Más mapas ▾';
 
-// ---------- utilidades ----------
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const pts = v => (v == null ? '—' : v.toFixed(1) + '%');
+  // linea "Que muestra": que representa el mapa activo
+  $('#que-nombre').textContent = activa === 'comparar' ? 'Comparar ·' : `Mapa ${VISTAS[activa].num} ·`;
+  $('#que-texto').textContent = activa === 'comparar' ? QUE_COMPARAR[estado.comparar] : VISTAS[activa].que;
+  // los controles de la intervencion solo aparecen donde cambian el mapa
+  $('#intervencion').hidden = !['con', 'dif', 'comparar'].includes(activa);
+  $('#sel-grupo').value = estado.grupo;
+  $('#sel-efecto').value = estado.efecto;
+  $('#total').textContent = totalNacional();
+  $('#modo-comparar').hidden = activa !== 'comparar';
+  for (const b of $$('[data-comparar]')) b.setAttribute('aria-pressed', String(b.dataset.comparar === estado.comparar));
 
-// escenario elegido para un municipio: [abstencion con intervencion, color con intervencion, reduccion en puntos]
-const escenario = d => d.esc[sel.interv][sel.efecto];
-const cambioColor = d => d.cs !== 0 && escenario(d)[1] !== d.cs;
+  const enLista = estado.panel === 'lista';
+  $('#boton-lista').textContent = enLista ? 'Mapa' : 'Lista';
+  $('#boton-lista').setAttribute('aria-pressed', String(enLista));
+  $('#area-mapa').hidden = enLista;
+  $('#lista').hidden = !enLista;
+  $('#pista').hidden = !!estado.mun || almacen.leer(CLAVE_PISTA, false);
 
-function tituloDe(modo) {
-  const bases = {
-    sin: '1 · Sin intervención',
-    con: '2 · Con intervención',
-    dif: '3 · Diferencia entre escenarios',
-    brecha: '4 · Brecha intermedia vs presidencial',
-  };
-  const extra = (modo === 'con' || modo === 'dif') ? ` — ${INTERV[sel.interv]}, efecto ${sel.efecto}%` : '';
-  return bases[modo] + extra;
+  document.body.classList.toggle('presentacion', estado.presentar);
+  document.documentElement.classList.toggle('presentando', estado.presentar);
 }
 
-// cortes de la escala del mapa 3: terciles de las reducciones positivas del escenario elegido
-function recalcular() {
-  const reds = [];
-  for (const d of Object.values(DATA.municipios)) {
-    const r = escenario(d)[2];
-    if (r > 0) reds.push(r);
+function render(parcial = {}) {
+  if ('comparar' in parcial) aplicarComparacion();
+  if ('vista' in parcial || 'comparar' in parcial) cerrarEtiquetas();
+  dibujarControles();
+  refrescarMapas();
+  dibujarLeyenda();
+  dibujarFicha();
+  dibujarLista();
+  if (parcial.mun) {
+    recordar(parcial.mun);
+    almacen.guardar(CLAVE_PISTA, true);
   }
-  reds.sort((a, b) => a - b);
-  const q = p => reds[Math.min(reds.length - 1, Math.floor(p * reds.length))];
-  difCortes = reds.length ? [q(1 / 3), q(2 / 3)] : [0, 0];
-}
-
-// ---------- colores ----------
-function color(modo, d) {
-  if (!d) return GRIS;
-  switch (modo) {
-    case 'sin':
-      return COLOR_SEM[d.cs];
-    case 'con':
-      return COLOR_SEM[escenario(d)[1]];
-    case 'dif': {
-      const r = escenario(d)[2];
-      if (!(r > 0)) return DIF_COLORES[0];
-      if (r < difCortes[0]) return DIF_COLORES[1];
-      if (r < difCortes[1]) return DIF_COLORES[2];
-      return DIF_COLORES[3];
-    }
-    case 'brecha': {
-      if (d.br == null) return GRIS;
-      const c = DATA.meta.brecha_cortes;
-      let i = 0;
-      while (i < c.length && d.br >= c[i]) i++;
-      return BRECHA_COLORES[i];
-    }
+  if ('panel' in parcial) {
+    if (estado.panel === 'mapa') for (const o of Object.values(mapas)) o.map.invalidateSize({ animate: false });
+    // al volver a la lista, la fila del municipio elegido queda a la vista
+    else $('#tabla tr.sel')?.scrollIntoView({ block: 'center' });
   }
-  return GRIS;
+  if ('presentar' in parcial) setTimeout(() => {
+    for (const o of Object.values(mapas)) o.map.invalidateSize({ animate: false });
+    if (estado.mun) zoomMunicipio(estado.mun); else verTodo();
+  }, 250);
 }
 
-function leyendaHtml(modo) {
-  const fila = (c, t) => `<div><i style="background:${c}"></i>${t}</div>`;
-  const m = DATA.meta;
-  let h = `<b>${esc(tituloDe(modo))}</b>`;
-  if (modo === 'sin' || modo === 'con') {
-    h += fila(COLOR_SEM[3], `Alto (≥ ${m.corte_rojo} pts)`)
-      + fila(COLOR_SEM[2], `Medio (${m.corte_amarillo}–${m.corte_rojo})`)
-      + fila(COLOR_SEM[1], `Bajo (< ${m.corte_amarillo})`);
-    if (modo === 'con') h += '<div><i class="borde"></i>Cambia de color</div>';
-  } else if (modo === 'dif') {
-    const [c1, c2] = difCortes.map(x => x.toFixed(1));
-    h += fila(DIF_COLORES[3], `Baja ≥ ${c2} pts`)
-      + fila(DIF_COLORES[2], `Baja ${c1}–${c2} pts`)
-      + fila(DIF_COLORES[1], `Baja < ${c1} pts`)
-      + fila(DIF_COLORES[0], 'Sin cambio');
+// ---------- acciones ----------
+// en celular solo hay cortina: dos mapas apilados quedan demasiado chicos
+const modoComparar = modo => (esMovil() ? 'cortina' : modo || 'cortina');
+
+function irA(tab) {
+  if (tab === 'comparar') {
+    cambiar({ comparar: modoComparar(estado.comparar), panel: 'mapa' });
+    setTimeout(() => (estado.mun ? zoomMunicipio(estado.mun) : verTodo()), 60);
   } else {
-    const c = m.brecha_cortes;
-    h += fila(BRECHA_COLORES[4], `≥ ${c[3]} pts`)
-      + fila(BRECHA_COLORES[3], `${c[2]}–${c[3]}`)
-      + fila(BRECHA_COLORES[2], `${c[1]}–${c[2]}`)
-      + fila(BRECHA_COLORES[1], `${c[0]}–${c[1]}`)
-      + fila(BRECHA_COLORES[0], `< ${c[0]}`);
+    const salia = !!estado.comparar;
+    cambiar({ vista: tab, comparar: '', orden: '' });
+    if (salia) setTimeout(() => (estado.mun ? zoomMunicipio(estado.mun) : verTodo()), 60);
   }
-  return h + fila(GRIS, 'Sin dato / sin clasificar');
 }
 
-// ---------- mapas ----------
-function estiloDe(obj) {
-  return f => {
-    const d = DATA.municipios[f.properties.CVEGEO];
-    const marca = obj.modo === 'con' && d && cambioColor(d);
-    return { fillColor: color(obj.modo, d), fillOpacity: 0.85, color: marca ? '#000' : '#fff', weight: marca ? 1.6 : 0.3 };
-  };
+function alternarPresentacion() {
+  const entrar = !estado.presentar;
+  // el diseño grande se aplica siempre; la pantalla completa solo donde el navegador la permite (no en iPhone)
+  cambiar({ presentar: entrar, panel: 'mapa' });
+  const pedir = entrar
+    ? document.documentElement.requestFullscreen?.()
+    : document.fullscreenElement && document.exitFullscreen();
+  Promise.resolve(pedir).catch(() => {});
 }
 
-function crearMapa(divId, tituloId, modo) {
-  const map = L.map(divId, { preferCanvas: true, zoomSnap: 0.25 }).setView([23.6, -102.5], 5);
-  const obj = { map, modo, tituloId };
-  obj.estilo = estiloDe(obj);
-  obj.layer = L.geoJSON(GEO, {
-    style: obj.estilo,
-    onEachFeature: (f, l) => {
-      l.on('mouseover', () => { l.setStyle({ weight: 2, color: '#000' }); mostrarInfo(f); });
-      l.on('mouseout', () => obj.layer.resetStyle(l));
-    },
-  }).addTo(map);
-  map.fitBounds(obj.layer.getBounds());
+const ACCION = {
+  ...ACCIONES,
+  ayuda: abrirAyuda,
+  presentar: alternarPresentacion,
+  'alternar-panel': () => cambiar({ panel: estado.panel === 'lista' ? 'mapa' : 'lista' }),
+};
 
-  const ley = L.control({ position: 'bottomleft' });
-  ley.onAdd = () => {
-    obj.div = L.DomUtil.create('div', 'leyenda');
-    obj.div.innerHTML = leyendaHtml(obj.modo);
-    return obj.div;
-  };
-  ley.addTo(map);
-
-  obj.refrescar = () => {
-    obj.layer.setStyle(obj.estilo);
-    obj.div.innerHTML = leyendaHtml(obj.modo);
-    document.getElementById(obj.tituloId).textContent = tituloDe(obj.modo);
-  };
-  document.getElementById(tituloId).textContent = tituloDe(modo);
-  mapas.push(obj);
-  return obj;
+// menus desplegables (Mas mapas, ⋯)
+function cerrarMenus(excepto) {
+  for (const b of $$('[aria-haspopup="true"]')) {
+    if (b === excepto) continue;
+    b.setAttribute('aria-expanded', 'false');
+    document.getElementById(b.getAttribute('aria-controls')).hidden = true;
+  }
 }
 
-// total nacional del escenario elegido (calculado en make_escenarios.py con todos los municipios)
-function actualizarResumen() {
-  const t = DATA.meta.totales[sel.interv][sel.efecto];
-  const personas = t.personas >= 1e6
-    ? `${(t.personas / 1e6).toFixed(2)} millones de personas`
-    : `${t.personas.toLocaleString('es-MX')} personas`;
-  document.getElementById('resumen').innerHTML =
-    `<b>${esc(INTERV[sel.interv])}, efecto ${esc(sel.efecto)}%:</b> ≈ ${personas} dejarían de abstenerse `
-    + `(−${t.pts.toFixed(2)} pts de abstención nacional)`;
-}
+function prepararControles() {
+  for (const b of $$('[data-tab]')) b.addEventListener('click', () => { cerrarMenus(); irA(b.dataset.tab); });
+  for (const b of $$('[data-comparar]')) b.addEventListener('click', () => cambiar({ comparar: modoComparar(b.dataset.comparar) }));
+  $('#sel-grupo').addEventListener('change', e => cambiar({ grupo: e.target.value }));
+  $('#sel-efecto').addEventListener('change', e => cambiar({ efecto: e.target.value }));
 
-function refrescarTodo() {
-  recalcular();
-  actualizarResumen();
-  mapas.forEach(o => o.refrescar());
-}
-
-function sincronizar(a, b) {
-  let ocupado = false;
-  const seguir = (x, y) => x.on('move', () => {
-    if (ocupado) return;
-    ocupado = true;
-    y.setView(x.getCenter(), x.getZoom(), { animate: false });
-    ocupado = false;
+  document.addEventListener('click', e => {
+    const menu = e.target.closest('[aria-haspopup="true"]');
+    if (menu) {
+      const abrir = menu.getAttribute('aria-expanded') !== 'true';
+      cerrarMenus(menu);
+      menu.setAttribute('aria-expanded', String(abrir));
+      const lista = document.getElementById(menu.getAttribute('aria-controls'));
+      lista.hidden = !abrir;
+      if (abrir) lista.querySelector('button')?.focus();
+      return;
+    }
+    const acc = e.target.closest('[data-accion]');
+    if (acc && ACCION[acc.dataset.accion] && !acc.closest('#ficha')) {
+      cerrarMenus();
+      ACCION[acc.dataset.accion]();
+      return;
+    }
+    if (!e.target.closest('.menu-lista')) cerrarMenus();
   });
-  seguir(a, b);
-  seguir(b, a);
+
+  document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement && estado.presentar) cambiar({ presentar: false });
+  });
+  window.addEventListener('beforeprint', () => { for (const o of Object.values(mapas)) o.map.invalidateSize({ animate: false }); });
+  // si la ventana se angosta mientras se compara lado a lado, pasa a cortina
+  window.matchMedia('(max-width: 760px)').addEventListener('change', e => {
+    if (e.matches && estado.comparar === 'lado') cambiar({ comparar: 'cortina' });
+  });
 }
 
-// ---------- panel de datos ----------
-function mostrarInfo(f) {
-  const el = document.getElementById('info');
-  const d = DATA.municipios[f.properties.CVEGEO];
-  if (!d) {
-    el.innerHTML = `<h3>${esc(f.properties.NOMGEO)}</h3>Sin datos para este municipio.`;
-    return;
-  }
-  const [con, colCon, red] = escenario(d);
-  const i = INTERV_IDX[sel.interv];
-  const gr = d.gr[i];
-  const rango = d.min == null ? '' : ` <span style="color:#666">(rango ${d.min.toFixed(1)}–${d.max.toFixed(1)})</span>`;
-
-  const filas = [
-    ['Lista nominal', d.ln == null ? '—' : d.ln.toLocaleString('es-MX')],
-    ['Sin intervención', `${pts(d.p)} · ${NOMBRE_SEM[d.cs]}${rango}`],
-  ];
-  let nota = '';
-  if (d.cs === 3) {
-    filas.push([`Con intervención`, `${pts(con)} · ${NOMBRE_SEM[colCon]}`]);
-    filas.push(['Reducción', red > 0 ? `−${red.toFixed(2)} pts` : '0 pts']);
-    if (red > 0 && d.ln != null) {
-      filas.push(['Personas alcanzadas', `≈ ${Math.round(red / 100 * d.ln).toLocaleString('es-MX')}`]);
+// ---------- atajos de teclado ----------
+function prepararAtajos() {
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      cerrarEtiquetas();
+      const abierto = $$('[aria-haspopup="true"]').find(b => b.getAttribute('aria-expanded') === 'true');
+      if (abierto) { cerrarMenus(); abierto.focus(); return; }
+      if (cerrarGuia()) return;
+      if ($('#ayuda').open) return; // el <dialog> se cierra solo
+      if (estado.mun) { cambiar({ mun: null }); return; }
+      if (estado.presentar) alternarPresentacion();
+      return;
     }
-    if (cambioColor(d)) filas.push(['Cambia de color', `Sí: ${NOMBRE_SEM[3]} → ${NOMBRE_SEM[colCon]}`]);
-    if (!(red > 0)) {
-      nota = gr === 0
-        ? 'Sin efecto: ninguna persona de la lista pertenece al grupo objetivo.'
-        : 'Sin efecto en este municipio.';
-    }
-  } else if (d.cs === 0) {
-    nota = 'Sin clasificar: no hay datos de voto de la última elección, por eso no se le asigna color.';
-  } else {
-    nota = 'La intervención no se aplica: el municipio no está en rojo.';
-  }
-  if (gr != null) filas.push(['Grupo objetivo', `${gr.toFixed(1)}% de la lista`]);
-  filas.push(['Brecha interm.–pres.', d.br == null ? '—' : d.br.toFixed(1) + ' pts']);
-
-  const avisos = [...d.av];
-  if (d.im[i] && d.cs === 3) avisos.push('grupo objetivo estimado (dato imputado)');
-
-  el.innerHTML =
-    `<h3>${esc(d.n)}</h3><div class="sub">${esc(d.e)}</div>`
-    + (d.cs === 3 ? `<div class="sub">Escenario: ${esc(INTERV[sel.interv])}, efecto ${esc(sel.efecto)}%</div>` : '')
-    + `<table>${filas.map(([a, b]) => `<tr><td>${a}</td><td>${b}</td></tr>`).join('')}</table>`
-    + (nota ? `<div class="nota">${esc(nota)}</div>` : '')
-    + (d.rz.length ? `<div class="nota"><b>Por qué:</b><ul>${d.rz.map(r => `<li>${esc(r)}</li>`).join('')}</ul></div>` : '')
-    + (avisos.length ? `<div class="aviso-dato">⚠ Dato frágil: ${avisos.map(esc).join(', ')}</div>` : '');
+    const escribiendo = e.target.closest('input, select, textarea, [contenteditable]');
+    if (escribiendo || e.ctrlKey || e.metaKey || e.altKey || $('#ayuda').open || !$('#guia').hidden) return;
+    const tabs = { 1: 'sin', 2: 'con', 3: 'dif', 4: 'brecha' };
+    const k = e.key.toLowerCase();
+    if (k === '/') { e.preventDefault(); $('#buscar').focus(); }
+    else if (tabs[k]) irA(tabs[k]);
+    else if (k === 'c') irA(estado.comparar ? estado.vista : 'comparar');
+    else if (k === 'l') ACCION['alternar-panel']();
+    else if (k === 'p') alternarPresentacion();
+    else if (e.key === '?') { e.preventDefault(); abrirAyuda(); }
+  });
 }
 
 // ---------- arranque ----------
@@ -223,54 +176,46 @@ const leer = r => {
   return r.json();
 };
 
-Promise.all([
-  fetch('municipios_web.geojson').then(leer),
-  fetch('escenarios.json').then(leer),
-]).then(([geo, datos]) => {
-  GEO = geo;
-  DATA = datos;
-  document.getElementById('aviso').textContent = DATA.meta.aviso;
-  recalcular();
-  actualizarResumen();
+function cargar() {
+  const cargando = $('#cargando');
+  cargando.innerHTML = '<div class="esqueleto" aria-hidden="true"></div><p>Cargando municipios…</p>';
+  Promise.all([
+    fetch('municipios_web.geojson').then(leer),
+    fetch('escenarios.json').then(leer),
+    fetch('estados_web.geojson').then(leer).catch(() => null), // los limites estatales son opcionales
+  ]).then(([geo, data, edos]) => {
+    datos.GEO = geo;
+    datos.DATA = data;
+    datos.ESTADOS = edos;
+    leerURL();
+    if (estado.comparar) estado.comparar = modoComparar(estado.comparar);
+    if (estado.panel === 'lista' && esMovil()) estado.panel = 'mapa';
+    recalcular();
 
-  const A = crearMapa('mapaA', 'tituloA', 'sin');
-  let B = null;
-  document.getElementById('cargando').remove();
-
-  const botones = [...document.querySelectorAll('header button')];
-  botones.forEach(b => b.addEventListener('click', () => {
-    botones.forEach(x => x.classList.toggle('activo', x === b));
-    A.modo = b.dataset.modo;
-    A.refrescar();
-  }));
-
-  document.getElementById('sel-interv').addEventListener('change', e => { sel.interv = e.target.value; refrescarTodo(); });
-  document.getElementById('sel-efecto').addEventListener('change', e => { sel.efecto = e.target.value; refrescarTodo(); });
-
-  document.getElementById('comparar').addEventListener('change', e => {
-    const on = e.target.checked;
-    document.getElementById('contB').hidden = !on;
-    botones.forEach(b => { b.disabled = on; });
-    if (on) {
-      A.modo = 'sin';
-      A.map.invalidateSize();
-      if (!B) {
-        B = crearMapa('mapaB', 'tituloB', 'con');
-        sincronizar(A.map, B.map);
-      }
-      B.modo = 'con';
-      B.map.invalidateSize();
-      B.map.setView(A.map.getCenter(), A.map.getZoom(), { animate: false });
-      A.refrescar();
-      B.refrescar();
-    } else {
-      A.map.invalidateSize();
-      botones.forEach(x => x.classList.toggle('activo', x.dataset.modo === 'sin'));
-      A.modo = 'sin';
-      A.refrescar();
-    }
+    crearMapa('mapaA', 'A');
+    prepararControles();
+    prepararCortina();
+    prepararLeyenda();
+    prepararFicha();
+    prepararBuscador();
+    prepararLista();
+    prepararAtajos();
+    prepararGuia();
+    alCambiar(render);
+    cargando.remove();
+    render({ comparar: estado.comparar });
+    escribirURL();
+    // al abrir ya comparando, los mapas son mas angostos: se vuelve a encuadrar
+    if (estado.mun) setTimeout(() => zoomMunicipio(estado.mun), 100);
+    else if (estado.comparar) setTimeout(verTodo, 150);
+  }).catch(err => {
+    cargando.innerHTML = `<div class="error-carga"><p><b>No se pudo cargar el mapa.</b></p>
+      <p>Revisa tu conexión e inténtalo de nuevo. Si abriste el archivo con doble clic, ábrelo con un servidor local
+      (<code>python3 -m http.server</code> dentro de la carpeta <code>web</code>).</p>
+      <button type="button" class="boton primario" id="reintentar">Reintentar</button>
+      <p class="nota">${esc(err)}</p></div>`;
+    $('#reintentar').addEventListener('click', cargar);
   });
-}).catch(err => {
-  document.getElementById('cargando').innerHTML =
-    'No se pudieron cargar los archivos.<br>Abre esta página con un servidor local (python3 -m http.server), no con doble clic.<br><small>' + esc(err) + '</small>';
-});
+}
+
+cargar();

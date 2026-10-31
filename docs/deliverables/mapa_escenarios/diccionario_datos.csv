@@ -1,0 +1,235 @@
+﻿archivo,columna,descripcion,unidad,fuente
+escenarios_municipios,clave_ine,Clave del municipio según el INE: estado (2 dígitos) + municipio (3 dígitos),,CCPC INE
+escenarios_municipios,edocve,Número del estado según el INE (1 a 32),,CCPC INE
+escenarios_municipios,mpiocve,Número del municipio dentro de su estado según el INE (no es la clave del INEGI),,CCPC INE
+escenarios_municipios,clave_inegi,"Clave del municipio según el INEGI (CVEGEO), la que usan los polígonos",,INEGI 2022
+escenarios_municipios,estado,Nombre del estado,,INEGI 2022
+escenarios_municipios,municipio,Nombre del municipio,,CCPC INE
+escenarios_municipios,tiene_poligono,Si el municipio tiene contorno en el mapa (Eldorado y Juan José Ríos no: se crearon en 2021),sí/no,Equipo
+escenarios_municipios,lista_nominal,Personas en la lista nominal en la última elección (2024),personas,CCPC INE
+escenarios_municipios,abst_sin_pct,Abstención prevista para 2027 si nada cambia,% de la lista nominal,Modelo del equipo
+escenarios_municipios,abst_sin_min_pct,Límite inferior del rango probable de la abstención prevista,%,Modelo del equipo
+escenarios_municipios,abst_sin_max_pct,Límite superior del rango probable de la abstención prevista,%,Modelo del equipo
+escenarios_municipios,semaforo_sin,Color del semáforo sin intervención (terciles del país),rojo/amarillo/verde/sin_clasificar,Equipo
+escenarios_municipios,abst_con_jovenes_pct,Abstención prevista con la intervención en Jóvenes (18–34),%,Escenario del equipo
+escenarios_municipios,semaforo_con_jovenes,Color del semáforo con la intervención en Jóvenes (18–34) (mismos cortes),rojo/amarillo/verde/sin_clasificar,Escenario del equipo
+escenarios_municipios,baja_jovenes_pts,Cuánto baja la abstención con la intervención en Jóvenes (18–34),puntos,Escenario del equipo
+escenarios_municipios,personas_jovenes,Personas más que votarían con la intervención en Jóvenes (18–34) (aprox.),personas,Escenario del equipo
+escenarios_municipios,cambia_color_jovenes,Si el municipio cambia de color con la intervención en Jóvenes (18–34),sí/no,Escenario del equipo
+escenarios_municipios,grupo_imputado_jovenes,El tamaño del grupo Jóvenes (18–34) se estimó porque faltaba el dato,sí/no,Equipo
+escenarios_municipios,abst_con_hombres_pct,Abstención prevista con la intervención en Hombres,%,Escenario del equipo
+escenarios_municipios,semaforo_con_hombres,Color del semáforo con la intervención en Hombres (mismos cortes),rojo/amarillo/verde/sin_clasificar,Escenario del equipo
+escenarios_municipios,baja_hombres_pts,Cuánto baja la abstención con la intervención en Hombres,puntos,Escenario del equipo
+escenarios_municipios,personas_hombres,Personas más que votarían con la intervención en Hombres (aprox.),personas,Escenario del equipo
+escenarios_municipios,cambia_color_hombres,Si el municipio cambia de color con la intervención en Hombres,sí/no,Escenario del equipo
+escenarios_municipios,grupo_imputado_hombres,El tamaño del grupo Hombres se estimó porque faltaba el dato,sí/no,Equipo
+escenarios_municipios,abst_con_rural_pct,Abstención prevista con la intervención en Zonas rurales,%,Escenario del equipo
+escenarios_municipios,semaforo_con_rural,Color del semáforo con la intervención en Zonas rurales (mismos cortes),rojo/amarillo/verde/sin_clasificar,Escenario del equipo
+escenarios_municipios,baja_rural_pts,Cuánto baja la abstención con la intervención en Zonas rurales,puntos,Escenario del equipo
+escenarios_municipios,personas_rural,Personas más que votarían con la intervención en Zonas rurales (aprox.),personas,Escenario del equipo
+escenarios_municipios,cambia_color_rural,Si el municipio cambia de color con la intervención en Zonas rurales,sí/no,Escenario del equipo
+escenarios_municipios,grupo_imputado_rural,El tamaño del grupo Zonas rurales se estimó porque faltaba el dato,sí/no,Equipo
+escenarios_municipios,brecha_interm_pres_pts,Cuántos puntos más se abstiene en elecciones intermedias que en presidenciales,puntos,CCPC INE
+escenarios_municipios,razon_1,Principal razón del modelo para su predicción (con su efecto en puntos),,Modelo del equipo
+escenarios_municipios,razon_2,Segunda razón del modelo,,Modelo del equipo
+escenarios_municipios,razon_3,Tercera razón del modelo,,Modelo del equipo
+escenarios_municipios,pocos_casos,Dato poco confiable: hay pocas personas con dato de si votaron o no,sí/no,Equipo
+escenarios_municipios,ns_alto,Dato poco confiable: de muchas personas no se sabe si votaron,sí/no,Equipo
+escenarios_municipios,sin_censo,No hay datos del censo del INEGI para el municipio,sí/no,Equipo
+escenarios_municipios,efecto_supuesto_pct,Efecto supuesto de la intervención: % de quienes no votan en el grupo que sí votaría,%,Supuesto del equipo
+escenarios_municipios,escenario_hipotetico,"Recordatorio: el escenario con intervención es un supuesto, no una medición",sí,Equipo
+escenarios_detalle,clave_ine,Clave del municipio según el INE: estado (2 dígitos) + municipio (3 dígitos),,CCPC INE
+escenarios_detalle,clave_inegi,"Clave del municipio según el INEGI (CVEGEO), la que usan los polígonos",,INEGI 2022
+escenarios_detalle,estado,Nombre del estado,,INEGI 2022
+escenarios_detalle,municipio,Nombre del municipio,,CCPC INE
+escenarios_detalle,intervencion,"Grupo al que se dirige la intervención: jovenes, hombres o rural",,Escenario del equipo
+escenarios_detalle,efecto_supuesto_pct,Efecto supuesto de la intervención: % de quienes no votan en el grupo que sí votaría,%,Supuesto del equipo
+escenarios_detalle,aplica,Si la intervención se aplica (solo municipios en rojo),sí/no,Escenario del equipo
+escenarios_detalle,grupo_pct_lista,Parte de la lista nominal que pertenece al grupo,%,CCPC INE
+escenarios_detalle,abst_grupo_pct,Abstención del grupo en la última elección comparable,%,CCPC INE
+escenarios_detalle,grupo_imputado,El tamaño del grupo se estimó porque faltaba el dato,sí/no,Equipo
+escenarios_detalle,abst_sin_pct,Abstención prevista para 2027 si nada cambia,% de la lista nominal,Modelo del equipo
+escenarios_detalle,abst_con_pct,Abstención prevista con la intervención,%,Escenario del equipo
+escenarios_detalle,baja_pts,Cuánto baja la abstención con la intervención,puntos,Escenario del equipo
+escenarios_detalle,personas,Personas más que votarían (aprox.),personas,Escenario del equipo
+escenarios_detalle,semaforo_sin,Color del semáforo sin intervención (terciles del país),rojo/amarillo/verde/sin_clasificar,Equipo
+escenarios_detalle,semaforo_con,Color del semáforo con la intervención,rojo/amarillo/verde/sin_clasificar,Escenario del equipo
+escenarios_detalle,cambia_color,Si cambia de color con la intervención,sí/no,Escenario del equipo
+base_modelo_entrenamiento,EDOCVE,Número del estado (1 a 32),,Equipo (Fase 3)
+base_modelo_entrenamiento,MPIOCVE,"Número del municipio dentro de su estado, según el INE. Ojo: no es la clave del INEGI",,Equipo (Fase 3)
+base_modelo_entrenamiento,nombre_estado,Nombre del estado,,Equipo (Fase 3)
+base_modelo_entrenamiento,nombre_municipio,"Nombre del municipio (el de 2024, con las erratas corregidas)",,Equipo (Fase 3)
+base_modelo_entrenamiento,eleccion_objetivo,"La elección que se predice: 2015, 2018, 2021, 2024 o 2027",,Equipo (Fase 3)
+base_modelo_entrenamiento,tipo_objetivo,Si esa elección es `intermedia` o `presidencial`,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_ultima_intermedia,Abstención de la última intermedia antes de la elección que se predice,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_prom_intermedias,Promedio de la abstención de todas las intermedias anteriores,,Equipo (Fase 3)
+base_modelo_entrenamiento,cambio_intermedias,Cuánto cambió entre las dos últimas intermedias (positivo = subió). Vacío si solo hay una,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_ultima_intermedia_vs_pais,La última intermedia menos la del país en esa elección (positivo = se abstiene más que el país),,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_ultima_presidencial,Abstención de la última presidencial antes de la elección que se predice,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_prom_presidenciales,Promedio de la abstención de todas las presidenciales anteriores,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_ultima_presidencial_vs_pais,La última presidencial menos la del país en esa elección,,Equipo (Fase 3)
+base_modelo_entrenamiento,brecha_intermedia_presidencial,Cuánto más se abstiene en intermedias que en presidenciales (promedio de intermedias menos promedio de presidenciales),,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_18_24_ui,Abstención de las personas de 18 a 24 años,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_25_34_ui,Abstención de las personas de 25 a 34 años,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_35_44_ui,Abstención de las personas de 35 a 44 años,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_45_59_ui,Abstención de las personas de 45 a 59 años,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_60_mas_ui,Abstención de las personas de 60 o más años,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_mujeres_ui,Abstención de las mujeres,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_hombres_ui,Abstención de los hombres,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_urbana_ui,Abstención en las secciones urbanas,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_mixta_ui,Abstención en las secciones mixtas,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_rural_ui,Abstención en las secciones rurales,,Equipo (Fase 3)
+base_modelo_entrenamiento,ln_ultima,Personas registradas para votar,,Equipo (Fase 3)
+base_modelo_entrenamiento,secciones_ultima,Secciones que tiene,,Equipo (Fase 3)
+base_modelo_entrenamiento,pct_18_24,Parte de la lista de 18 a 24 años,,Equipo (Fase 3)
+base_modelo_entrenamiento,pct_25_34,Parte de la lista de 25 a 34 años,,Equipo (Fase 3)
+base_modelo_entrenamiento,pct_35_44,Parte de la lista de 35 a 44 años,,Equipo (Fase 3)
+base_modelo_entrenamiento,pct_45_59,Parte de la lista de 45 a 59 años,,Equipo (Fase 3)
+base_modelo_entrenamiento,pct_60_mas,Parte de la lista de 60 o más años,,Equipo (Fase 3)
+base_modelo_entrenamiento,pct_mujeres,Parte de la lista que son mujeres,,Equipo (Fase 3)
+base_modelo_entrenamiento,pct_urbana,Parte de la lista en secciones urbanas,,Equipo (Fase 3)
+base_modelo_entrenamiento,pct_mixta,Parte de la lista en secciones mixtas,,Equipo (Fase 3)
+base_modelo_entrenamiento,pct_rural,Parte de la lista en secciones rurales,,Equipo (Fase 3)
+base_modelo_entrenamiento,edad_promedio,Edad promedio de la lista,,Equipo (Fase 3)
+base_modelo_entrenamiento,n_intermedias_previas,Cuántas intermedias anteriores tienen dato,,Equipo (Fase 3)
+base_modelo_entrenamiento,n_presidenciales_previas,Cuántas presidenciales anteriores tienen dato,,Equipo (Fase 3)
+base_modelo_entrenamiento,pct_ns_ultima,"Parte de la lista sin saber si votó, en la última elección",,Equipo (Fase 3)
+base_modelo_entrenamiento,pct_ns_prom,"Lo mismo, en promedio de todas las elecciones anteriores",,Equipo (Fase 3)
+base_modelo_entrenamiento,conocidos_ultima,Personas con dato (SV + NV) en la última elección,,Equipo (Fase 3)
+base_modelo_entrenamiento,pct_hueco_2012,Parte de su lista de 2009 en secciones que faltan en 2012,,Equipo (Fase 3)
+base_modelo_entrenamiento,historial_rearmado,`True` si su historial se recalculó porque ganó o perdió secciones,,Equipo (Fase 3)
+base_modelo_entrenamiento,historial_incompleto,`True` si alguna sección de su pasado no se pudo asignar,,Equipo (Fase 3)
+base_modelo_entrenamiento,def_principal,El distrito federal donde vive la mayor parte de su lista,,Equipo (Fase 3)
+base_modelo_entrenamiento,n_def,Cuántos distritos federales toca el municipio,,Equipo (Fase 3)
+base_modelo_entrenamiento,n_del,Cuántos distritos locales toca el municipio,,Equipo (Fase 3)
+base_modelo_entrenamiento,censo_fuente,Censo usado en esta fila: 2010 para 2015/2018 y 2020 para 2021/2024/2027,,Equipo (Fase 3)
+base_modelo_entrenamiento,tiene_eceg_2010,1 si el municipio existe en el ECEG 2010; 0 si no (no se imputa),,Equipo (Fase 3)
+base_modelo_entrenamiento,tiene_eceg_2020,1 si el municipio existe en el ECEG 2020; 0 si no (no se imputa),,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_analfabeta,Población de 15 años y más analfabeta. Fórmula: `P15YM_AN / P_15YMAS`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_sin_escolaridad,Población de 15 años y más sin escolaridad. Fórmula: `P15YM_SE / P_15YMAS`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_escolaridad_promedio,Grado promedio de escolaridad (ponderado por población de 15+). Fórmula: `suma(GRAPROES × P_15YMAS) / suma(P_15YMAS)`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_primaria_incompleta,Población de 15 años y más con primaria incompleta. Fórmula: `P15PRI_IN / P_15YMAS`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_secundaria_incompleta,Población de 15 años y más con secundaria incompleta. Fórmula: `P15SEC_IN / P_15YMAS`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_posbasica,Población de 18 años y más con educación posbásica. Fórmula: `P18YM_PB / P_18YMAS`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_tasa_participacion,Población de 12 años y más económicamente activa. Fórmula: `PEA / P_12YMAS`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_tasa_desocupacion,Población de 12 años y más desocupada. Fórmula: `PDESOCUP / PEA`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_tasa_participacion_femenina,Mujeres de 12 años y más económicamente activas. Fórmula: `PEA_F / P_12YMAS_F`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_tasa_ocupacion,Población de 12 años y más ocupada. Fórmula: `POCUPADA / PEA`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_sin_electricidad,Viviendas habitadas sin energía eléctrica. Fórmula: `VPH_S_ELEC / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_sin_agua_entubada,Viviendas habitadas sin agua entubada en la vivienda. Fórmula: `VPH_AGUAFV / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_sin_drenaje,Viviendas habitadas sin drenaje. Fórmula: `VPH_NODREN / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_piso_tierra,Viviendas habitadas con piso de tierra. Fórmula: `VPH_PISOTI / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_con_internet,Viviendas habitadas con internet. Fórmula: `VPH_INTER / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_con_computadora,"Viviendas habitadas con computadora, laptop o tablet. Fórmula: `VPH_PC / VIVPAR_HAB*`",,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_con_celular,Viviendas habitadas con teléfono celular. Fórmula: `VPH_CEL / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_con_refrigerador,Viviendas habitadas con refrigerador. Fórmula: `VPH_REFRI / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_con_automovil,Viviendas habitadas con automóvil o camioneta. Fórmula: `VPH_AUTOM / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_promedio_ocupantes,Promedio de ocupantes por vivienda (ponderado). Fórmula: `suma(PROM_OCUP × VIVPAR_HAB) / suma(VIVPAR_HAB)`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_limitacion_visual,"Población con limitación para ver, aun usando lentes. Fórmula: `PCLIM_VIS / POBTOT`",,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_limitacion_motriz,"Población con limitación para vestirse, bañarse o comer. Fórmula: `PCLIM_MOT2 / POBTOT`",,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_lengua_indigena,Población de 3 años y más que habla alguna lengua indígena. Fórmula: `P3YM_HLI / P_3YMAS`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_nacido_otra_entidad,Población nacida en otra entidad. Fórmula: `PNACOE / POBTOT`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_pct_jefatura_femenina,Población en hogares con persona de referencia mujer. Fórmula: `PHOGJEF_F / POBHOG`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_promedio_hogar,Promedio de personas por hogar censal. Fórmula: `POBHOG / TOTHOG`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_razon_dependencia,Razón de dependencia demográfica. Fórmula: `(POB0_14 + POB65_MAS) / POB15_64`,,Equipo (Fase 3)
+base_modelo_entrenamiento,ext_relacion_hombres_mujeres,Hombres por cada mujer. Fórmula: `POBMAS / POBFEM`,,Equipo (Fase 3)
+base_modelo_entrenamiento,conocidos_objetivo,Personas con dato en la elección que se predice; sirve para dar más peso a los municipios grandes. Vacío en 2027,,Equipo (Fase 3)
+base_modelo_entrenamiento,abstencion_objetivo,**La abstención de la elección que se predice.** En entrenamiento es la real; en 2027 está vacía y la llena el modelo,,Equipo (Fase 3)
+base_modelo_entrenamiento,cambio_presidenciales,Última abstención presidencial menos la penúltima con dato; vacío si hay menos de dos,,Equipo (Fase 3)
+base_modelo_entrenamiento,anios_desde_ultima_intermedia,Años entre el objetivo y la última intermedia con abstención conocida; vacío sin historial,,Equipo (Fase 3)
+base_modelo_entrenamiento,anios_desde_ultima_presidencial,Años entre el objetivo y la última presidencial con abstención conocida; vacío sin historial,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_ultima_presidencial_sin_2012,Última abstención presidencial conocida excluyendo 2012; vacío sin antecedentes,,Equipo (Fase 3)
+base_modelo_entrenamiento,abst_prom_presidenciales_sin_2012,Promedio simple de tasas presidenciales conocidas excluyendo 2012; vacío sin antecedentes,,Equipo (Fase 3)
+base_modelo_entrenamiento,brecha_intermedia_presidencial_sin_2012,Promedio de intermedias conocidas menos promedio de presidenciales conocidas sin 2012; vacío si falta uno de los dos tipos,,Equipo (Fase 3)
+base_modelo_entrenamiento,n_presidenciales_previas_sin_2012,Número de presidenciales anteriores con tasa conocida excluyendo 2012; cero sin presidenciales y vacío si no hay ningún historial territorial asignado,,Equipo (Fase 3)
+base_modelo_entrenamiento,cambio_intermedias_vs_pais,Cambio entre las dos últimas intermedias conocidas de (abstención municipal menos abstención nacional de cada elección); vacío con menos de dos,,Equipo (Fase 3)
+base_modelo_entrenamiento,cambio_presidenciales_vs_pais,Cambio entre las dos últimas presidenciales conocidas de (abstención municipal menos abstención nacional de cada elección); vacío con menos de dos,,Equipo (Fase 3)
+base_modelo_2027,EDOCVE,Número del estado (1 a 32),,Equipo (Fase 3)
+base_modelo_2027,MPIOCVE,"Número del municipio dentro de su estado, según el INE. Ojo: no es la clave del INEGI",,Equipo (Fase 3)
+base_modelo_2027,nombre_estado,Nombre del estado,,Equipo (Fase 3)
+base_modelo_2027,nombre_municipio,"Nombre del municipio (el de 2024, con las erratas corregidas)",,Equipo (Fase 3)
+base_modelo_2027,eleccion_objetivo,"La elección que se predice: 2015, 2018, 2021, 2024 o 2027",,Equipo (Fase 3)
+base_modelo_2027,tipo_objetivo,Si esa elección es `intermedia` o `presidencial`,,Equipo (Fase 3)
+base_modelo_2027,abst_ultima_intermedia,Abstención de la última intermedia antes de la elección que se predice,,Equipo (Fase 3)
+base_modelo_2027,abst_prom_intermedias,Promedio de la abstención de todas las intermedias anteriores,,Equipo (Fase 3)
+base_modelo_2027,cambio_intermedias,Cuánto cambió entre las dos últimas intermedias (positivo = subió). Vacío si solo hay una,,Equipo (Fase 3)
+base_modelo_2027,abst_ultima_intermedia_vs_pais,La última intermedia menos la del país en esa elección (positivo = se abstiene más que el país),,Equipo (Fase 3)
+base_modelo_2027,abst_ultima_presidencial,Abstención de la última presidencial antes de la elección que se predice,,Equipo (Fase 3)
+base_modelo_2027,abst_prom_presidenciales,Promedio de la abstención de todas las presidenciales anteriores,,Equipo (Fase 3)
+base_modelo_2027,abst_ultima_presidencial_vs_pais,La última presidencial menos la del país en esa elección,,Equipo (Fase 3)
+base_modelo_2027,brecha_intermedia_presidencial,Cuánto más se abstiene en intermedias que en presidenciales (promedio de intermedias menos promedio de presidenciales),,Equipo (Fase 3)
+base_modelo_2027,abst_18_24_ui,Abstención de las personas de 18 a 24 años,,Equipo (Fase 3)
+base_modelo_2027,abst_25_34_ui,Abstención de las personas de 25 a 34 años,,Equipo (Fase 3)
+base_modelo_2027,abst_35_44_ui,Abstención de las personas de 35 a 44 años,,Equipo (Fase 3)
+base_modelo_2027,abst_45_59_ui,Abstención de las personas de 45 a 59 años,,Equipo (Fase 3)
+base_modelo_2027,abst_60_mas_ui,Abstención de las personas de 60 o más años,,Equipo (Fase 3)
+base_modelo_2027,abst_mujeres_ui,Abstención de las mujeres,,Equipo (Fase 3)
+base_modelo_2027,abst_hombres_ui,Abstención de los hombres,,Equipo (Fase 3)
+base_modelo_2027,abst_urbana_ui,Abstención en las secciones urbanas,,Equipo (Fase 3)
+base_modelo_2027,abst_mixta_ui,Abstención en las secciones mixtas,,Equipo (Fase 3)
+base_modelo_2027,abst_rural_ui,Abstención en las secciones rurales,,Equipo (Fase 3)
+base_modelo_2027,ln_ultima,Personas registradas para votar,,Equipo (Fase 3)
+base_modelo_2027,secciones_ultima,Secciones que tiene,,Equipo (Fase 3)
+base_modelo_2027,pct_18_24,Parte de la lista de 18 a 24 años,,Equipo (Fase 3)
+base_modelo_2027,pct_25_34,Parte de la lista de 25 a 34 años,,Equipo (Fase 3)
+base_modelo_2027,pct_35_44,Parte de la lista de 35 a 44 años,,Equipo (Fase 3)
+base_modelo_2027,pct_45_59,Parte de la lista de 45 a 59 años,,Equipo (Fase 3)
+base_modelo_2027,pct_60_mas,Parte de la lista de 60 o más años,,Equipo (Fase 3)
+base_modelo_2027,pct_mujeres,Parte de la lista que son mujeres,,Equipo (Fase 3)
+base_modelo_2027,pct_urbana,Parte de la lista en secciones urbanas,,Equipo (Fase 3)
+base_modelo_2027,pct_mixta,Parte de la lista en secciones mixtas,,Equipo (Fase 3)
+base_modelo_2027,pct_rural,Parte de la lista en secciones rurales,,Equipo (Fase 3)
+base_modelo_2027,edad_promedio,Edad promedio de la lista,,Equipo (Fase 3)
+base_modelo_2027,n_intermedias_previas,Cuántas intermedias anteriores tienen dato,,Equipo (Fase 3)
+base_modelo_2027,n_presidenciales_previas,Cuántas presidenciales anteriores tienen dato,,Equipo (Fase 3)
+base_modelo_2027,pct_ns_ultima,"Parte de la lista sin saber si votó, en la última elección",,Equipo (Fase 3)
+base_modelo_2027,pct_ns_prom,"Lo mismo, en promedio de todas las elecciones anteriores",,Equipo (Fase 3)
+base_modelo_2027,conocidos_ultima,Personas con dato (SV + NV) en la última elección,,Equipo (Fase 3)
+base_modelo_2027,pct_hueco_2012,Parte de su lista de 2009 en secciones que faltan en 2012,,Equipo (Fase 3)
+base_modelo_2027,historial_rearmado,`True` si su historial se recalculó porque ganó o perdió secciones,,Equipo (Fase 3)
+base_modelo_2027,historial_incompleto,`True` si alguna sección de su pasado no se pudo asignar,,Equipo (Fase 3)
+base_modelo_2027,def_principal,El distrito federal donde vive la mayor parte de su lista,,Equipo (Fase 3)
+base_modelo_2027,n_def,Cuántos distritos federales toca el municipio,,Equipo (Fase 3)
+base_modelo_2027,n_del,Cuántos distritos locales toca el municipio,,Equipo (Fase 3)
+base_modelo_2027,censo_fuente,Censo usado en esta fila: 2010 para 2015/2018 y 2020 para 2021/2024/2027,,Equipo (Fase 3)
+base_modelo_2027,tiene_eceg_2010,1 si el municipio existe en el ECEG 2010; 0 si no (no se imputa),,Equipo (Fase 3)
+base_modelo_2027,tiene_eceg_2020,1 si el municipio existe en el ECEG 2020; 0 si no (no se imputa),,Equipo (Fase 3)
+base_modelo_2027,ext_pct_analfabeta,Población de 15 años y más analfabeta. Fórmula: `P15YM_AN / P_15YMAS`,,Equipo (Fase 3)
+base_modelo_2027,ext_pct_sin_escolaridad,Población de 15 años y más sin escolaridad. Fórmula: `P15YM_SE / P_15YMAS`,,Equipo (Fase 3)
+base_modelo_2027,ext_escolaridad_promedio,Grado promedio de escolaridad (ponderado por población de 15+). Fórmula: `suma(GRAPROES × P_15YMAS) / suma(P_15YMAS)`,,Equipo (Fase 3)
+base_modelo_2027,ext_pct_primaria_incompleta,Población de 15 años y más con primaria incompleta. Fórmula: `P15PRI_IN / P_15YMAS`,,Equipo (Fase 3)
+base_modelo_2027,ext_pct_secundaria_incompleta,Población de 15 años y más con secundaria incompleta. Fórmula: `P15SEC_IN / P_15YMAS`,,Equipo (Fase 3)
+base_modelo_2027,ext_pct_posbasica,Población de 18 años y más con educación posbásica. Fórmula: `P18YM_PB / P_18YMAS`,,Equipo (Fase 3)
+base_modelo_2027,ext_tasa_participacion,Población de 12 años y más económicamente activa. Fórmula: `PEA / P_12YMAS`,,Equipo (Fase 3)
+base_modelo_2027,ext_tasa_desocupacion,Población de 12 años y más desocupada. Fórmula: `PDESOCUP / PEA`,,Equipo (Fase 3)
+base_modelo_2027,ext_tasa_participacion_femenina,Mujeres de 12 años y más económicamente activas. Fórmula: `PEA_F / P_12YMAS_F`,,Equipo (Fase 3)
+base_modelo_2027,ext_tasa_ocupacion,Población de 12 años y más ocupada. Fórmula: `POCUPADA / PEA`,,Equipo (Fase 3)
+base_modelo_2027,ext_pct_sin_electricidad,Viviendas habitadas sin energía eléctrica. Fórmula: `VPH_S_ELEC / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_2027,ext_pct_sin_agua_entubada,Viviendas habitadas sin agua entubada en la vivienda. Fórmula: `VPH_AGUAFV / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_2027,ext_pct_sin_drenaje,Viviendas habitadas sin drenaje. Fórmula: `VPH_NODREN / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_2027,ext_pct_piso_tierra,Viviendas habitadas con piso de tierra. Fórmula: `VPH_PISOTI / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_2027,ext_pct_con_internet,Viviendas habitadas con internet. Fórmula: `VPH_INTER / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_2027,ext_pct_con_computadora,"Viviendas habitadas con computadora, laptop o tablet. Fórmula: `VPH_PC / VIVPAR_HAB*`",,Equipo (Fase 3)
+base_modelo_2027,ext_pct_con_celular,Viviendas habitadas con teléfono celular. Fórmula: `VPH_CEL / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_2027,ext_pct_con_refrigerador,Viviendas habitadas con refrigerador. Fórmula: `VPH_REFRI / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_2027,ext_pct_con_automovil,Viviendas habitadas con automóvil o camioneta. Fórmula: `VPH_AUTOM / VIVPAR_HAB*`,,Equipo (Fase 3)
+base_modelo_2027,ext_promedio_ocupantes,Promedio de ocupantes por vivienda (ponderado). Fórmula: `suma(PROM_OCUP × VIVPAR_HAB) / suma(VIVPAR_HAB)`,,Equipo (Fase 3)
+base_modelo_2027,ext_pct_limitacion_visual,"Población con limitación para ver, aun usando lentes. Fórmula: `PCLIM_VIS / POBTOT`",,Equipo (Fase 3)
+base_modelo_2027,ext_pct_limitacion_motriz,"Población con limitación para vestirse, bañarse o comer. Fórmula: `PCLIM_MOT2 / POBTOT`",,Equipo (Fase 3)
+base_modelo_2027,ext_pct_lengua_indigena,Población de 3 años y más que habla alguna lengua indígena. Fórmula: `P3YM_HLI / P_3YMAS`,,Equipo (Fase 3)
+base_modelo_2027,ext_pct_nacido_otra_entidad,Población nacida en otra entidad. Fórmula: `PNACOE / POBTOT`,,Equipo (Fase 3)
+base_modelo_2027,ext_pct_jefatura_femenina,Población en hogares con persona de referencia mujer. Fórmula: `PHOGJEF_F / POBHOG`,,Equipo (Fase 3)
+base_modelo_2027,ext_promedio_hogar,Promedio de personas por hogar censal. Fórmula: `POBHOG / TOTHOG`,,Equipo (Fase 3)
+base_modelo_2027,ext_razon_dependencia,Razón de dependencia demográfica. Fórmula: `(POB0_14 + POB65_MAS) / POB15_64`,,Equipo (Fase 3)
+base_modelo_2027,ext_relacion_hombres_mujeres,Hombres por cada mujer. Fórmula: `POBMAS / POBFEM`,,Equipo (Fase 3)
+base_modelo_2027,conocidos_objetivo,Personas con dato en la elección que se predice; sirve para dar más peso a los municipios grandes. Vacío en 2027,,Equipo (Fase 3)
+base_modelo_2027,abstencion_objetivo,**La abstención de la elección que se predice.** En entrenamiento es la real; en 2027 está vacía y la llena el modelo,,Equipo (Fase 3)
+base_modelo_2027,cambio_presidenciales,Última abstención presidencial menos la penúltima con dato; vacío si hay menos de dos,,Equipo (Fase 3)
+base_modelo_2027,anios_desde_ultima_intermedia,Años entre el objetivo y la última intermedia con abstención conocida; vacío sin historial,,Equipo (Fase 3)
+base_modelo_2027,anios_desde_ultima_presidencial,Años entre el objetivo y la última presidencial con abstención conocida; vacío sin historial,,Equipo (Fase 3)
+base_modelo_2027,abst_ultima_presidencial_sin_2012,Última abstención presidencial conocida excluyendo 2012; vacío sin antecedentes,,Equipo (Fase 3)
+base_modelo_2027,abst_prom_presidenciales_sin_2012,Promedio simple de tasas presidenciales conocidas excluyendo 2012; vacío sin antecedentes,,Equipo (Fase 3)
+base_modelo_2027,brecha_intermedia_presidencial_sin_2012,Promedio de intermedias conocidas menos promedio de presidenciales conocidas sin 2012; vacío si falta uno de los dos tipos,,Equipo (Fase 3)
+base_modelo_2027,n_presidenciales_previas_sin_2012,Número de presidenciales anteriores con tasa conocida excluyendo 2012; cero sin presidenciales y vacío si no hay ningún historial territorial asignado,,Equipo (Fase 3)
+base_modelo_2027,cambio_intermedias_vs_pais,Cambio entre las dos últimas intermedias conocidas de (abstención municipal menos abstención nacional de cada elección); vacío con menos de dos,,Equipo (Fase 3)
+base_modelo_2027,cambio_presidenciales_vs_pais,Cambio entre las dos últimas presidenciales conocidas de (abstención municipal menos abstención nacional de cada elección); vacío con menos de dos,,Equipo (Fase 3)
