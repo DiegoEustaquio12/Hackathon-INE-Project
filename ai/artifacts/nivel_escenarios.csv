@@ -1,0 +1,4 @@
+﻿escenario,metodo,nivel_pct,diferencia_vs_publicado_pts,abstencion_media_ponderada_pct,abstencion_mediana_pct,abstencion_min_pct,abstencion_max_pct,participacion_media_ponderada_pct,nota
+publicado_compatibilidad,ultima_intermedia_2021,48.16202445326881,0.0,48.162024453268806,43.05455855705622,7.58566152587038,76.29932463573712,51.837975546731194,Valor usado en la corrida anterior y en la publicación
+tendencia_intermedias,tendencia_intermedias,44.56536809078866,-3.596656362480155,44.56536809078866,39.457902194576064,3.9890051633902273,72.70266827325696,55.43463190921134,Tendencia lineal de las intermedias anteriores
+ultimo_cambio,ultimo_cambio,43.39760867210229,-4.764415781166531,43.39760867210228,38.2901427758897,2.8212457447038624,71.5349088545706,56.60239132789771,Última intermedia más el cambio de la anterior

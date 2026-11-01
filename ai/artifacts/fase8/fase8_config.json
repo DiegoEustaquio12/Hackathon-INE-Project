@@ -1,0 +1,49 @@
+{
+  "artefactos_sha256": {
+    "escenarios_detalle.csv": "c5a690233d3dc13ae934b50f0325858baa8cbb488117a6c0728fd0d6449ca291",
+    "escenarios_municipio.csv": "30ea2def7358c23fb2c92bc4d83256d04fdc7b60c625f096b7d7ba067f6685c7",
+    "escenarios_municipio.parquet": "d94cc45ccf012fa259ffb0e1ee819cf45ff39ddd49bc3393215a665ce78e6aec",
+    "resumen_intervenciones.csv": "2463f65c3deb4f078dbbf3d94bf2fadedf825d9cdf0bdaf8fad37b2edf3d2cb6"
+  },
+  "conteo": {
+    "amarillo": 821,
+    "rojo": 821,
+    "sin_clasificar": 12,
+    "verde": 823
+  },
+  "cortes": {
+    "amarillo": 0.3693257675041335,
+    "rojo": 0.49318027796770036
+  },
+  "distancia_nacional_pts": 1.1560033435012218,
+  "efectos_pct": [
+    5.0,
+    10.0,
+    15.0
+  ],
+  "eleccion_objetivo": 2027,
+  "entrada_sha256": "5a39a8509cdfe8fef54082eaaa13b9c890c7a32016eb42d4a098231bdbc7bc22",
+  "fase": 8,
+  "filas_ancha": 2477,
+  "filas_larga": 22293,
+  "formula": "efecto * parte_lista_grupo * abstencion_grupo",
+  "fuentes_sha256": {
+    "data/processed/municipio_eleccion.parquet": "3cc748d1fc5606f431e2b805b08a4a44f7d3cc4d9aa7845bbc70ef32e84160c1",
+    "data/processed/tabla_municipios_2027.parquet": "be4e3c075b9a78e9d580e9e6e31a94d3f42e4f03ed7c4a5227e726c186fa0bff",
+    "data/processed/tabla_municipios_entrenamiento.parquet": "15e7319aa4ca8e644695737f996a7fd6c7da0049e15133d1dc147ce25f25ab93"
+  },
+  "intervenciones": {
+    "hombres": "Hombres",
+    "jovenes": "Jóvenes de 18 a 34",
+    "rural": "Zonas rurales"
+  },
+  "metodo": "modelo",
+  "nivel_pais_pct": 48.16202445326881,
+  "primario_pct": 10.0,
+  "regla_rural": {
+    "conserva": true,
+    "cumplen": 145,
+    "pct": 17.661388550548114,
+    "rojos": 821
+  }
+}

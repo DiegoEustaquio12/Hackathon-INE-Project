@@ -1,147 +1,209 @@
-# Reto 2: riesgo de abstención (Hackathon INE)
+# Reto 2: riesgo de abstención por municipio (Hackathon INE)
 
-Modelo de regresión que predice la tasa de abstención por municipio con los datos 2009–2024 del CCPC del INE, en dos escenarios (sin y con intervención), y presenta los resultados en mapas con semáforo. **Ya definimos que una zona del proyecto es un municipio.**
+> ## 🌐 Visor en vivo: **[celadon-babka-6b599e.netlify.app](https://celadon-babka-6b599e.netlify.app)**
+>
+> **Ahí están los resultados funcionando**, sin instalar nada: el mapa de los 2,477 municipios con el semáforo de abstención prevista para 2027, sin intervención y con intervención, un buscador de municipios, la ficha de cada uno con sus razones y la lista ordenable.
 
-Todos los campos de los archivos del INE están disponibles para el análisis y la preparación de variables, incluidos edad, sexo, tipo de sección, distritos, conteos y los demás campos. Como fuentes externas sociodemográficas se incorporan los ECEG 2010 y 2020 del INEGI, eligiendo para cada fila el censo más reciente anterior a la elección objetivo; no se usan los Censos Económicos porque sus datos abiertos son solo nacionales. La agregación y selección de predictores se evalúa en las fases correspondientes, usando solo información disponible antes de la elección que se busca predecir.
+Este repositorio predice con un modelo de regresión la **tasa de abstención de cada municipio de México en la elección intermedia de 2027**. Usa los Conteos Censales de Participación Ciudadana (CCPC) del INE de 2009 a 2024. Con esa predicción se arma un **semáforo de riesgo** en dos escenarios, **sin intervención** y **con una intervención hipotética**, y se entregan los mapas y la base de datos.
 
-El contexto del reto, los entregables y la explicación de los datos están en [docs/reto_y_datos.md](docs/reto_y_datos.md). El plan de trabajo por fases está en [docs/PLAN.md](docs/PLAN.md). Si acabas de llegar al equipo, léelos en ese orden.
+## Contenido
 
-Las fases 1 a 3 ya tienen sus entregables; la validación externa de la Fase 2 coincide en las 192 combinaciones estado–elección del tablero del INE ([evidencia](docs/reports/reporte_validacion_ine.md)). La Fase 4 tiene análisis reproducibles para las diez preguntas y un [reporte único](docs/EDA/reporte_eda.md). Las definiciones de la Fase 5 siguen pendientes antes de modelar; la Fase 6 de mapas debe avanzar en paralelo.
+1. [El reto en breve](#el-reto-en-breve)
+2. [Resultados principales](#resultados-principales)
+3. [Dónde está cada entregable](#dónde-está-cada-entregable)
+4. [Cómo funciona](#cómo-funciona)
+5. [Cómo reproducirlo](#cómo-reproducirlo)
+6. [Visor web](#visor-web)
+7. [Estructura del repositorio](#estructura-del-repositorio)
+8. [Supuestos y limitaciones](#supuestos-y-limitaciones)
+9. [Documentación](#documentación)
 
-## Cómo empezar
+## El reto en breve
 
-Necesitas **Python 3.12 o superior** y unos 4 GB libres en disco.
+- **Problema.** El INE tiene recursos limitados para promover la participación. Necesita saber **dónde actuar primero**, antes de la elección.
+- **Respuesta.** Un modelo que predice cuántas personas de la lista nominal no votarían en cada municipio en 2027. Los municipios se clasifican en rojo, amarillo y verde, y se simula cuánto cambiaría el mapa si el INE interviniera en los rojos.
+- **Unidad.** El municipio: 2,477 en la elección más reciente.
+- **Abstención.** `NV / (SV + NV)`: personas que no votaron entre las personas con dato conocido. El `NS` (no se sabe si votó) queda fuera. Primero se suman los conteos y después se divide; nunca se promedian porcentajes.
+- **Sin información del futuro.** Para predecir una elección solo se usa lo que se sabía antes de ella.
+
+## Resultados principales
+
+**El modelo le gana al método simple** de repetir la última elección del mismo tipo. Fuente: [reporte del modelo](docs/reports/reporte_modelo.md).
+
+| Prueba | Método | Error medio (pp) | Rojos detectados |
+|---|---|---|---|
+| Predecir 2021 con datos hasta 2018 (prueba principal) | **Modelo** | **8.61** | **76.1%** |
+| | Repetir la última elección | 12.40 | 52.0% |
+| Predecir 2021 dejando estados completos fuera | **Modelo** | **9.71** | **60.7%** |
+| | Repetir la última elección | 12.40 | 52.0% |
+| Predecir la presidencial 2024 (prueba secundaria) | Modelo | 6.68 | 74.5% |
+| | Repetir la última elección | 5.70 | 78.2% |
+
+- En la prueba principal, el modelo detecta **76 de cada 100 municipios que terminaron en rojo**, frente a 52 del método simple.
+- Un remuestreo por estados confirma la ventaja: en 2021 el modelo yerra **3.79 pp menos** (intervalo del 95%: de 1.15 a 5.95).
+- En 2024 el modelo no supera al método simple. Esa prueba es secundaria porque 2027 es intermedia, como 2021, y no decide la adopción. Se reporta tal cual.
+
+**Semáforo 2027.** Fuente: [reporte de escenarios](docs/reports/reporte_fase8.md).
+
+| Color | Abstención prevista | Municipios |
+|---|---|---|
+| 🔴 Rojo (alta) | 49.32% o más | 821 |
+| 🟡 Amarillo (media) | de 36.93% a 49.32% | 821 |
+| 🟢 Verde (baja) | menos de 36.93% | 823 |
+| ⚪ Gris (sin datos suficientes) | — | 12 |
+
+El mapa muestra 819 municipios rojos: Eldorado y Juan José Ríos (Sinaloa) son rojos, pero no tienen polígono en la cartografía de 2022 (ver [Supuestos y limitaciones](#supuestos-y-limitaciones)).
+
+**Intervención hipotética en los municipios rojos**, con un efecto supuesto del 10%:
+
+| Grupo al que se dirige | Municipios que salen del rojo | Reducción media de la abstención |
+|---|---|---|
+| Hombres | 173 de 821 (21.1%) | 2.76 pp |
+| Jóvenes de 18 a 34 años | 129 de 821 (15.7%) | 2.29 pp |
+| Zonas rurales | 105 de 821 (12.8%) | 1.40 pp |
+
+El efecto de la intervención **es un supuesto declarado**, no una medición. Cada intervención se evalúa por separado y sus efectos no se suman. También se calcularon efectos de 5% y 15%.
+
+## Dónde está cada entregable
+
+| Entregable | Dónde |
+|---|---|
+| **Visor interactivo de los mapas** | **[celadon-babka-6b599e.netlify.app](https://celadon-babka-6b599e.netlify.app)** (código en [`web/`](web/)) |
+| Mapa de escenarios con y sin intervención (GPKG y GeoJSON) y base de datos anonimizada (CSV y XLSX) | [`docs/deliverables/mapa_escenarios/`](docs/deliverables/mapa_escenarios/). Su [guía](docs/deliverables/mapa_escenarios/GUIA_DEL_ENTREGABLE.md) explica cada archivo y cómo abrirlo en QGIS |
+| Comparaciones lado a lado, en PDF y PNG | [`docs/deliverables/mapa_escenarios/`](docs/deliverables/mapa_escenarios/) |
+| Predicciones 2027 por municipio, con rango, razones y marcas de calidad | [`ai/artifacts/predicciones_2027.csv`](ai/artifacts/predicciones_2027.csv) |
+| Código | Este repositorio |
+| Reporte metodológico (PDF), presentación y cartas firmadas | Se entregan aparte; no están en este repositorio |
+
+## Cómo funciona
+
+```
+CCPC del INE 2009–2024 (192 CSV: 32 estados × 6 elecciones)
+  │  Fase 1  Carga y limpieza: una sola tabla, sin borrar filas; las filas raras se marcan
+  │  Fase 2  Consistencia entre años: qué municipios conservan su territorio
+  │  Fase 3  Tablas por municipio: una "foto" por elección con solo el pasado
+  │  Fase 4  Análisis exploratorio: diez preguntas, un reporte
+  │  Fase 5  Definiciones aprobadas por el equipo
+  │  Fase 7  Modelo LightGBM, validación, calibración y explicación
+  │  Fase 8  Semáforo y escenarios con intervención
+  ▼
+Mapas, base de datos y visor web
+```
+
+**El modelo, en cinco ideas:**
+
+1. **Predice la distancia de cada municipio al nivel del país**, no el porcentaje directo. El nivel nacional cambia mucho entre elecciones (intermedias: 55.94% en 2009, 52.93% en 2015 y 48.16% en 2021) y no se puede anticipar con datos municipales. Para 2027 se supone el nivel de 2021 (48.16%) y se suma la distancia predicha.
+2. **Aprende de cuatro fotos** (2015, 2018, 2021 y 2024). Cada una tiene solo lo que se sabía antes de esa elección.
+3. **Usa 39 variables, todas del CCPC del INE**: historial de abstención, abstención por edad, sexo y tipo de sección, composición de la lista nominal, tamaño y calidad del dato. También se probaron variables del censo (ECEG 2010 y 2020 del INEGI), pero aumentaron el error de 7.72 a 8.03 pp, así que el modelo final no las usa.
+4. **Se eligió antes de ver 2021.** Las columnas y los ajustes se escogieron solo con 2015 y 2018, validando por grupos de estados. Después se probó en 2021, en 2021 dejando estados fuera y en 2024.
+5. **Es explicable.** Cada municipio trae las tres variables que más empujan su predicción, calculadas con TreeSHAP. Las de mayor peso son la abstención en la última presidencial y su diferencia con el país. Son aportes del modelo, no causas.
+
+Cada predicción trae además un **rango del 80%**, que marca dónde el color es menos seguro. El semáforo usa **terciles** del escenario sin intervención, y esos mismos cortes se usan con intervención para que los colores se puedan comparar.
+
+## Cómo reproducirlo
+
+Necesitas **Python 3.12 o superior** y unos 4 GB libres. En macOS, LightGBM necesita OpenMP: `brew install libomp`.
 
 ```bash
-# 1. Crear el entorno (una sola vez, desde la raíz del repo)
-python3 -m venv .venv              # en Windows: py -3.12 -m venv .venv
-
-# 2. Activar el entorno (cada vez que abras una terminal nueva)
+# 1. Crear y activar el entorno (desde la raíz del repo)
+python3.12 -m venv .venv
 source .venv/bin/activate          # en Windows: .venv\Scripts\activate
 
-# 3. Instalar las librerías (una sola vez)
+# 2. Instalar las librerías (versiones fijas)
 pip install -r ai/requirements.txt
 
-# 4. Descargar los datos a data/raw/ (~290 MB de descarga, ~3.5 GB ya descomprimidos)
+# 3. Descargar el CCPC a data/raw/ (~290 MB de descarga, ~3.5 GB descomprimidos)
 python scripts/download_raw_data.py
-
-# 5. Abrir el notebook
-jupyter lab ai/notebooks/00_exploracion_inicial.ipynb
 ```
 
-Con el entorno activado, el comando es `python` en Mac, Linux y Windows.
+Con el entorno activado, el comando es `python` en Mac, Linux y Windows. En Windows, si PowerShell no deja activar el entorno, corre una vez `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`.
 
-**Si `python3 --version` muestra 3.9 o 3.10** (es lo normal en un Mac sin configurar), instala una versión nueva (`brew install python@3.12`) y crea el entorno con ella: `python3.12 -m venv .venv`.
-
-**Si PowerShell no te deja activar el entorno** (Windows), corre una sola vez `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` y vuelve a intentarlo.
-
-**Si usas VS Code,** abre el notebook y elige como kernel el de `.venv`. No hace falta Jupyter Lab.
-
-El notebook usa rutas relativas (`../../data/raw`), así que debe abrirse desde su propia carpeta. Jupyter Lab y VS Code lo hacen así por defecto.
-
-### Descarga de datos
-
-`scripts/download_raw_data.py` baja los `.zip` del [CCPC](https://ine.mx/transparencia/datos-abiertos/visualizacion-datos/conteos-censales-participacion/) y deja todo en `data/raw/ConteosCensalesAAAA/`, con los mismos nombres de archivo que usa el equipo. No necesita instalar nada.
-
-- Omite los años que ya tengas completos (32 CSV y el diccionario).
-- Si algo falla, vuelve a correrlo: solo repite los años que faltan.
-- `--years 2021 2024` baja solo esas elecciones.
-- `--force` vuelve a descargar un año aunque ya exista.
-
-### Validar los totales de la Fase 2
-
-Con la salida local `data/interim/secciones.parquet` ya generada:
+**El pipeline completo, en orden:**
 
 ```bash
-python scripts/comparar_totales_ine.py
+python ai/src/data_prep/fase1.py          # Fase 1: tabla limpia en data/interim/ccpc/
+python ai/src/data_prep/fase2.py          # Fase 2: consistencia entre años
+python scripts/download_complementary_data.py   # ECEG 2010 y 2020 del INEGI, que la Fase 3 une como columnas candidatas
+python ai/src/data_prep/fase3.py          # Fase 3: tablas por municipio en data/processed/
+python scripts/comparar_totales_ine.py    # comprueba los totales contra el tablero oficial del INE
+python scripts/ejecutar_eda.py            # Fase 4: análisis exploratorio (opcional para el modelo)
+python ai/src/models/fase7.py             # Fase 7: modelo, validación y predicciones 2027
+python ai/src/models/fase8.py             # Fase 8: semáforo y escenarios con intervención
+python ai/src/geo/entregable_mapa.py      # mapa y base de datos del entregable
+python -m unittest discover -s ai/tests -v   # pruebas
 ```
 
-No necesita red: usa las cifras oficiales normalizadas y su manifiesto, guardados en `data/processed/`. Compara los 32 estados de las seis elecciones, genera `comparacion_totales_ine.csv` y actualiza el [reporte de validación](docs/reports/reporte_validacion_ine.md). Devuelve un código de error si hay diferencias o falta evidencia.
+Detalles útiles:
 
-Para obtener una captura nueva del tablero público y reconstruir los agregados oficiales:
+- **Datos ya procesados.** Las tablas por municipio de `data/processed/` ya están en el repositorio. Para correr solo el modelo bastan los pasos 1 a 3 de instalación y después `fase7.py` y `fase8.py`, sin descargar el CCPC.
+- **Descarga.** `download_raw_data.py` omite los años que ya están completos. `--years 2021 2024` baja solo esos años y `--force` vuelve a descargar.
+- **Validación oficial.** `comparar_totales_ine.py` no necesita red y coincide en las 192 combinaciones estado–elección del tablero del INE ([evidencia](docs/reports/reporte_validacion_ine.md)).
+- **Modelo.** `fase7.py` tarda unos minutos y escribe todo en `ai/artifacts/`: el modelo, las métricas, las predicciones y la configuración con versiones y huellas SHA256 de los datos. También regenera el [reporte del modelo](docs/reports/reporte_modelo.md). `fase8.py` no reentrena: lee esa predicción y escribe `ai/artifacts/fase8/` y el [reporte de escenarios](docs/reports/reporte_fase8.md).
+- **Mapa del entregable.** `entregable_mapa.py` necesita los polígonos municipales 2022 (`mun22cw`, [CONABIO](http://geoportal.conabio.gob.mx/metadatos/doc/html/mun22cw.html)) en `data/external/mun22gw_c/`. Los polígonos no se versionan.
+- **Notebook.** `jupyter lab ai/notebooks/00_exploracion_inicial.ipynb` abre la exploración inicial. Usa rutas relativas, así que se abre desde su propia carpeta.
 
-```bash
-python scripts/descargar_evidencia_ine.py --tablero
-python scripts/comparar_totales_ine.py --normalizar
-```
+## Visor web
 
-Las respuestas originales quedan en `data/external/validacion_ine/` (excluido de Git); el CSV oficial y `fuentes_totales_ine.json` conservan las cifras, fecha, filtros y huellas de la consulta. No se modifican las tablas de análisis ni de entrenamiento.
+**En línea: [celadon-babka-6b599e.netlify.app](https://celadon-babka-6b599e.netlify.app)**
 
-### Ejecutar el análisis exploratorio (preguntas 1 a 10)
+Es una página estática (HTML, CSS y JavaScript con Leaflet) que solo muestra resultados ya calculados; no entrena ni recalcula nada. Permite:
 
-Con las fases 1 a 3 ya ejecutadas y el entorno activado:
+- ver el **mapa sin intervención** y el **mapa con intervención**, elegir el grupo (jóvenes, hombres o rural) y el efecto (5, 10 o 15%);
+- **comparar** los dos mapas lado a lado o con una cortina;
+- **buscar** un municipio o estado y abrir su ficha: abstención prevista, rango, color, cambio con la intervención y sus tres razones;
+- ver la **lista** de municipios ordenable y filtrable, y exportar el mapa o los datos.
 
-```bash
-python scripts/ejecutar_eda.py
-```
-
-El ejecutor usa el Python del entorno activo, comprueba o descarga la cartografía con `scripts/descargar_cartografia_eda.py` y corre `ai/src/eda/eda_p1.py` a `eda_p10.py` en paralelo. Cada pregunta guarda sus tablas y su salida de terminal en `docs/EDA/resultados/`. Cuando las diez terminan correctamente, reúne sus secciones en `docs/EDA/reporte_eda.md`. Si falla una pregunta, conserva el reporte anterior y muestra dónde revisar el error.
-
-Para reducir los procesos simultáneos o repetir una pregunta:
-
-```bash
-python scripts/ejecutar_eda.py --procesos 4
-python ai/src/eda/eda_p5.py
-```
-
-La ejecución individual actualiza únicamente su sección del mismo reporte. Para ejecutar la pregunta 10 por separado, prepara primero el mapa con `python scripts/descargar_cartografia_eda.py`. Las figuras se guardan en `docs/EDA/`. Los comandos anteriores de las preguntas 1 a 3 siguen disponibles como entradas compatibles.
-
-### Visor web de los mapas
-
-Es una página que solo muestra resultados ya calculados. Se abre con un servidor local (no con doble clic):
+Para abrirlo en tu computadora, usa un servidor local (con doble clic no carga los datos):
 
 ```bash
 cd web && python3 -m http.server 8000
 ```
 
-Luego se abre `http://localhost:8000/` en el navegador. Si cambian las predicciones o los escenarios, se regeneran sus datos con el comando que trae `web/make_escenarios.py` al inicio.
+Luego abre `http://localhost:8000/`. Si cambian las predicciones, `web/make_escenarios.py` regenera `escenarios.json`; el comando exacto está al inicio del archivo.
 
-### Entregable del mapa de escenarios
+## Estructura del repositorio
 
-Genera en `docs/deliverables/mapa_escenarios/` el mapa (GPKG y GeoJSON), las comparaciones en PDF y PNG y la base de datos (CSV y XLSX). Necesita los polígonos del INEGI en `data/external/mun22gw_c/`:
+| Carpeta | Contenido |
+|---|---|
+| `data/raw/` | CSV originales del CCPC, una carpeta por elección. **No se versiona** (se descarga con el script) |
+| `data/interim/` | Tabla limpia en Parquet (Fases 1 y 2). **No se versiona** |
+| `data/processed/` | Tablas por municipio y elección, tablas de entrenamiento y de 2027, y evidencia de la validación oficial. **Se versiona y se entrega** |
+| `data/external/` | Polígonos municipales y fuentes externas. **No se versiona** |
+| `ai/src/data_prep/` | Fases 1 a 3: carga, limpieza, consistencia y tablas por municipio |
+| `ai/src/eda/` | Fase 4: un script por pregunta (`eda_p1.py` a `eda_p10.py`) |
+| `ai/src/models/` | Fase 7 (`fase7.py`: modelo, validación, calibración y explicación) y Fase 8 (`fase8.py`: semáforo y escenarios) |
+| `ai/src/geo/` | Genera el entregable del mapa |
+| `ai/artifacts/` | Modelo guardado, métricas, predicciones 2027 y escenarios (`fase8/`) |
+| `ai/tests/` | Pruebas automáticas |
+| `ai/notebooks/` | Exploración inicial |
+| `web/` | Visor web publicado en Netlify, con sus datos |
+| `docs/` | Documentación del reto, plan, reportes, EDA y entregables |
+| `scripts/` | Descarga de datos, validación oficial y ejecutor del EDA |
 
-```bash
-python ai/src/geo/entregable_mapa.py
-```
+## Supuestos y limitaciones
 
-## Saltos de línea y Git
+- **Nivel nacional de 2027.** Se supone igual al de 2021 (48.16%). El orden de los municipios es robusto, pero la cifra puntual depende de ese supuesto. El reporte del modelo incluye escenarios de ±5 pp y otras tendencias.
+- **El efecto de la intervención no se puede estimar con estos datos.** Es un supuesto declarado (5, 10 o 15%) y se reporta como tal.
+- **"Sin intervención" no significa "sin INE".** Los datos ya incluyen todo lo que el INE hizo hasta 2024; el escenario supone que todo sigue igual.
+- **Pocas elecciones para validar.** Hay cuatro fotos para entrenar y una sola intermedia (2021) para decidir.
+- **Municipios con pocos datos.** Los municipios con menos de 500 personas con dato o mucho `NS` reciben predicción, pero llevan una marca de calidad. Ningún municipio se borra.
+- **Cartografía.** Los polígonos son de 2022. Eldorado y Juan José Ríos (Sinaloa) se crearon en 2021 y no tienen polígono propio, pero sus datos están en la base.
+- **Solo datos agregados.** Todo está agregado por municipio; nunca se usan datos de personas.
 
-El archivo [`.gitattributes`](.gitattributes) fija saltos de línea **LF** para Python, Markdown, JSON y notebooks, tanto en Windows como en Linux y macOS. Esto evita conversiones a CRLF y diferencias de formato entre integrantes del equipo. Las reglas del repositorio prevalecen sobre `core.autocrlf`; no hace falta cambiar la configuración global de Git.
+## Documentación
 
-Los archivos Parquet se tratan como binarios. `data/processed/totales_oficiales_ine.csv` tiene una excepción `-text`: Git conserva sus bytes originales porque la validación oficial comprueba su SHA256. Cambiar sus saltos de línea también cambiaría esa huella, aunque las cifras fueran iguales. Para ese archivo, la comprobación de espacios de Git reconoce CRLF como terminación válida y conserva las comprobaciones habituales de espacios sobrantes.
+| Documento | Para qué |
+|---|---|
+| [docs/reto_y_datos.md](docs/reto_y_datos.md) | El reto, los entregables, qué traen los datos del CCPC y el glosario. **Empieza aquí** |
+| [docs/PLAN.md](docs/PLAN.md) | Las fases del trabajo y qué produce cada una |
+| [docs/reports/reporte_modelo.md](docs/reports/reporte_modelo.md) | Modelo: selección, pruebas, calibración, rangos y explicación |
+| [docs/reports/reporte_fase8.md](docs/reports/reporte_fase8.md) | Semáforo y escenarios con intervención |
+| [docs/EDA/reporte_eda.md](docs/EDA/reporte_eda.md) | Análisis exploratorio (diez preguntas) |
+| [docs/reports/reporte_validacion_ine.md](docs/reports/reporte_validacion_ine.md) | Comparación con los totales oficiales del INE |
+| [docs/reports/reporte_calidad.md](docs/reports/reporte_calidad.md), [reporte_consistencia.md](docs/reports/reporte_consistencia.md) | Calidad de los datos y consistencia entre años |
+| [docs/reports/diccionario_datos.md](docs/reports/diccionario_datos.md) | Qué significa cada columna |
+| [docs/reports/reporte_externos.md](docs/reports/reporte_externos.md) | Variables del censo (ECEG) que se evaluaron |
 
-Al editar los archivos de código y documentación, configura el editor para guardar con LF. Puedes consultar las reglas y el formato actual con:
+### Nota técnica: saltos de línea
 
-```bash
-git check-attr text eol -- ai/tests/test_validacion_ine.py scripts/descargar_evidencia_ine.py
-git ls-files --eol
-```
-
-Si Git ya había preparado el CSV oficial antes de añadir estas reglas, actualiza únicamente ese archivo en el área de preparación:
-
-```bash
-git add --renormalize -- data/processed/totales_oficiales_ine.csv
-```
-
-Evita una normalización masiva de los datos: esta excepción permite conservar la evidencia sin cambiar las tablas de análisis.
-
-## Estructura
-
-| Carpeta | Contenido | Fase del plan |
-|---|---|---|
-| `data/raw/` | CSV originales del CCPC, un directorio por elección (`ConteosCensales2009/` … `2024/`). **No se versiona** | 1 |
-| `data/interim/` | Tabla unificada y limpia (Parquet). **No se versiona** | 1–2 |
-| `data/processed/` | Tabla de análisis por municipio y elección, y tablas municipales de entrenamiento y 2027 (con features ECEG), agregadas y anonimizadas. **Se versiona y se entrega** | 3, 8 |
-| `data/external/` | Cartografía del INE para los polígonos municipales, si el INE autoriza su uso. **No se versiona** | 6 |
-| `ai/notebooks/` | Exploración interactiva de los datos | 4 |
-| `ai/src/eda/` | Un script por pregunta (`eda_p1.py` … `eda_p10.py`) | 4 |
-| `ai/src/data_prep/` | Carga, limpieza, consistencia entre años, tabla de análisis | 1–3 |
-| `ai/src/geo/` | Unión de polígonos con los escenarios y generación del entregable del mapa | 6 |
-| `ai/src/models/` | Entrenamiento, validación y explicación | 7 |
-| `ai/src/scenarios/` | Escenarios, semáforo y brecha intermedia vs presidencial | 8 |
-| `ai/artifacts/` | Modelo guardado, métricas y predicciones | 7 |
-| `web/` | Visor web de los mapas (HTML, CSS y JavaScript sin servidor propio) y los datos que dibuja | fase final |
-| `docs/reports/` | Reportes de calidad, consistencia, validación y diccionario de datos | 1–3 |
-| `docs/EDA/` | `reporte_eda.md`, gráficas y resultados por pregunta | 4 |
-| `docs/deliverables/` | Entregables: mapa de escenarios con su base de datos (`mapa_escenarios/`), reporte metodológico, presentación y cartas firmadas | — |
-| `scripts/` | Utilidades del repo, como la descarga de datos | — |
+[`.gitattributes`](.gitattributes) fija saltos de línea **LF** para el código y los documentos, y trata los Parquet como binarios. `data/processed/totales_oficiales_ine.csv` es la excepción (`-text`): Git conserva sus bytes originales porque la validación oficial comprueba su huella SHA256. No hace falta cambiar la configuración global de Git.

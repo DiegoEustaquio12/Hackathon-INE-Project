@@ -1,0 +1,11 @@
+﻿eleccion,tipo,abstencion_pct,origen,metodo,pronostico_pct,error_pts
+2009,intermedia,55.939216887572265,observado,,,
+2012,presidencial,37.91703613594625,observado,,,
+2015,intermedia,52.92644023443535,observado,,,
+2018,presidencial,37.63489658575247,observado,,,
+2021,intermedia,48.16202445326881,observado,,,
+2024,presidencial,40.32997055563274,observado,,,
+2015,intermedia,52.92644023443535,backtest,ultimo,55.939216887572265,3.012776653136917
+2021,intermedia,48.16202445326881,backtest,ultimo,52.92644023443535,4.764415781166531
+2021,intermedia,48.16202445326881,backtest,tendencia,49.91366358129845,1.7516391280296362
+2027,intermedia,,pronostico,tendencia_intermedias,44.56536809078866,
